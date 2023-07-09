@@ -9,4 +9,14 @@ exports.blogsRouter.get('/', (req, res) => {
     const foundBlogs = blogs_repository_1.blogsRepository.findBlogs((_a = req.query.name) === null || _a === void 0 ? void 0 : _a.toString());
     res.send(foundBlogs);
 });
-exports.blogsRouter.get;
+exports.blogsRouter.get('/:id', (req, res) => {
+    const foundBlogs = blogs_repository_1.blogsRepository.getBlogsById(req.params.id);
+    if (foundBlogs) {
+        res
+            .status(200)
+            .send(foundBlogs);
+    }
+    else {
+        res.send(404);
+    }
+});

@@ -9,4 +9,14 @@ blogsRouter.get('/', (req: Request, res: Response) => {
     res.send(foundBlogs)
 })
 
-blogsRouter.get
+blogsRouter.get('/:id', (req: Request, res: Response) => {
+    const foundBlogs = blogsRepository.getBlogsById(req.params.id)
+
+    if (foundBlogs) {
+        res
+            .status(200)
+            .send(foundBlogs)
+    } else {
+        res.send(404)
+    }
+})
