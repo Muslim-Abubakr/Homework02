@@ -32,7 +32,21 @@ export const blogsRepository = {
         let blog = db.blogs.find(b => b.id === id)
         
         if (blog) {
-            db.blogs.id = id
+            blog.id = id
+            blog.name = name
+            blog.description = description
+            blog.websiteUrl = websiteUrl
+            return blog;
+        } else {
+            return false;
         }
-}
+    },
 
+    deleteBlog(id: string) {
+        let blog = db.blogs.find(b => b.id === id)
+
+        if (blog) {
+            db.blogs = db.blogs.filter(b => b.id !== id)
+        } 
+    }
+}

@@ -28,7 +28,20 @@ exports.blogsRepository = {
     updateBlog(id, name, description, websiteUrl) {
         let blog = database_1.db.blogs.find(b => b.id === id);
         if (blog) {
-            database_1.db.blogs.id = id;
+            blog.id = id;
+            blog.name = name;
+            blog.description = description;
+            blog.websiteUrl = websiteUrl;
+            return blog;
+        }
+        else {
+            return false;
+        }
+    },
+    deleteBlog(id) {
+        let blog = database_1.db.blogs.find(b => b.id === id);
+        if (blog) {
+            database_1.db.blogs = database_1.db.blogs.filter(b => b.id !== id);
         }
     }
 };
