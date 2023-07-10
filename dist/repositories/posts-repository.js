@@ -41,6 +41,10 @@ exports.postsRepository = {
         let post = database_1.db.posts.find(p => p.id === id);
         if (post) {
             database_1.db.posts = database_1.db.posts.filter(p => p.id !== id);
+            return true;
+        }
+        else {
+            return false;
         }
     }
 };

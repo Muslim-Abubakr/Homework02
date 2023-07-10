@@ -47,6 +47,9 @@ export const postsRepository = {
 
         if (post) {
             db.posts = db.posts.filter(p => p.id !== id)
-        } 
+            return true
+        } else {
+            return false
+        }
     }
 }

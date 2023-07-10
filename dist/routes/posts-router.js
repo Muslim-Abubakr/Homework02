@@ -26,3 +26,18 @@ exports.postsRouter.post('/', (req, res) => {
         .status(201)
         .send(newPost);
 });
+exports.postsRouter.put('/:id', (req, res) => {
+    const { title, shortDescription, content, blogId, blogName } = req.body;
+    const isUpdated = posts_repository_1.postsRepository.updatePost(req.params.id, title, shortDescription, content, blogId, blogName);
+    if (isUpdated) {
+        const post = posts_repository_1.postsRepository.getPostsById(req.params.id);
+        res.send(post);
+    }
+    else {
+        res.status(404);
+    }
+});
+exports.postsRouter.delete('/:id', (req, res) => {
+    const filteredPost = posts_repository_1.postsRepository.deletePost(req.params.id);
+    filteredPost ? res.sendStatus(204) : res.sendStatus(404);
+});

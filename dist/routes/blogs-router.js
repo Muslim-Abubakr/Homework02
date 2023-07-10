@@ -39,10 +39,5 @@ exports.blogsRouter.put('/:id', (req, res) => {
 });
 exports.blogsRouter.delete('/:id', (req, res) => {
     const filteredBlog = blogs_repository_1.blogsRepository.deleteBlog(req.params.id);
-    if (filteredBlog) {
-        res.send(204);
-    }
-    else {
-        res.send(404);
-    }
+    filteredBlog ? res.sendStatus(204) : res.sendStatus(404);
 });

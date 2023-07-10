@@ -43,10 +43,5 @@ blogsRouter.put('/:id', (req: Request, res: Response) => {
 
 blogsRouter.delete('/:id', (req: Request, res: Response) => {
     const filteredBlog = blogsRepository.deleteBlog(req.params.id)
-
-    if (filteredBlog) {
-        res.send(204)
-    } else {
-        res.send(404)
-    }
+    filteredBlog ? res.sendStatus(204): res.sendStatus(404)
 })
