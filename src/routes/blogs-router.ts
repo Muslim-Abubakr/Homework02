@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express'
 import { blogsRepository } from '../repositories/blogs-repository'
 import { db } from '../database'
+import { inputValidationMiddleware } from '../middlewares/input-validation-middlewares'
 
 export const blogsRouter = Router({})
 
