@@ -20,4 +20,11 @@ exports.blogsRouter.get('/:id', (req, res) => {
     }
 });
 exports.blogsRouter.post('/', (req, res) => {
+    const { name, description, websiteUrl } = req.body;
+    const newBlog = blogs_repository_1.blogsRepository.createBlog(name, description, websiteUrl);
+    res
+        .status(201)
+        .send(newBlog);
+});
+exports.blogsRouter.put('/', (req, res) => {
 });

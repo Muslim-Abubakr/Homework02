@@ -10,12 +10,12 @@ exports.blogsRepository = {
         let blog = database_1.db.blogs.find(b => b.id === id);
         return blog;
     },
-    createBlog(id, name, description, websiteUrl) {
+    createBlog(name, description, websiteUrl) {
         const newBlog = {
             id: (+(new Date())).toString(),
-            name: name,
-            description: description,
-            websiteUrl: websiteUrl
+            name,
+            description,
+            websiteUrl
         };
         database_1.db.blogs.push(newBlog);
         return newBlog;

@@ -12,12 +12,12 @@ export const blogsRepository = {
         return blog;
     },
 
-    createBlog(id: string, name: string, description: string, websiteUrl: string) {
+    createBlog(name: string, description: string, websiteUrl: string) {
         const newBlog = {
             id: (+(new Date())).toString(),
-            name: name,
-            description: description,
-            websiteUrl: websiteUrl
+            name,
+            description,
+            websiteUrl
         }
         
         db.blogs.push(newBlog)

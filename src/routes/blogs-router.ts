@@ -22,5 +22,13 @@ blogsRouter.get('/:id', (req: Request, res: Response) => {
 })
 
 blogsRouter.post('/', (req: Request, res: Response) => {
+    const { name, description, websiteUrl } = req.body
+    const newBlog = blogsRepository.createBlog(name, description, websiteUrl)
+    res
+        .status(201)
+        .send(newBlog)
+})
+
+blogsRouter.put('/', (req: Request, res: Response) => {
     
 })
