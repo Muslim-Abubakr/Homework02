@@ -10,7 +10,7 @@ exports.postsRepository = {
         let post = database_1.db.posts.find(p => p.id === id);
         return post;
     },
-    createPost(id, title, shortDescription, content, blogId, blogName) {
+    createPost(title, shortDescription, content, blogId, blogName) {
         const newPost = {
             id: String(+(new Date())),
             title: title,

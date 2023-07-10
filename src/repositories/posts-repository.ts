@@ -12,7 +12,7 @@ export const postsRepository = {
         return post;
     },
 
-    createPost(id: string, title: string, shortDescription: string, content: string, blogId: string, blogName: string) {
+    createPost(title: string, shortDescription: string, content: string, blogId: string, blogName: string) {
         const newPost = {
             id: String(+(new Date())),
             title: title,

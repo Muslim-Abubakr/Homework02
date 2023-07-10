@@ -26,5 +26,23 @@ exports.blogsRouter.post('/', (req, res) => {
         .status(201)
         .send(newBlog);
 });
-exports.blogsRouter.put('/', (req, res) => {
+exports.blogsRouter.put('/:id', (req, res) => {
+    const { name, description, websiteUrl } = req.body;
+    const isUpdated = blogs_repository_1.blogsRepository.updateBlog(req.params.id, name, description, websiteUrl);
+    if (isUpdated) {
+        const blog = blogs_repository_1.blogsRepository.getBlogsById(req.params.id);
+        res.send(blog);
+    }
+    else {
+        res.send(404);
+    }
+});
+exports.blogsRouter.delete('/:id', (req, res) => {
+    const filteredBlog = blogs_repository_1.blogsRepository.deleteBlog(req.params.id);
+    if (filteredBlog) {
+        res.send(204);
+    }
+    else {
+        res.send(404);
+    }
 });

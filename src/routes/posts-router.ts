@@ -20,3 +20,12 @@ postsRouter.get('/:id', (req: Request, res: Response) => {
         res.sendStatus(404)
     }
 })
+
+postsRouter.post('/', (req: Request, res: Response) => {
+    const { title, shortDescription, content, blogId, blogName} = req.body
+    const newPost = postsRepository.createPost(title, shortDescription, content, blogId, blogName)
+    
+    res
+        .status(201)
+        .send(newPost)
+})

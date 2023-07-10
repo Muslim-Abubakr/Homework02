@@ -19,3 +19,10 @@ exports.postsRouter.get('/:id', (req, res) => {
         res.sendStatus(404);
     }
 });
+exports.postsRouter.post('/', (req, res) => {
+    const { title, shortDescription, content, blogId, blogName } = req.body;
+    const newPost = posts_repository_1.postsRepository.createPost(title, shortDescription, content, blogId, blogName);
+    res
+        .status(201)
+        .send(newPost);
+});
