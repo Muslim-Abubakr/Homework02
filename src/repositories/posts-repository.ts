@@ -3,13 +3,8 @@ import { db } from '../database'
 
 
 export const postsRepository = {
-    findPosts(title: string | null | undefined) {
-        if (title) {
-            let filteredPosts = db.blogs.filter(b => b.name.indexOf(title) > -1)
-            return filteredPosts
-        } else {
-            return db.posts
-        }
+    findPosts() {
+        return db.posts
     },
 
     getPostsById(id: string | null | undefined) {
@@ -28,6 +23,7 @@ export const postsRepository = {
         }
         
         db.posts.push(newPost)
+        return newPost
     },
 
     updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string, blogName: string) {
@@ -40,7 +36,7 @@ export const postsRepository = {
             post.content = content
             post.blogId = blogId
             post.blogName = blogName
-            return post;
+            return true;
         } else {
             return false;
         }

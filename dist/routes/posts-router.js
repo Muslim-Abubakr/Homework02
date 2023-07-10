@@ -5,7 +5,17 @@ const express_1 = require("express");
 const posts_repository_1 = require("../repositories/posts-repository");
 exports.postsRouter = (0, express_1.Router)({});
 exports.postsRouter.get('/', (req, res) => {
-    var _a;
-    const foundBlogs = posts_repository_1.postsRepository.findPosts((_a = req.query.title) === null || _a === void 0 ? void 0 : _a.toString());
-    res.send(foundBlogs);
+    const foundPosts = posts_repository_1.postsRepository.findPosts();
+    res.send(foundPosts);
+});
+exports.postsRouter.get('/:id', (req, res) => {
+    const foundPosts = posts_repository_1.postsRepository.getPostsById(req.params.id);
+    if (foundPosts) {
+        res
+            .status(200)
+            .send(foundPosts);
+    }
+    else {
+        res.sendStatus(404);
+    }
 });

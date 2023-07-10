@@ -3,14 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRepository = void 0;
 const database_1 = require("../database");
 exports.blogsRepository = {
-    findBlogs(name) {
-        if (name) {
-            let filteredBlogs = database_1.db.blogs.filter(b => b.name.indexOf(name) > -1);
-            return filteredBlogs;
-        }
-        else {
-            return database_1.db.blogs;
-        }
+    findBlogs() {
+        return database_1.db.blogs;
     },
     getBlogsById(id) {
         let blog = database_1.db.blogs.find(b => b.id === id);
@@ -18,21 +12,21 @@ exports.blogsRepository = {
     },
     createBlog(id, name, description, websiteUrl) {
         const newBlog = {
-            id: String(+(new Date())),
+            id: (+(new Date())).toString(),
             name: name,
             description: description,
             websiteUrl: websiteUrl
         };
         database_1.db.blogs.push(newBlog);
+        return newBlog;
     },
     updateBlog(id, name, description, websiteUrl) {
-        let blog = database_1.db.blogs.find(b => b.id === id);
+        const blog = database_1.db.blogs.find(b => b.id === id);
         if (blog) {
-            blog.id = id;
             blog.name = name;
             blog.description = description;
             blog.websiteUrl = websiteUrl;
-            return blog;
+            return true;
         }
         else {
             return false;
@@ -42,6 +36,10 @@ exports.blogsRepository = {
         let blog = database_1.db.blogs.find(b => b.id === id);
         if (blog) {
             database_1.db.blogs = database_1.db.blogs.filter(b => b.id !== id);
+            return true;
+        }
+        else {
+            return false;
         }
     }
 };

@@ -5,7 +5,7 @@ import { db } from '../database'
 export const blogsRouter = Router({})
 
 blogsRouter.get('/', (req: Request, res: Response) => {
-    const foundBlogs = blogsRepository.findBlogs(req.query.name?.toString())
+    const foundBlogs = blogsRepository.findBlogs()
     res.send(foundBlogs)
 })
 
@@ -19,4 +19,8 @@ blogsRouter.get('/:id', (req: Request, res: Response) => {
     } else {
         res.send(404)
     }
+})
+
+blogsRouter.post('/', (req: Request, res: Response) => {
+    
 })

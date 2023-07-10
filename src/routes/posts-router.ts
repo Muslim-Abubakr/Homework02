@@ -5,6 +5,18 @@ import { db } from '../database'
 export const postsRouter = Router({})
 
 postsRouter.get('/', (req: Request, res: Response) => {
-    const foundBlogs = postsRepository.findPosts(req.query.title?.toString())
-    res.send(foundBlogs)
+    const foundPosts = postsRepository.findPosts()
+    res.send(foundPosts)
+})
+
+postsRouter.get('/:id', (req: Request, res: Response) => {
+    const foundPosts = postsRepository.getPostsById(req.params.id)
+
+    if (foundPosts) {
+        res
+            .status(200)
+            .send(foundPosts)
+    } else {
+        res.sendStatus(404)
+    }
 })

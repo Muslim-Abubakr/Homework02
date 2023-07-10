@@ -3,13 +3,8 @@ import { db } from '../database'
 
 
 export const blogsRepository = {
-    findBlogs(name: string | null | undefined) {
-        if (name) {
-            let filteredBlogs = db.blogs.filter(b => b.name.indexOf(name) > -1)
-            return filteredBlogs
-        } else {
-            return db.blogs
-        }
+    findBlogs() {
+        return db.blogs
     },
 
     getBlogsById(id: string | null | undefined) {
@@ -19,24 +14,24 @@ export const blogsRepository = {
 
     createBlog(id: string, name: string, description: string, websiteUrl: string) {
         const newBlog = {
-            id: String(+(new Date())),
+            id: (+(new Date())).toString(),
             name: name,
             description: description,
             websiteUrl: websiteUrl
         }
         
         db.blogs.push(newBlog)
+        return newBlog
     },
 
     updateBlog(id: string, name: string, description: string, websiteUrl: string) {
-        let blog = db.blogs.find(b => b.id === id)
+        const blog = db.blogs.find(b => b.id === id)
         
         if (blog) {
-            blog.id = id
             blog.name = name
             blog.description = description
             blog.websiteUrl = websiteUrl
-            return blog;
+            return true;
         } else {
             return false;
         }
@@ -47,6 +42,9 @@ export const blogsRepository = {
 
         if (blog) {
             db.blogs = db.blogs.filter(b => b.id !== id)
-        } 
+            return true
+        } else {
+            return false
+        }
     }
 }
