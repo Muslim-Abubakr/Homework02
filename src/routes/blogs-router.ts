@@ -3,6 +3,7 @@ import { blogsRepository } from '../repositories/blogs-repository'
 import { db } from '../database'
 import { inputValidationMiddleware } from '../middlewares/input-validation-middlewares'
 import { validationCreateUpdateBlog } from '../middlewares/blogs-validation'
+import { authorizationMiddleware } from '../middlewares/authorization'
 
 export const blogsRouter = Router({})
 
@@ -24,6 +25,7 @@ blogsRouter.get('/:id', (req: Request, res: Response) => {
 })
 
 blogsRouter.post('/', 
+authorizationMiddleware,
 validationCreateUpdateBlog,
 (req: Request, res: Response) => {
     const { name, description, websiteUrl } = req.body
@@ -33,7 +35,8 @@ validationCreateUpdateBlog,
         .send(newBlog)
 })
 
-blogsRouter.put('/:id', 
+blogsRouter.put('/:id',
+authorizationMiddleware, 
 validationCreateUpdateBlog,
 (req: Request, res: Response) => {
     const { name, description, websiteUrl} = req.body
@@ -47,7 +50,9 @@ validationCreateUpdateBlog,
     }
 })
 
-blogsRouter.delete('/:id', (req: Request, res: Response) => {
+blogsRouter.delete('/:id',
+authorizationMiddleware,
+(req: Request, res: Response) => {
     const filteredBlog = blogsRepository.deleteBlog(req.params.id)
     filteredBlog ? res.sendStatus(204): res.sendStatus(404)
 })

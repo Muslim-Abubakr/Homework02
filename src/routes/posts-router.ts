@@ -3,6 +3,8 @@ import { postsRepository } from '../repositories/posts-repository'
 import { db } from '../database'
 import { inputValidationMiddleware } from '../middlewares/input-validation-middlewares'
 import { validationCreateUpdatePost } from '../middlewares/posts-validation'
+import { authorizationMiddleware } from '../middlewares/authorization'
+
 
 export const postsRouter = Router({})
 
@@ -23,7 +25,8 @@ postsRouter.get('/:id', (req: Request, res: Response) => {
     }
 })
 
-postsRouter.post('/', 
+postsRouter.post('/',
+authorizationMiddleware, 
 validationCreateUpdatePost,
 (req: Request, res: Response) => {
     const { title, shortDescription, content, blogId, blogName } = req.body
@@ -34,7 +37,8 @@ validationCreateUpdatePost,
         .send(newPost)
 })
 
-postsRouter.put('/:id', 
+postsRouter.put('/:id',
+authorizationMiddleware,
 validationCreateUpdatePost,
 (req: Request, res: Response) => {
     const { title, shortDescription, content, blogId, blogName } = req.body
@@ -48,7 +52,9 @@ validationCreateUpdatePost,
     }
 })
 
-postsRouter.delete('/:id', (req: Request, res: Response) => {
+postsRouter.delete('/:id',
+authorizationMiddleware,
+(req: Request, res: Response) => {
     const filteredPost = postsRepository.deletePost(req.params.id)
     filteredPost ? res.sendStatus(204): res.sendStatus(404)
 })

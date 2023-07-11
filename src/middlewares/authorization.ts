@@ -1,7 +1,16 @@
-import express, { Request, Response } from 'express'
-import { body } from "express-validator/src/middlewares/validation-chain-builders";
-import { inputValidationMiddleware } from "./input-validation-middlewares";
+import { Express, Request, Response, NextFunction } from 'express'
 
-export const auth = express.basicAuth(function(user: string, pass: string, next: Function) {
+export const authorizationMiddleware = (req: Request, res: Response, next: NextFunction) => {
+    const auth = req.headers.authorization
 
-})
+    if (!auth) {
+        return res.sendStatus(401)
+    }
+
+    if (auth !== 'YWRtaW46cXdlcnR5') {
+        return res.sendStatus(401)
+    }
+
+    next()
+}
+
