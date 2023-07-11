@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.postsRouter = void 0;
 const express_1 = require("express");
 const posts_repository_1 = require("../repositories/posts-repository");
+const posts_validation_1 = require("../middlewares/posts-validation");
 exports.postsRouter = (0, express_1.Router)({});
 exports.postsRouter.get('/', (req, res) => {
     const foundPosts = posts_repository_1.postsRepository.findPosts();
@@ -19,14 +20,14 @@ exports.postsRouter.get('/:id', (req, res) => {
         res.sendStatus(404);
     }
 });
-exports.postsRouter.post('/', (req, res) => {
+exports.postsRouter.post('/', posts_validation_1.validationCreateUpdatePost, (req, res) => {
     const { title, shortDescription, content, blogId, blogName } = req.body;
     const newPost = posts_repository_1.postsRepository.createPost(title, shortDescription, content, blogId, blogName);
     res
         .status(201)
         .send(newPost);
 });
-exports.postsRouter.put('/:id', (req, res) => {
+exports.postsRouter.put('/:id', posts_validation_1.validationCreateUpdatePost, (req, res) => {
     const { title, shortDescription, content, blogId, blogName } = req.body;
     const isUpdated = posts_repository_1.postsRepository.updatePost(req.params.id, title, shortDescription, content, blogId, blogName);
     if (isUpdated) {

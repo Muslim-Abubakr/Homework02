@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add expres-router
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add basic-authorization
 
 PATH: 
   C:\Python\Python311\Scripts\;C:\Python\Python311\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files (x86)\dotnet\;C:\Program Files (x86)\Yarn\bin\;C:\Users\ASUS\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm Community Edition 2020.2\bin;C:\Users\ASUS\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2022.2\bin;;C:\Program Files\JetBrains\PyCharm Community Edition 2022.3\bin;;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.3\bin;;C:\Users\ASUS\AppData\Roaming\npm;C:\Users\ASUS\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\ASUS\AppData\Local\GitHubDesktop\bin;C:\Users\ASUS\AppData\Local\Yarn\bin
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/expres-router: Not found
+  Error: https://registry.yarnpkg.com/basic-authorization: Not found
       at params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:66145:18)
       at self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140890:22)
       at Request.emit (node:events:513:28)
@@ -35,13 +35,14 @@ npm manifest:
     "dependencies": {
       "body-parser": "^1.20.2",
       "express": "^4.18.2",
+      "express-router": "^0.0.1",
       "express-validator": "^7.0.1"
     },
     "scripts": {
       "watch": "tsc -w",
       "dev": "nodemon --inspect dist/index.js"
     },
-    "devDependencies": {
+    "devDependencies": { 
       "@types/express": "^4.17.17",
       "@types/node": "^20.4.0",
       "nodemon": "^2.0.22",
@@ -395,6 +396,11 @@ Lockfile:
     version "1.8.1"
     resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
     integrity sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==
+  
+  express-router@^0.0.1:
+    version "0.0.1"
+    resolved "https://registry.yarnpkg.com/express-router/-/express-router-0.0.1.tgz#9351704deb2e7cadd765a6692d5c09936d790b25"
+    integrity sha512-6d8DAAUkhihgVQAOqo3lef+B/c9Q42mxKtt6O92fPmHotnv2TQvNClM+bUtTzX8q+V1v5YDyfFdZYTi3lMK/Vg==
   
   express-validator@^7.0.1:
     version "7.0.1"

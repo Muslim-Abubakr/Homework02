@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express'
 import { blogsRepository } from '../repositories/blogs-repository'
 import { db } from '../database'
 import { inputValidationMiddleware } from '../middlewares/input-validation-middlewares'
+import { validationCreateUpdateBlog } from '../middlewares/blogs-validation'
 
 export const blogsRouter = Router({})
 
@@ -22,7 +23,9 @@ blogsRouter.get('/:id', (req: Request, res: Response) => {
     }
 })
 
-blogsRouter.post('/', (req: Request, res: Response) => {
+blogsRouter.post('/', 
+validationCreateUpdateBlog,
+(req: Request, res: Response) => {
     const { name, description, websiteUrl } = req.body
     const newBlog = blogsRepository.createBlog(name, description, websiteUrl)
     res
@@ -30,7 +33,9 @@ blogsRouter.post('/', (req: Request, res: Response) => {
         .send(newBlog)
 })
 
-blogsRouter.put('/:id', (req: Request, res: Response) => {
+blogsRouter.put('/:id', 
+validationCreateUpdateBlog,
+(req: Request, res: Response) => {
     const { name, description, websiteUrl} = req.body
     const isUpdated = blogsRepository.updateBlog(req.params.id, name, description, websiteUrl)
 
