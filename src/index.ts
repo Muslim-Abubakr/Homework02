@@ -3,7 +3,8 @@ import bodyParser from 'body-parser'
 import { blogsRouter } from './routes/blogs-router'
 import { postsRouter } from './routes/posts-router'
 import { db } from './database'
-export { HTTP_STATUSES } from './database'
+import { HTTP_STATUSES } from './database'
+
 
 const app = express()
 const port = process.env.PORT || 3000
