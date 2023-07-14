@@ -5,12 +5,10 @@ export const authorizationMiddleware = (req: Request, res: Response, next: NextF
 
     if (!auth) {
         return res.sendStatus(401)
-    }
-
-    if (auth !== 'YWRtaW46cXdlcnR5') {
+    } else if (auth !== 'YWRtaW46cXdlcnR5') {
         return res.sendStatus(401)
+    } else {
+        next()
     }
-
-    next()
 }
 
