@@ -7,6 +7,6 @@ exports.validationCreateUpdatePost = [
     (0, validation_chain_builders_1.body)('title').isString().trim().isLength({ min: 1, max: 30 }).withMessage('incorrect title'),
     (0, validation_chain_builders_1.body)('shortDescription').isString().trim().isLength({ min: 1, max: 100 }).withMessage('incorrect shortDescription'),
     (0, validation_chain_builders_1.body)('content').isString().trim().isLength({ min: 1, max: 1000 }).withMessage('incorrect content'),
-    (0, validation_chain_builders_1.body)('blogId').isString().trim().notEmpty().withMessage('incorrect shortDescription'),
+    (0, validation_chain_builders_1.body)('blogId').isString().trim().notEmpty().withMessage('incorrect blogId'),
     input_validation_middlewares_1.inputValidationMiddleware
 ];
