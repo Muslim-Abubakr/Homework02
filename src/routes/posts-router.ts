@@ -1,7 +1,6 @@
 import {Request, Response, Router} from 'express'
 import { postsRepository } from '../repositories/posts-repository'
 import { db } from '../database'
-import { inputValidationMiddleware } from '../middlewares/input-validation-middlewares'
 import { validationCreateUpdatePost } from '../middlewares/posts-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
 
