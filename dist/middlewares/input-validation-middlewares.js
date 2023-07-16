@@ -4,19 +4,17 @@ exports.inputValidationMiddleware = void 0;
 const express_validator_1 = require("express-validator");
 const errorForm = ({ msg, path }) => {
     return {
-        errorsMessages: [{
-                message: msg,
-                field: path
-            }]
+        message: msg,
+        field: path
     };
 };
 const inputValidationMiddleware = (req, res, next) => {
     const errors = (0, express_validator_1.validationResult)(req);
     if (!errors.isEmpty()) {
-        const errorsMsg = errors.array({ onlyFirstError: true }).map(e => errorForm(e));
+        const errorsMessages = errors.array({ onlyFirstError: true }).map(e => errorForm(e));
         res
             .status(400)
-            .json(errorsMsg);
+            .json({ errorsMessages });
     }
     else {
         next();
