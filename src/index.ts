@@ -17,7 +17,7 @@ app.get('/', (req: Request, res: Response) => {
     res.send('Welcome to the main page')
 })
 
-app.delete('/all-data', testsRouter)
+app.use('/all-data', testsRouter)
 
 app.use('/blogs', blogsRouter)
 
