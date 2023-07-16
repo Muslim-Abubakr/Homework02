@@ -1,4 +1,4 @@
-import {Request, Response, Router} from 'express'
+import { Request, Response, Router } from 'express'
 import { postsRepository } from '../repositories/posts-repository'
 import { db } from '../database'
 import { validationCreateUpdatePost } from '../middlewares/posts-validation'

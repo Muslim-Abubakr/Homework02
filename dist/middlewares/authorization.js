@@ -6,11 +6,11 @@ const authorizationMiddleware = (req, res, next) => {
     if (!auth) {
         return res.sendStatus(401);
     }
-    else if (auth !== 'YWRtaW46cXdlcnR5') {
+    else if (auth !== 'Basic YWRtaW46cXdlcnR5') {
         return res.sendStatus(401);
     }
     else {
-        next();
+        return next();
     }
 };
 exports.authorizationMiddleware = authorizationMiddleware;
