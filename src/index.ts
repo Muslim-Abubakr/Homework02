@@ -2,9 +2,9 @@ import express, { Request, Response } from 'express'
 import bodyParser from 'body-parser'
 import { blogsRouter } from './routes/blogs-router'
 import { postsRouter } from './routes/posts-router'
+import { testsRouter } from './routes/testing-router'
 import { db } from './database'
 import { HTTP_STATUSES } from './database'
-import { testsRouter } from './routes/testing-router'
 
 
 const app = express()

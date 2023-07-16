@@ -33,7 +33,9 @@ exports.blogsRouter.put('/:id', authorization_1.authorizationMiddleware, blogs_v
     const isUpdated = blogs_repository_1.blogsRepository.updateBlog(req.params.id, name, description, websiteUrl);
     if (isUpdated) {
         const blog = blogs_repository_1.blogsRepository.getBlogsById(req.params.id);
-        res.send(blog);
+        res
+            .status(204)
+            .send(blog);
     }
     else {
         res.send(404);

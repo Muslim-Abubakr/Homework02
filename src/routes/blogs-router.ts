@@ -25,34 +25,36 @@ blogsRouter.get('/:id', (req: Request, res: Response) => {
 })
 
 blogsRouter.post('/', 
-authorizationMiddleware,
-validationCreateUpdateBlog,
-(req: Request, res: Response) => {
-    const { name, description, websiteUrl } = req.body
-    const newBlog = blogsRepository.createBlog(name, description, websiteUrl)
-    res
-        .status(201)
-        .send(newBlog)
+    authorizationMiddleware,
+    validationCreateUpdateBlog,
+    (req: Request, res: Response) => {
+        const { name, description, websiteUrl } = req.body
+        const newBlog = blogsRepository.createBlog(name, description, websiteUrl)
+        res
+            .status(201)
+            .send(newBlog)
 })
 
 blogsRouter.put('/:id',
-authorizationMiddleware, 
-validationCreateUpdateBlog,
-(req: Request, res: Response) => {
-    const { name, description, websiteUrl} = req.body
-    const isUpdated = blogsRepository.updateBlog(req.params.id, name, description, websiteUrl)
+    authorizationMiddleware, 
+    validationCreateUpdateBlog,
+    (req: Request, res: Response) => {
+        const { name, description, websiteUrl} = req.body
+        const isUpdated = blogsRepository.updateBlog(req.params.id, name, description, websiteUrl)
 
-    if (isUpdated) {
-        const blog = blogsRepository.getBlogsById(req.params.id)
-        res.send(blog)
-    } else {
-        res.send(404)
-    }
+        if (isUpdated) {
+            const blog = blogsRepository.getBlogsById(req.params.id)
+            res
+                .status(204)
+                .send(blog)
+        } else {
+            res.send(404)
+        }
 })
 
 blogsRouter.delete('/:id',
-authorizationMiddleware,
-(req: Request, res: Response) => {
-    const filteredBlog = blogsRepository.deleteBlog(req.params.id)
-    filteredBlog ? res.sendStatus(204): res.sendStatus(404)
+    authorizationMiddleware,
+    (req: Request, res: Response) => {
+        const filteredBlog = blogsRepository.deleteBlog(req.params.id)
+        filteredBlog ? res.sendStatus(204): res.sendStatus(404)
 })
