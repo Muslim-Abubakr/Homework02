@@ -2,9 +2,12 @@ import { NextFunction, Request, Response } from "express"
 import { validationResult } from "express-validator"
 
 const errorForm = ({ msg, path }: any) => {
+    
     return {
-        message: msg,
-        field: path
+        errorsMessages: [{
+            message: msg,
+            field: path
+        }]
     }
 }
 

@@ -9,7 +9,9 @@ export const postsRouter = Router({})
 
 postsRouter.get('/', (req: Request, res: Response) => {
     const foundPosts = postsRepository.findPosts()
-    res.send(foundPosts)
+    res
+        .status(200)
+        .send(foundPosts)
 })
 
 postsRouter.get('/:id', (req: Request, res: Response) => {

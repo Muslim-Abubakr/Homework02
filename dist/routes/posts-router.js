@@ -8,7 +8,9 @@ const authorization_1 = require("../middlewares/authorization");
 exports.postsRouter = (0, express_1.Router)({});
 exports.postsRouter.get('/', (req, res) => {
     const foundPosts = posts_repository_1.postsRepository.findPosts();
-    res.send(foundPosts);
+    res
+        .status(200)
+        .send(foundPosts);
 });
 exports.postsRouter.get('/:id', (req, res) => {
     const foundPosts = posts_repository_1.postsRepository.getPostsById(req.params.id);
