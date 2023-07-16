@@ -15,7 +15,7 @@ app.use(parserMiddleware);
 app.get('/', (req, res) => {
     res.send('Welcome to the main page');
 });
-app.use('/all-data', testing_router_1.testsRouter);
+app.use('/testing', testing_router_1.testsRouter);
 app.use('/blogs', blogs_router_1.blogsRouter);
 app.use('/posts', posts_router_1.postsRouter);
 app.listen(port, () => {
