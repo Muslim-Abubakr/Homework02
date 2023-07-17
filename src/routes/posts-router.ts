@@ -42,12 +42,6 @@ postsRouter.put('/:id',
     authorizationMiddleware,
     validationCreateUpdatePost,
     (req: Request, res: Response) => {
-        let foundPost = db.posts.find(p => p.id === req.params.id)
-
-        if(!foundPost) {
-            res.sendStatus(404)
-        }
-
         const { title, shortDescription, content, blogId, blogName } = req.body
         const isUpdated = postsRepository.updatePost(req.params.id, title, shortDescription, content, blogId, blogName)
 
@@ -56,7 +50,9 @@ postsRouter.put('/:id',
             res
                 .status(204)
                 .send(post)
-        } 
+        } else {
+            res.send(404)
+        }
 })
 
 postsRouter.delete('/:id',

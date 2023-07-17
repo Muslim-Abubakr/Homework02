@@ -39,12 +39,6 @@ blogsRouter.put('/:id',
     authorizationMiddleware, 
     validationCreateUpdateBlog,
     (req: Request, res: Response) => {
-        let foundPost = db.posts.find(p => p.id === req.params.id)
-
-        if(!foundPost) {
-            res.sendStatus(404)
-        }
-        
         const { name, description, websiteUrl} = req.body
         const isUpdated = blogsRepository.updateBlog(req.params.id, name, description, websiteUrl)
 
