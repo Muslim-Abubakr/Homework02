@@ -12,6 +12,8 @@ exports.validationCreateUpdatePost = [
     (0, validation_chain_builders_1.body)('content').isString().isLength({ min: 1, max: 1000 }).withMessage('content should not be empty and length min 1 - max 1000'),
     (0, validation_chain_builders_1.body)('blogId').notEmpty().withMessage('blogId is required'),
     (0, validation_chain_builders_1.body)('blogId').isString().trim().withMessage('blogId should be a string'),
+    (0, validation_chain_builders_1.body)('blogName').notEmpty().withMessage('blogName is required'),
+    (0, validation_chain_builders_1.body)('blogName').isString().trim().withMessage('blogName should be a string'),
     // body('blogId').custom((value) => {
     //    let findId = db.blogs.find(p => p.id === value)
     //    if (!findId) {
