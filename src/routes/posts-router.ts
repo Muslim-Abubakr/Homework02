@@ -47,8 +47,10 @@ postsRouter.put('/:id',
 
         if (isUpdated) {
             const post = postsRepository.getPostsById(req.params.id)
-            res.send(post)
-        } else {
+            res
+                .status(204)
+                .send(post)
+        } else if (!isUpdated){
             res.status(404)
         }
 })

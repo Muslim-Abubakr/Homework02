@@ -35,9 +35,11 @@ exports.postsRouter.put('/:id', authorization_1.authorizationMiddleware, posts_v
     const isUpdated = posts_repository_1.postsRepository.updatePost(req.params.id, title, shortDescription, content, blogId, blogName);
     if (isUpdated) {
         const post = posts_repository_1.postsRepository.getPostsById(req.params.id);
-        res.send(post);
+        res
+            .status(204)
+            .send(post);
     }
-    else {
+    else if (!isUpdated) {
         res.status(404);
     }
 });
