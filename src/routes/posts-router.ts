@@ -50,9 +50,13 @@ postsRouter.put('/:id',
             res
                 .status(204)
                 .send(post)
-        } else if (!isUpdated){
-            res.status(404)
-        }
+        } 
+
+        // let post = db.posts.find(p => p.id === req.params.id)
+
+        // if (!post) {
+        //     res.status(404)
+        // } 
 })
 
 postsRouter.delete('/:id',

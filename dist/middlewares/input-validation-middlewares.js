@@ -11,7 +11,7 @@ const express_validator_1 = require("express-validator");
 const inputValidationMiddleware = (req, res, next) => {
     const errors = (0, express_validator_1.validationResult)(req);
     if (!errors.isEmpty()) {
-        const errorsMessages = errors.array({ onlyFirstError: false }).map(error => ({
+        const errorsMessages = errors.array({ onlyFirstError: true }).map(error => ({
             message: error.msg,
             field: error.path
         }));

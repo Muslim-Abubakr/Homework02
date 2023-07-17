@@ -23,7 +23,7 @@ exports.postsRepository = {
         return newPost;
     },
     updatePost(id, title, shortDescription, content, blogId, blogName) {
-        let post = database_1.db.posts.find(p => p.id === id);
+        const post = database_1.db.posts.find(p => p.id === id);
         if (post) {
             post.id = id;
             post.title = title;
