@@ -11,8 +11,8 @@ export const validationCreateUpdatePost = [
    body('content').isString().isLength({min: 1, max: 1000}).withMessage('content should not be empty and length min 1 - max 1000'),
    body('blogId').notEmpty().withMessage('blogId is required'),
    body('blogId').isString().trim().withMessage('blogId should be a string'),
-   body('blogName').notEmpty().withMessage('blogName is required'),
-   body('blogName').isString().trim().withMessage('blogName should be a string'),
+   // body('blogName').notEmpty().withMessage('blogName is required'),
+   // body('blogName').isString().trim().withMessage('blogName should be a string'),
    // body('blogId').custom((value) => {
    //    let findId = db.blogs.find(p => p.id === value)
 
