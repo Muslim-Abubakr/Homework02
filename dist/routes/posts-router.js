@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.postsRouter = void 0;
 const express_1 = require("express");
 const posts_repository_1 = require("../repositories/posts-repository");
+const database_1 = require("../database");
 const posts_validation_1 = require("../middlewares/posts-validation");
 const authorization_1 = require("../middlewares/authorization");
 exports.postsRouter = (0, express_1.Router)({});
@@ -31,6 +32,10 @@ exports.postsRouter.post('/', authorization_1.authorizationMiddleware, posts_val
         .send(newPost);
 });
 exports.postsRouter.put('/:id', authorization_1.authorizationMiddleware, posts_validation_1.validationCreateUpdatePost, (req, res) => {
+    let foundPost = database_1.db.posts.find(p => p.id === req.params.id);
+    if (!foundPost) {
+        res.sendStatus(404);
+    }
     const { title, shortDescription, content, blogId, blogName } = req.body;
     const isUpdated = posts_repository_1.postsRepository.updatePost(req.params.id, title, shortDescription, content, blogId, blogName);
     if (isUpdated) {
@@ -39,10 +44,6 @@ exports.postsRouter.put('/:id', authorization_1.authorizationMiddleware, posts_v
             .status(204)
             .send(post);
     }
-    // let post = db.posts.find(p => p.id === req.params.id)
-    // if (!post) {
-    //     res.status(404)
-    // } 
 });
 exports.postsRouter.delete('/:id', authorization_1.authorizationMiddleware, (req, res) => {
     const filteredPost = posts_repository_1.postsRepository.deletePost(req.params.id);
