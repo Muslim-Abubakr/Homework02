@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.postsRouter = void 0;
 const express_1 = require("express");
 const posts_repository_1 = require("../repositories/posts-repository");
+const database_1 = require("../database");
 const posts_validation_1 = require("../middlewares/posts-validation");
 const authorization_1 = require("../middlewares/authorization");
 exports.postsRouter = (0, express_1.Router)({});
@@ -24,8 +25,9 @@ exports.postsRouter.get('/:id', (req, res) => {
     }
 });
 exports.postsRouter.post('/', authorization_1.authorizationMiddleware, posts_validation_1.validationCreateUpdatePost, (req, res) => {
-    const { title, shortDescription, content, blogId, blogName } = req.body;
-    const newPost = posts_repository_1.postsRepository.createPost(title, shortDescription, content, blogId, blogName);
+    const { title, shortDescription, content, blogId } = req.body;
+    const blog = database_1.db.blogs.find(b => b.id === blogId);
+    const newPost = posts_repository_1.postsRepository.createPost(title, shortDescription, content, blogId, blog.name);
     res
         .status(201)
         .send(newPost);

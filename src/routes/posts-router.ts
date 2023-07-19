@@ -30,8 +30,9 @@ postsRouter.post('/',
     authorizationMiddleware, 
     validationCreateUpdatePost,
     (req: Request, res: Response) => {
-        const { title, shortDescription, content, blogId, blogName } = req.body
-        const newPost = postsRepository.createPost(title, shortDescription, content, blogId, blogName)
+        const { title, shortDescription, content, blogId } = req.body
+        const blog = db.blogs.find(b => b.id === blogId)
+        const newPost = postsRepository.createPost(title, shortDescription, content, blogId, blog!.name)
         
         res
             .status(201)
