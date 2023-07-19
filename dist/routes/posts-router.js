@@ -33,8 +33,9 @@ exports.postsRouter.post('/', authorization_1.authorizationMiddleware, posts_val
         .send(newPost);
 });
 exports.postsRouter.put('/:id', authorization_1.authorizationMiddleware, posts_validation_1.validationCreateUpdatePost, (req, res) => {
-    const { title, shortDescription, content, blogId, blogName } = req.body;
-    const isUpdated = posts_repository_1.postsRepository.updatePost(req.params.id, title, shortDescription, content, blogId, blogName);
+    const { title, shortDescription, content, blogId } = req.body;
+    const blog = database_1.db.blogs.find(b => b.id === blogId);
+    const isUpdated = posts_repository_1.postsRepository.updatePost(req.params.id, title, shortDescription, content, blogId, blog.name);
     if (isUpdated) {
         const post = posts_repository_1.postsRepository.getPostsById(req.params.id);
         res

@@ -43,8 +43,9 @@ postsRouter.put('/:id',
     authorizationMiddleware,
     validationCreateUpdatePost,
     (req: Request, res: Response) => {
-        const { title, shortDescription, content, blogId, blogName } = req.body
-        const isUpdated = postsRepository.updatePost(req.params.id, title, shortDescription, content, blogId, blogName)
+        const { title, shortDescription, content, blogId } = req.body
+        const blog = db.blogs.find(b => b.id === blogId)
+        const isUpdated = postsRepository.updatePost(req.params.id, title, shortDescription, content, blogId, blog!.name)
 
         if (isUpdated) {
             const post = postsRepository.getPostsById(req.params.id)
