@@ -5,7 +5,7 @@ import { inputValidationMiddleware } from '../middlewares/input-validation-middl
 import { validationCreateUpdateBlog } from '../middlewares/blogs-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
 
-export const blogsRouter = Router({})
+export const blogsRouter = Router({ })
 
 blogsRouter.get('/', (req: Request, res: Response) => {
     const foundBlogs = blogsRepository.findBlogs()
