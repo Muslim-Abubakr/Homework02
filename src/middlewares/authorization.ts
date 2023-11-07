@@ -1,4 +1,4 @@
-import { Express, Request, Response, NextFunction } from 'express'
+import { Request, Response, NextFunction } from 'express'
 
 export const authorizationMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const auth = req.headers.authorization

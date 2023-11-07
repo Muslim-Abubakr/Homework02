@@ -1,13 +1,15 @@
 import { Request, Response, Router } from 'express'
 import { postsRepository } from '../repositories/posts-repository'
-import { db } from '../database'
+import { db } from '../db/database'
 import { validationCreateUpdatePost } from '../middlewares/posts-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
+import { PostType } from '../models/types'
+import { BlogType } from '../models/types'
 
 
 export const postsRouter = Router({})
 
-postsRouter.get('/', (req: Request, res: Response) => {
+postsRouter.get('/', (req: Request, res: Response<PostType[]>) => {
     const foundPosts = postsRepository.findPosts()
     res
         .status(200)
@@ -28,7 +30,7 @@ postsRouter.get('/:id', (req: Request, res: Response) => {
 
 postsRouter.post('/',
     authorizationMiddleware, 
-    validationCreateUpdatePost,
+    validationCreateUpdatePost, 
     (req: Request, res: Response) => {
         const { title, shortDescription, content, blogId } = req.body
         const blog = db.blogs.find(b => b.id === blogId)

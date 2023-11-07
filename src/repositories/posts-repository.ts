@@ -1,6 +1,6 @@
 import {Request, Response, Router} from 'express'
-import { db } from '../database'
-
+import { db } from '../db/database'
+import { PostType } from '../models/types'
 
 export const postsRepository = {
     findPosts() {

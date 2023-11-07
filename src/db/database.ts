@@ -1,4 +1,7 @@
-export const db = {
+import { DBType, PostType } from "../models/types"
+import { BlogType } from "../models/types"
+
+export const db: DBType = {
     posts: [
         {
             "id": "1",

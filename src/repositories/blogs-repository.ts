@@ -1,5 +1,5 @@
 import {Request, Response, Router} from 'express'
-import { db } from '../database'
+import { db } from '../db/database'
 
 
 export const blogsRepository = {
