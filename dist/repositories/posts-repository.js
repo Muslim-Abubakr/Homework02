@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postsRepository = void 0;
-const database_1 = require("../database");
+const database_1 = require("../db/database");
 exports.postsRepository = {
     findPosts() {
         return database_1.db.posts;

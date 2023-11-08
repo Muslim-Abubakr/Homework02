@@ -18,7 +18,7 @@ exports.blogsRouter.get('/:id', (req, res) => {
             .send(foundBlogs);
     }
     else {
-        res.send(404);
+        res.status(404);
     }
 });
 exports.blogsRouter.post('/', authorization_1.authorizationMiddleware, blogs_validation_1.validationCreateUpdateBlog, (req, res) => {
@@ -38,7 +38,7 @@ exports.blogsRouter.put('/:id', authorization_1.authorizationMiddleware, blogs_v
             .send(blog);
     }
     else {
-        res.send(404);
+        res.status(404);
     }
 });
 exports.blogsRouter.delete('/:id', authorization_1.authorizationMiddleware, (req, res) => {
