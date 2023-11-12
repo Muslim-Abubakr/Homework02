@@ -19,5 +19,5 @@ app.use('/testing', testing_router_1.testsRouter);
 app.use('/blogs', blogs_router_1.blogsRouter);
 app.use('/posts', posts_router_1.postsRouter);
 app.listen(port, () => {
-    console.log(`Example app listening onn port ${port}`);
+    console.log(`Example app listening on port ${port}`);
 });
