@@ -3,16 +3,16 @@ import { db } from '../db/database'
 import { PostType } from '../models/types'
 
 export const postsRepository = {
-    findPosts() {
+    async findPosts(): Promise<PostType[]> {
         return db.posts
     },
 
-    getPostsById(id: string | null | undefined) {
+    async getPostsById(id: string | null | undefined): Promise<PostType | undefined> {
         let post = db.posts.find(p => p.id === id)
         return post;
     },
 
-    createPost(title: string, shortDescription: string, content: string, blogId: string, blogName: string) {
+    async createPost(title: string, shortDescription: string, content: string, blogId: string, blogName: string) {
         const newPost = {
             id: String(+(new Date())),
             title: title,
@@ -26,7 +26,7 @@ export const postsRepository = {
         return newPost
     },
 
-    updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string, blogName: string) {
+    async updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string, blogName: string) {
         const post = db.posts.find(p => p.id === id)
         
         if (post) {
@@ -42,7 +42,7 @@ export const postsRepository = {
         }
     },
 
-    deletePost(id: string) {
+    async deletePost(id: string) {
         let post = db.posts.find(p => p.id === id)
 
         if (post) {

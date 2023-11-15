@@ -12,7 +12,7 @@ export const blogsRepository = {
         return blog;
     },
 
-    createBlog(name: string, description: string, websiteUrl: string) {
+    async createBlog(name: string, description: string, websiteUrl: string): Promise<BlogType> {
         const newBlog = {
             id: (+(new Date())).toString(),
             name,
@@ -24,7 +24,7 @@ export const blogsRepository = {
         return newBlog
     },
 
-    updateBlog(id: string, name: string, description: string, websiteUrl: string) {
+    async updateBlog(id: string, name: string, description: string, websiteUrl: string): Promise<boolean> {
         const blog = db.blogs.find(b => b.id === id)
         
         if (blog) {
@@ -37,7 +37,7 @@ export const blogsRepository = {
         }
     },
 
-    deleteBlog(id: string) {
+    async deleteBlog(id: string): Promise<boolean> {
         let blog = db.blogs.find(b => b.id === id)
 
         if (blog) {
