@@ -7,15 +7,15 @@ import { PostType } from '../models/types'
 
 export const postsRouter = Router({})
 
-postsRouter.get('/', (req: Request, res: Response<PostType[]>) => {
-    const foundPosts = postsRepository.findPosts()
+postsRouter.get('/', async (req: Request, res: Response<PostType[]>) => {
+    const foundPosts = await postsRepository.findPosts()
     res
         .status(200)
         .send(foundPosts)
 })
 
-postsRouter.get('/:id', (req: Request, res: Response) => {
-    const foundPosts = postsRepository.getPostsById(req.params.id)
+postsRouter.get('/:id', async (req: Request, res: Response) => {
+    const foundPosts = await postsRepository.getPostsById(req.params.id)
 
     if (foundPosts) {
         res
@@ -29,10 +29,10 @@ postsRouter.get('/:id', (req: Request, res: Response) => {
 postsRouter.post('/',
     authorizationMiddleware, 
     validationCreateUpdatePost, 
-    (req: Request, res: Response) => {
+    async (req: Request, res: Response) => {
         const { title, shortDescription, content, blogId } = req.body
-        const blog = db.blogs.find(b => b.id === blogId)
-        const newPost = postsRepository.createPost(title, shortDescription, content, blogId, blog!.name)
+        const blog = await db.blogs.find(b => b.id === blogId)
+        const newPost = await postsRepository.createPost(title, shortDescription, content, blogId, blog!.name)
         
         res
             .status(201)
@@ -42,13 +42,13 @@ postsRouter.post('/',
 postsRouter.put('/:id',
     authorizationMiddleware,
     validationCreateUpdatePost,
-    (req: Request, res: Response) => {
+    async (req: Request, res: Response) => {
         const { title, shortDescription, content, blogId } = req.body
-        const blog = db.blogs.find(b => b.id === blogId)
-        const isUpdated = postsRepository.updatePost(req.params.id, title, shortDescription, content, blogId, blog!.name)
+        const blog = await db.blogs.find(b => b.id === blogId)
+        const isUpdated = await postsRepository.updatePost(req.params.id, title, shortDescription, content, blogId, blog!.name)
 
         if (isUpdated) {
-            const post = postsRepository.getPostsById(req.params.id)
+            const post = await postsRepository.getPostsById(req.params.id)
             res
                 .status(204)
                 .send(post)
@@ -59,7 +59,7 @@ postsRouter.put('/:id',
 
 postsRouter.delete('/:id',
     authorizationMiddleware,
-    (req: Request, res: Response) => {
-        const filteredPost = postsRepository.deletePost(req.params.id)
+    async (req: Request, res: Response) => {
+        const filteredPost = await postsRepository.deletePost(req.params.id)
         filteredPost ? res.sendStatus(204): res.sendStatus(404)
 })

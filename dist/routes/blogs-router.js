@@ -30,18 +30,18 @@ exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
         res.status(404);
     }
 }));
-exports.blogsRouter.post('/', authorization_1.authorizationMiddleware, blogs_validation_1.validationCreateUpdateBlog, (req, res) => {
+exports.blogsRouter.post('/', authorization_1.authorizationMiddleware, blogs_validation_1.validationCreateUpdateBlog, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, description, websiteUrl } = req.body;
-    const newBlog = blogs_repository_1.blogsRepository.createBlog(name, description, websiteUrl);
+    const newBlog = yield blogs_repository_1.blogsRepository.createBlog(name, description, websiteUrl);
     res
         .status(201)
         .send(newBlog);
-});
-exports.blogsRouter.put('/:id', authorization_1.authorizationMiddleware, blogs_validation_1.validationCreateUpdateBlog, (req, res) => {
+}));
+exports.blogsRouter.put('/:id', authorization_1.authorizationMiddleware, blogs_validation_1.validationCreateUpdateBlog, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, description, websiteUrl } = req.body;
-    const isUpdated = blogs_repository_1.blogsRepository.updateBlog(req.params.id, name, description, websiteUrl);
+    const isUpdated = yield blogs_repository_1.blogsRepository.updateBlog(req.params.id, name, description, websiteUrl);
     if (isUpdated) {
-        const blog = blogs_repository_1.blogsRepository.getBlogsById(req.params.id);
+        const blog = yield blogs_repository_1.blogsRepository.getBlogsById(req.params.id);
         res
             .status(204)
             .send(blog);
@@ -49,8 +49,8 @@ exports.blogsRouter.put('/:id', authorization_1.authorizationMiddleware, blogs_v
     else {
         res.status(404);
     }
-});
-exports.blogsRouter.delete('/:id', authorization_1.authorizationMiddleware, (req, res) => {
-    const filteredBlog = blogs_repository_1.blogsRepository.deleteBlog(req.params.id);
+}));
+exports.blogsRouter.delete('/:id', authorization_1.authorizationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const filteredBlog = yield blogs_repository_1.blogsRepository.deleteBlog(req.params.id);
     filteredBlog ? res.sendStatus(204) : res.sendStatus(404);
-});
+}));

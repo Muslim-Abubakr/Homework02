@@ -12,7 +12,7 @@ export const postsRepository = {
         return post;
     },
 
-    async createPost(title: string, shortDescription: string, content: string, blogId: string, blogName: string) {
+    async createPost(title: string, shortDescription: string, content: string, blogId: string, blogName: string): Promise<PostType> {
         const newPost = {
             id: String(+(new Date())),
             title: title,
@@ -26,7 +26,7 @@ export const postsRepository = {
         return newPost
     },
 
-    async updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string, blogName: string) {
+    async updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string, blogName: string): Promise<boolean> {
         const post = db.posts.find(p => p.id === id)
         
         if (post) {
@@ -42,7 +42,7 @@ export const postsRepository = {
         }
     },
 
-    async deletePost(id: string) {
+    async deletePost(id: string): Promise<boolean> {
         let post = db.posts.find(p => p.id === id)
 
         if (post) {

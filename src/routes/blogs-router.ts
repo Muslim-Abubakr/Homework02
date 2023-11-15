@@ -28,9 +28,9 @@ blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>,
 blogsRouter.post('/', 
     authorizationMiddleware,
     validationCreateUpdateBlog,
-    (req: Request, res: Response<ViewBlogModel>) => {
+    async (req: Request, res: Response<ViewBlogModel>) => {
         const { name, description, websiteUrl } = req.body
-        const newBlog = blogsRepository.createBlog(name, description, websiteUrl)
+        const newBlog = await blogsRepository.createBlog(name, description, websiteUrl)
         res
             .status(201) 
             .send(newBlog)
@@ -39,12 +39,12 @@ blogsRouter.post('/',
 blogsRouter.put('/:id',
     authorizationMiddleware, 
     validationCreateUpdateBlog,
-    (req: Request, res: Response) => {
+    async (req: Request, res: Response) => {
         const { name, description, websiteUrl} = req.body
-        const isUpdated = blogsRepository.updateBlog(req.params.id, name, description, websiteUrl)
+        const isUpdated = await blogsRepository.updateBlog(req.params.id, name, description, websiteUrl)
 
         if (isUpdated) {
-            const blog = blogsRepository.getBlogsById(req.params.id)
+            const blog = await blogsRepository.getBlogsById(req.params.id)
             res
                 .status(204)
                 .send(blog)
@@ -55,7 +55,7 @@ blogsRouter.put('/:id',
 
 blogsRouter.delete('/:id',
     authorizationMiddleware,
-    (req: Request, res: Response) => {
-        const filteredBlog = blogsRepository.deleteBlog(req.params.id)
+    async (req: Request, res: Response) => {
+        const filteredBlog = await blogsRepository.deleteBlog(req.params.id)
         filteredBlog ? res.sendStatus(204): res.sendStatus(404)
 })
