@@ -4,8 +4,6 @@ import { db } from '../db/database'
 import { validationCreateUpdatePost } from '../middlewares/posts-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
 import { PostType } from '../models/types'
-import { BlogType } from '../models/types'
-
 
 export const postsRouter = Router({})
 

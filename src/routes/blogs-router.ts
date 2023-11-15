@@ -1,30 +1,20 @@
 import { Request, Response, Router } from 'express'
 import { blogsRepository } from '../repositories/blogs-repository'
-import { db } from '../db/database'
-import { inputValidationMiddleware } from '../middlewares/input-validation-middlewares'
 import { validationCreateUpdateBlog } from '../middlewares/blogs-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
-import { BlogType } from '../models/types'
 import { UriBlogsModel } from '../models/UriBlogsModel'
 import { ViewBlogModel } from '../models/ViewBlogModel'
-
-
-import { RequestWithQuery } from '../models/types'
 import { RequestWithUriParams } from '../models/types'
-
-
-
-
 export const blogsRouter = Router({})
 
-blogsRouter.get('/', (req: Request, res: Response<ViewBlogModel[]>) => {
-    const foundBlogs = blogsRepository.findBlogs()
+blogsRouter.get('/', async (req: Request, res: Response<ViewBlogModel[]>) => {
+    const foundBlogs = await blogsRepository.findBlogs()
     res.send(foundBlogs)
 })
 
-blogsRouter.get('/:id', (req: RequestWithUriParams<UriBlogsModel>, 
+blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>, 
     res: Response<ViewBlogModel>) => {
-    const foundBlogs = blogsRepository.getBlogsById(req.params.id)
+    const foundBlogs = await blogsRepository.getBlogsById(req.params.id)
 
     if (foundBlogs) {
         res

@@ -1,13 +1,13 @@
-import {Request, Response, Router} from 'express'
 import { db } from '../db/database'
+import { BlogType } from '../models/types'
 
 
 export const blogsRepository = {
-    findBlogs() {
+    async findBlogs(): Promise<BlogType[]> {
         return db.blogs
     },
 
-    getBlogsById(id: string | null | undefined) {
+    async getBlogsById(id: string | null | undefined): Promise<BlogType | undefined> {
         let blog = db.blogs.find(b => b.id === id)
         return blog;
     },

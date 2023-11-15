@@ -8,9 +8,13 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const blogs_router_1 = require("./routes/blogs-router");
 const posts_router_1 = require("./routes/posts-router");
 const testing_router_1 = require("./routes/testing-router");
+const dotenv_1 = __importDefault(require("dotenv"));
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 const parserMiddleware = (0, body_parser_1.default)({});
+dotenv_1.default.config();
+const mongoURI = process.env.MONGO_URL || 'mongodb://0.0.0.0:27017';
+console.log(process.env.MONGO_URL);
 app.use(parserMiddleware);
 app.get('/', (req, res) => {
     res.send('Welcome to the main page');
