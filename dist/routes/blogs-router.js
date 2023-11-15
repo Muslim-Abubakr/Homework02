@@ -50,7 +50,7 @@ exports.blogsRouter.put('/:id', authorization_1.authorizationMiddleware, blogs_v
         res.status(404);
     }
 }));
-exports.blogsRouter.delete('/:id', authorization_1.authorizationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const filteredBlog = yield blogs_repository_1.blogsRepository.deleteBlog(req.params.id);
+exports.blogsRouter.delete('/:id', authorization_1.authorizationMiddleware, (req, res) => {
+    const filteredBlog = blogs_repository_1.blogsRepository.deleteBlog(req.params.id);
     filteredBlog ? res.sendStatus(204) : res.sendStatus(404);
-}));
+});

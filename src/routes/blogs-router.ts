@@ -55,7 +55,7 @@ blogsRouter.put('/:id',
 
 blogsRouter.delete('/:id',
     authorizationMiddleware,
-    async (req: Request, res: Response) => {
-        const filteredBlog = await blogsRepository.deleteBlog(req.params.id)
+     (req: Request, res: Response) => {
+        const filteredBlog = blogsRepository.deleteBlog(req.params.id)
         filteredBlog ? res.sendStatus(204): res.sendStatus(404)
 })
