@@ -50,13 +50,15 @@ exports.blogsRepository = {
         });
     },
     deleteBlog(id) {
-        let blog = database_1.db.blogs.find(b => b.id === id);
-        if (blog) {
-            database_1.db.blogs = database_1.db.blogs.filter(b => b.id !== id);
-            return true;
-        }
-        else {
-            return false;
-        }
+        return __awaiter(this, void 0, void 0, function* () {
+            let blog = database_1.db.blogs.find(b => b.id === id);
+            if (blog) {
+                database_1.db.blogs = database_1.db.blogs.filter(b => b.id !== id);
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
     }
 };

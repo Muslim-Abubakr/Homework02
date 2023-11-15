@@ -37,7 +37,7 @@ export const blogsRepository = {
         }
     },
 
-    deleteBlog(id: string) {
+    async deleteBlog(id: string): Promise<boolean> {
         let blog = db.blogs.find(b => b.id === id)
 
         if (blog) {

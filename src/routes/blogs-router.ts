@@ -49,13 +49,13 @@ blogsRouter.put('/:id',
                 .status(204)
                 .send(blog)
         } else {
-            res.status(404)
+            res.send(404)
         }
 })
 
 blogsRouter.delete('/:id',
     authorizationMiddleware,
-     (req: Request, res: Response) => {
-        const filteredBlog = blogsRepository.deleteBlog(req.params.id)
-        filteredBlog ? res.sendStatus(204): res.sendStatus(404)
+     async (req: Request, res: Response) => {
+        const filteredBlog = await blogsRepository.deleteBlog(req.params.id)
+        filteredBlog ? res.send(204): res.send(404)
 })
