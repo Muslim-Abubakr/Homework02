@@ -9,7 +9,7 @@ exports.validationCreateUpdatePost = [
     (0, validation_chain_builders_1.body)('shortDescription').notEmpty().isString().trim().isLength({ min: 1, max: 100 }).withMessage('shortDescription should not be empty and length min 1 - max 100'),
     (0, validation_chain_builders_1.body)('content').trim().notEmpty().isString().isLength({ min: 1, max: 1000 }).withMessage('content should not be empty and length min 1 - max 1000'),
     (0, validation_chain_builders_1.body)('blogId').notEmpty().isString().trim().withMessage('blogId should be a string').custom((value) => {
-        let findId = database_1.db.blogs.find(p => p.id === value);
+        const findId = database_1.db.blogs.find(b => b.id === value);
         if (!findId) {
             throw new Error('blog not found');
         }

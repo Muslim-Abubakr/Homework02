@@ -31,7 +31,7 @@ postsRouter.post('/',
     validationCreateUpdatePost, 
     async (req: Request, res: Response) => {
         const { title, shortDescription, content, blogId } = req.body
-        const blog = await db.blogs.find(b => b.id === blogId)
+        const blog = db.blogs.find(b => b.id === blogId)
         const newPost = await postsRepository.createPost(title, shortDescription, content, blogId, blog!.name)
         
         res
@@ -43,8 +43,9 @@ postsRouter.put('/:id',
     authorizationMiddleware,
     validationCreateUpdatePost,
     async (req: Request, res: Response) => {
+        
         const { title, shortDescription, content, blogId } = req.body
-        const blog = await db.blogs.find(b => b.id === blogId)
+        const blog = db.blogs.find(b => b.id === blogId)
         const isUpdated = await postsRepository.updatePost(req.params.id, title, shortDescription, content, blogId, blog!.name)
 
         if (isUpdated) {

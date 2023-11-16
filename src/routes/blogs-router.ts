@@ -13,7 +13,7 @@ blogsRouter.get('/', async (req: Request, res: Response<ViewBlogModel[]>) => {
 })
 
 blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>, 
-    res: Response<ViewBlogModel>) => {
+    res: Response<ViewBlogModel | Number>) => {
     const foundBlogs = await blogsRepository.getBlogsById(req.params.id)
 
     if (foundBlogs) {
@@ -21,7 +21,7 @@ blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>,
             .status(200)
             .send(foundBlogs)
     } else {
-        res.status(404)
+        res.send(404)
     }
 })
 
@@ -39,7 +39,7 @@ blogsRouter.post('/',
 blogsRouter.put('/:id',
     authorizationMiddleware, 
     validationCreateUpdateBlog,
-    async (req: Request, res: Response) => {
+    async (req: Request, res: Response<ViewBlogModel | Number>) => {
         const { name, description, websiteUrl} = req.body
         const isUpdated = await blogsRepository.updateBlog(req.params.id, name, description, websiteUrl)
 
@@ -55,7 +55,7 @@ blogsRouter.put('/:id',
 
 blogsRouter.delete('/:id',
     authorizationMiddleware,
-     async (req: Request, res: Response) => {
+    async (req: Request, res: Response) => {
         const filteredBlog = await blogsRepository.deleteBlog(req.params.id)
         filteredBlog ? res.send(204): res.send(404)
 })
