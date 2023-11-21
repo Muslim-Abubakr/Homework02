@@ -1,8 +1,12 @@
 import { BlogType, PostType } from "../models/types"
 import { MongoClient } from "mongodb"
+import dotenv from 'dotenv'
 
 const mongoUri = process.env.mongoURI || "mongodb://0.0.0.0:27017"
+
 export const client = new MongoClient(mongoUri)
+dotenv.config()
+console.log(process.env.MONGO_URL)
 
 export const db = client.db('blogPlatform')
 export const blogsCollection = db.collection<BlogType>('blogs')    

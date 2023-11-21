@@ -20,6 +20,9 @@ const database_1 = require("./db/database");
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({
+    extended: true
+}));
 app.get('/', (req, res) => {
     res.send('Welcome to the main page');
 });

@@ -8,11 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.runDb = exports.postsCollection = exports.blogsCollection = exports.db = exports.client = void 0;
 const mongodb_1 = require("mongodb");
+const dotenv_1 = __importDefault(require("dotenv"));
 const mongoUri = process.env.mongoURI || "mongodb://0.0.0.0:27017";
 exports.client = new mongodb_1.MongoClient(mongoUri);
+dotenv_1.default.config();
+console.log(process.env.MONGO_URL);
 exports.db = exports.client.db('blogPlatform');
 exports.blogsCollection = exports.db.collection('blogs');
 exports.postsCollection = exports.db.collection('posts');

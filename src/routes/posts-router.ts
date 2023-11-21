@@ -36,7 +36,7 @@ postsRouter.post('/',
     async (req: Request, res: Response) => {
         const { title, shortDescription, content, blogId } = req.body
         const blog : BlogType | null = await blogsRepository.getBlogsById(blogId)
-        if(!blog){
+        if (!blog){
             return res.sendStatus(400)
         }
         const newPost = await postsRepository.createPost(title, shortDescription, content, blogId, blog.name)
