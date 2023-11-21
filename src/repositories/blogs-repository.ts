@@ -1,15 +1,25 @@
-import { db } from '../db/database'
+import { blogsCollection } from '../db/database'
 import { BlogType } from '../models/types'
 
-
 export const blogsRepository = {
-    async findBlogs(): Promise<BlogType[]> {
-        return db.blogs
+    async findBlogs(name: string): Promise<BlogType[]> {
+        const filter: any = {}
+
+        if (name) {
+            filter.name = {$regex: name}
+        }
+
+        return blogsCollection.find({}).toArray()
     },
 
-    async getBlogsById(id: string | null | undefined): Promise<BlogType | undefined> {
-        let blog = db.blogs.find(b => b.id === id)
-        return blog;
+    async getBlogsById(id: string | null | undefined): Promise<BlogType | null> {
+        let blogs: BlogType | null = await blogsCollection.findOne({id: id})
+
+        if (blogs) {
+            return blogs
+        } else {
+            return null
+        }
     },
 
     async createBlog(name: string, description: string, websiteUrl: string): Promise<BlogType> {
@@ -17,34 +27,27 @@ export const blogsRepository = {
             id: (+(new Date())).toString(),
             name,
             description,
-            websiteUrl
+            websiteUrl,
+            createdAt: new Date().toISOString(),
+            isMembership: false
         }
-        
-        db.blogs.push(newBlog)
+
+        blogsCollection.insertOne(newBlog)
         return newBlog
     },
 
     async updateBlog(id: string, name: string, description: string, websiteUrl: string): Promise<boolean> {
-        const blog = db.blogs.find(b => b.id === id)
-        
-        if (blog) {
-            blog.name = name
-            blog.description = description
-            blog.websiteUrl = websiteUrl
-            return true;
-        } else {
-            return false;
-        }
+        const updateBlog = await blogsCollection.updateOne({id: id}, {$set: {name: name, description: description, websiteUrl: websiteUrl}})
+        return updateBlog.matchedCount === 1
     },
 
     async deleteBlog(id: string): Promise<boolean> {
-        let blog = db.blogs.find(b => b.id === id)
+        const deleteBlog = await blogsCollection.deleteOne({id: id})
+        return deleteBlog.deletedCount === 1
+    },
 
-        if (blog) {
-            db.blogs = db.blogs.filter(b => b.id !== id)
-            return true
-        } else {
-            return false
-        }
+    async deleteAll(): Promise<boolean> {
+        const result = await blogsCollection.deleteMany({})
+        return result.deletedCount === 1
     }
 }

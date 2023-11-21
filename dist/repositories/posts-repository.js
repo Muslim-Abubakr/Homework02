@@ -12,15 +12,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.postsRepository = void 0;
 const database_1 = require("../db/database");
 exports.postsRepository = {
-    findPosts() {
+    findPosts(title) {
         return __awaiter(this, void 0, void 0, function* () {
-            return database_1.db.posts;
+            if (title) {
+                return database_1.postsCollection.find({ name: { $regex: title } }).toArray();
+            }
+            else {
+                return database_1.postsCollection.find({}).toArray();
+            }
         });
     },
     getPostsById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let post = database_1.db.posts.find(p => p.id === id);
-            return post;
+            const post = yield database_1.postsCollection.findOne({ id: id });
+            if (post) {
+                return post;
+            }
+            else {
+                return null;
+            }
         });
     },
     createPost(title, shortDescription, content, blogId, blogName) {
@@ -31,39 +41,30 @@ exports.postsRepository = {
                 shortDescription: shortDescription,
                 content: content,
                 blogId: blogId,
-                blogName: blogName
+                blogName: blogName,
+                createdAt: new Date().toISOString(),
+                isMembership: false
             };
-            database_1.db.posts.push(newPost);
+            yield database_1.postsCollection.insertOne(newPost);
             return newPost;
         });
     },
     updatePost(id, title, shortDescription, content, blogId, blogName) {
         return __awaiter(this, void 0, void 0, function* () {
-            const post = database_1.db.posts.find(p => p.id === id);
-            if (post) {
-                post.id = id;
-                post.title = title;
-                post.shortDescription = shortDescription;
-                post.content = content;
-                post.blogId = blogId;
-                post.blogName = blogName;
-                return true;
-            }
-            else {
-                return false;
-            }
+            const result = yield database_1.postsCollection.updateOne({ id: id }, { $set: { id: id, title: title, shortDescription: shortDescription, content: content, blogId: blogId, blogName: blogName } });
+            return result.matchedCount === 1;
         });
     },
     deletePost(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let post = database_1.db.posts.find(p => p.id === id);
-            if (post) {
-                database_1.db.posts = database_1.db.posts.filter(p => p.id !== id);
-                return true;
-            }
-            else {
-                return false;
-            }
+            const result = yield database_1.postsCollection.deleteOne({ id: id });
+            return result.deletedCount === 1;
+        });
+    },
+    deleteAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield database_1.postsCollection.deleteMany({});
+            return result.deletedCount === 1;
         });
     }
 };

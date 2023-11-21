@@ -1,3 +1,4 @@
+import { time } from "console"
 import { Request } from "express"
 
 export type DBType = {
@@ -12,6 +13,7 @@ export type PostType = {
     content: string
     blogId: string
     blogName: string
+    createdAt: string
 }
 
 export type BlogType = {
@@ -19,6 +21,8 @@ export type BlogType = {
     name: string
     description: string
     websiteUrl: string
+    createdAt: string
+    isMembership: boolean
 }
 
 export type RequestWithBody<T> = Request<{},{}, T>

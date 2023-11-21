@@ -16,7 +16,7 @@ const blogs_validation_1 = require("../middlewares/blogs-validation");
 const authorization_1 = require("../middlewares/authorization");
 exports.blogsRouter = (0, express_1.Router)({});
 exports.blogsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const foundBlogs = yield blogs_repository_1.blogsRepository.findBlogs();
+    const foundBlogs = yield blogs_repository_1.blogsRepository.findBlogs(req.query.name);
     res.send(foundBlogs);
 }));
 exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {

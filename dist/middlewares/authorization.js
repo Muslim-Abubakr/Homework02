@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.authorizationMiddleware = void 0;
 const authorizationMiddleware = (req, res, next) => {
     const auth = req.headers.authorization;
+    console.log(req.body, "body");
     if (!auth) {
         return res.sendStatus(401);
     }

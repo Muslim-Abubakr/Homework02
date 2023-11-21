@@ -1,21 +1,25 @@
 import { Request, Response, Router } from 'express'
 import { postsRepository } from '../repositories/posts-repository'
-import { db } from '../db/database'
 import { validationCreateUpdatePost } from '../middlewares/posts-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
-import { PostType } from '../models/types'
+import { PostType, RequestWithQuery, RequestWithUriParams } from '../models/types'
+import { blogsRepository } from '../repositories/blogs-repository'
+import { PostGetModel } from '../models/postGetModel'
+import { UriPostsIdModel } from '../models/UriPostsIdModel'
+import { ViewPostModel } from '../models/ViewPostModel'
+import { BlogType } from '../models/types'
 
 export const postsRouter = Router({})
 
-postsRouter.get('/', async (req: Request, res: Response<PostType[]>) => {
-    const foundPosts = await postsRepository.findPosts()
+postsRouter.get('/', async (req: RequestWithQuery<PostGetModel>, res: Response<ViewPostModel[]>) => {
+    const foundPosts: PostType[] = await postsRepository.findPosts(req.query.title)
     res
         .status(200)
         .send(foundPosts)
 })
 
-postsRouter.get('/:id', async (req: Request, res: Response) => {
-    const foundPosts = await postsRepository.getPostsById(req.params.id)
+postsRouter.get('/:id', async (req: RequestWithUriParams<UriPostsIdModel>, res: Response<PostType>) => {
+    const foundPosts: PostType | null = await postsRepository.getPostsById(req.params.id)
 
     if (foundPosts) {
         res
@@ -31,8 +35,11 @@ postsRouter.post('/',
     validationCreateUpdatePost, 
     async (req: Request, res: Response) => {
         const { title, shortDescription, content, blogId } = req.body
-        const blog = db.blogs.find(b => b.id === blogId)
-        const newPost = await postsRepository.createPost(title, shortDescription, content, blogId, blog!.name)
+        const blog : BlogType | null = await blogsRepository.getBlogsById(blogId)
+        if(!blog){
+            return res.sendStatus(400)
+        }
+        const newPost = await postsRepository.createPost(title, shortDescription, content, blogId, blog.name)
         
         res
             .status(201)
@@ -45,11 +52,16 @@ postsRouter.put('/:id',
     async (req: Request, res: Response) => {
         
         const { title, shortDescription, content, blogId } = req.body
-        const blog = db.blogs.find(b => b.id === blogId)
-        const isUpdated = await postsRepository.updatePost(req.params.id, title, shortDescription, content, blogId, blog!.name)
+        const blog: BlogType | null = await blogsRepository.getBlogsById(blogId)
+
+        if (!blog){
+            return res.sendStatus(400)
+        }
+
+        const isUpdated = await postsRepository.updatePost(req.params.id, title, shortDescription, content, blogId, blog.name)
 
         if (isUpdated) {
-            const post = await postsRepository.getPostsById(req.params.id)
+            const post = await postsRepository.getPostsById(blogId)
             res
                 .status(204)
                 .send(post)

@@ -4,11 +4,13 @@ import { validationCreateUpdateBlog } from '../middlewares/blogs-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
 import { UriBlogsModel } from '../models/UriBlogsModel'
 import { ViewBlogModel } from '../models/ViewBlogModel'
-import { RequestWithUriParams } from '../models/types'
+import { BlogType, RequestWithQuery, RequestWithUriParams } from '../models/types'
+import { BlogGetModel } from '../models/blogGetModel'
+
 export const blogsRouter = Router({})
 
-blogsRouter.get('/', async (req: Request, res: Response<ViewBlogModel[]>) => {
-    const foundBlogs = await blogsRepository.findBlogs()
+blogsRouter.get('/', async (req: RequestWithQuery<BlogGetModel>, res: Response<ViewBlogModel[]>) => {
+    const foundBlogs: BlogType[] = await blogsRepository.findBlogs(req.query.name)
     res.send(foundBlogs)
 })
 
@@ -39,7 +41,7 @@ blogsRouter.post('/',
 blogsRouter.put('/:id',
     authorizationMiddleware, 
     validationCreateUpdateBlog,
-    async (req: Request, res: Response<ViewBlogModel | Number>) => {
+    async (req: Request, res: Response<ViewBlogModel | null | Number>) => {
         const { name, description, websiteUrl} = req.body
         const isUpdated = await blogsRepository.updateBlog(req.params.id, name, description, websiteUrl)
 

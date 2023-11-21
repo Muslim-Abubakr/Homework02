@@ -12,12 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.postsRouter = void 0;
 const express_1 = require("express");
 const posts_repository_1 = require("../repositories/posts-repository");
-const database_1 = require("../db/database");
 const posts_validation_1 = require("../middlewares/posts-validation");
 const authorization_1 = require("../middlewares/authorization");
+const blogs_repository_1 = require("../repositories/blogs-repository");
 exports.postsRouter = (0, express_1.Router)({});
 exports.postsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const foundPosts = yield posts_repository_1.postsRepository.findPosts();
+    const foundPosts = yield posts_repository_1.postsRepository.findPosts(req.query.title);
     res
         .status(200)
         .send(foundPosts);
@@ -35,7 +35,10 @@ exports.postsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
 }));
 exports.postsRouter.post('/', authorization_1.authorizationMiddleware, posts_validation_1.validationCreateUpdatePost, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, shortDescription, content, blogId } = req.body;
-    const blog = database_1.db.blogs.find(b => b.id === blogId);
+    const blog = yield blogs_repository_1.blogsRepository.getBlogsById(blogId);
+    if (!blog) {
+        return res.sendStatus(400);
+    }
     const newPost = yield posts_repository_1.postsRepository.createPost(title, shortDescription, content, blogId, blog.name);
     res
         .status(201)
@@ -43,10 +46,13 @@ exports.postsRouter.post('/', authorization_1.authorizationMiddleware, posts_val
 }));
 exports.postsRouter.put('/:id', authorization_1.authorizationMiddleware, posts_validation_1.validationCreateUpdatePost, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, shortDescription, content, blogId } = req.body;
-    const blog = database_1.db.blogs.find(b => b.id === blogId);
+    const blog = yield blogs_repository_1.blogsRepository.getBlogsById(blogId);
+    if (!blog) {
+        return res.sendStatus(400);
+    }
     const isUpdated = yield posts_repository_1.postsRepository.updatePost(req.params.id, title, shortDescription, content, blogId, blog.name);
     if (isUpdated) {
-        const post = yield posts_repository_1.postsRepository.getPostsById(req.params.id);
+        const post = yield posts_repository_1.postsRepository.getPostsById(blogId);
         res
             .status(204)
             .send(post);

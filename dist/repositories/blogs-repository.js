@@ -12,15 +12,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRepository = void 0;
 const database_1 = require("../db/database");
 exports.blogsRepository = {
-    findBlogs() {
+    findBlogs(name) {
         return __awaiter(this, void 0, void 0, function* () {
-            return database_1.db.blogs;
+            const filter = {};
+            if (name) {
+                filter.name = { $regex: name };
+            }
+            return database_1.blogsCollection.find({}).toArray();
         });
     },
     getBlogsById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let blog = database_1.db.blogs.find(b => b.id === id);
-            return blog;
+            let blogs = yield database_1.blogsCollection.findOne({ id: id });
+            if (blogs) {
+                return blogs;
+            }
+            else {
+                return null;
+            }
         });
     },
     createBlog(name, description, websiteUrl) {
@@ -29,36 +38,30 @@ exports.blogsRepository = {
                 id: (+(new Date())).toString(),
                 name,
                 description,
-                websiteUrl
+                websiteUrl,
+                createdAt: new Date().toISOString(),
+                isMembership: false
             };
-            database_1.db.blogs.push(newBlog);
+            database_1.blogsCollection.insertOne(newBlog);
             return newBlog;
         });
     },
     updateBlog(id, name, description, websiteUrl) {
         return __awaiter(this, void 0, void 0, function* () {
-            const blog = database_1.db.blogs.find(b => b.id === id);
-            if (blog) {
-                blog.name = name;
-                blog.description = description;
-                blog.websiteUrl = websiteUrl;
-                return true;
-            }
-            else {
-                return false;
-            }
+            const updateBlog = yield database_1.blogsCollection.updateOne({ id: id }, { $set: { name: name, description: description, websiteUrl: websiteUrl } });
+            return updateBlog.matchedCount === 1;
         });
     },
     deleteBlog(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let blog = database_1.db.blogs.find(b => b.id === id);
-            if (blog) {
-                database_1.db.blogs = database_1.db.blogs.filter(b => b.id !== id);
-                return true;
-            }
-            else {
-                return false;
-            }
+            const deleteBlog = yield database_1.blogsCollection.deleteOne({ id: id });
+            return deleteBlog.deletedCount === 1;
+        });
+    },
+    deleteAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield database_1.blogsCollection.deleteMany({});
+            return result.deletedCount === 1;
         });
     }
 };
