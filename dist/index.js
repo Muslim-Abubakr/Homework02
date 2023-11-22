@@ -17,9 +17,11 @@ const blogs_router_1 = require("./routes/blogs-router");
 const posts_router_1 = require("./routes/posts-router");
 const testing_router_1 = require("./routes/testing-router");
 const database_1 = require("./db/database");
+const body_parser_1 = __importDefault(require("body-parser"));
 const app = (0, express_1.default)();
 const jsonBodyMiddleware = express_1.default.json();
 app.use(jsonBodyMiddleware);
+app.use(body_parser_1.default.json());
 const port = process.env.PORT || 3000;
 app.get('/', (req, res) => {
     res.send('Welcome to the main page');
