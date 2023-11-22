@@ -1,3 +1,3 @@
 export type UriPostsIdModel = {
-    id: number
+    id: string 
 }

@@ -34,7 +34,7 @@ postsRouter.get('/:id', async (req: RequestWithUriParams<UriPostsIdModel>, res: 
 postsRouter.post('/',
     authorizationMiddleware, 
     validationCreateUpdatePost, 
-    async (req: RequestWithBody<PostCreateInputModel>, res: Response) => {
+    async (req: RequestWithBody<PostCreateInputModel>, res: Response<ViewPostModel>) => {
         const { title, shortDescription, content, blogId } = req.body
         const blog : BlogType | null = await blogsRepository.getBlogsById(blogId)
         if (!blog){

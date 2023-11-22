@@ -9,7 +9,6 @@ const app = express()
 
 const jsonBodyMiddleware = express.json()
 app.use(jsonBodyMiddleware)
-app.use(bodyParser.json())
 
 const port = process.env.PORT || 3000
 

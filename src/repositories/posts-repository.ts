@@ -11,7 +11,7 @@ export const postsRepository = {
         
     },
 
-    async getPostsById(id: number): Promise<PostType | null> {
+    async getPostsById(id: number | string): Promise<PostType | null> {
         const post: PostType | null = await postsCollection.findOne({id: id})
 
         if (post) {
