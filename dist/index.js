@@ -18,11 +18,9 @@ const posts_router_1 = require("./routes/posts-router");
 const testing_router_1 = require("./routes/testing-router");
 const database_1 = require("./db/database");
 const app = (0, express_1.default)();
+const jsonBodyMiddleware = express_1.default.json();
+app.use(jsonBodyMiddleware);
 const port = process.env.PORT || 3000;
-app.use(express_1.default.json());
-app.use(express_1.default.urlencoded({
-    extended: true
-}));
 app.get('/', (req, res) => {
     res.send('Welcome to the main page');
 });

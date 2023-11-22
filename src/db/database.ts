@@ -2,10 +2,11 @@ import { BlogType, PostType } from "../models/types"
 import { MongoClient } from "mongodb"
 import dotenv from 'dotenv'
 
+dotenv.config()
 const mongoUri = process.env.mongoURI || "mongodb://0.0.0.0:27017"
 
 export const client = new MongoClient(mongoUri)
-dotenv.config()
+
 console.log(process.env.MONGO_URL)
 
 export const db = client.db('blogPlatform')
@@ -17,7 +18,7 @@ export async function runDb() {
     // Connect the client to the server
     await client.connect()
     // Establish and verify connection
-    await db.command({ ping: 1 })
+    await client.db('blogPlatform').command({ ping: 1 })
     console.log("Connecting succesfully to mongo server")
   } catch {
     console.log(`Can't connect to db`)
@@ -25,8 +26,6 @@ export async function runDb() {
     await client.close()
   }
 }
-
-
 
 
 // export const db: DBType = {

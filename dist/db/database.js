@@ -15,9 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.runDb = exports.postsCollection = exports.blogsCollection = exports.db = exports.client = void 0;
 const mongodb_1 = require("mongodb");
 const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const mongoUri = process.env.mongoURI || "mongodb://0.0.0.0:27017";
 exports.client = new mongodb_1.MongoClient(mongoUri);
-dotenv_1.default.config();
 console.log(process.env.MONGO_URL);
 exports.db = exports.client.db('blogPlatform');
 exports.blogsCollection = exports.db.collection('blogs');
@@ -28,7 +28,7 @@ function runDb() {
             // Connect the client to the server
             yield exports.client.connect();
             // Establish and verify connection
-            yield exports.db.command({ ping: 1 });
+            yield exports.client.db('blogPlatform').command({ ping: 1 });
             console.log("Connecting succesfully to mongo server");
         }
         catch (_a) {
