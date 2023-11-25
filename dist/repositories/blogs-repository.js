@@ -42,7 +42,7 @@ exports.blogsRepository = {
                 createdAt: new Date().toISOString(),
                 isMembership: false
             };
-            database_1.blogsCollection.insertOne(newBlog);
+            yield database_1.blogsCollection.insertOne(newBlog);
             return newBlog;
         });
     },

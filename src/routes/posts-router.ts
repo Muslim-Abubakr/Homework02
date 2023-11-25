@@ -2,13 +2,14 @@ import { Request, Response, Router } from 'express'
 import { postsRepository } from '../repositories/posts-repository'
 import { validationCreateUpdatePost } from '../middlewares/posts-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
-import { PostType, RequestWithBody, RequestWithQuery, RequestWithUriParams } from '../models/types'
+import { PostType, RequestWithBody, RequestWithParamsAndBody, RequestWithQuery, RequestWithUriParams } from '../models/types'
 import { blogsRepository } from '../repositories/blogs-repository'
 import { PostGetModel } from '../models/postGetModel'
 import { UriPostsIdModel } from '../models/UriPostsIdModel'
 import { ViewPostModel } from '../models/ViewPostModel'
 import { BlogType } from '../models/types'
 import { PostCreateInputModel } from '../models/PostCreateModel'
+import { PostUpdateInputModel } from '../models/PostUpdateModel'
 
 export const postsRouter = Router({})
 
@@ -20,16 +21,16 @@ postsRouter.get('/', async (req: RequestWithQuery<PostGetModel>, res: Response<V
 })
 
 postsRouter.get('/:id', async (req: RequestWithUriParams<UriPostsIdModel>, res: Response<PostType>) => {
-    const foundPosts: PostType | null = await postsRepository.getPostsById(req.params.id)
+    const foundPosts: PostType | null = await postsRepository.getPostsById(+req.params.id)
 
     if (foundPosts) {
         res
-            .status(200)
+            .status(200)    
             .send(foundPosts)
     } else {
         res.sendStatus(404)
     }
-})
+})  
 
 postsRouter.post('/',
     authorizationMiddleware, 
@@ -50,7 +51,7 @@ postsRouter.post('/',
 postsRouter.put('/:id',
     authorizationMiddleware,
     validationCreateUpdatePost,
-    async (req: Request, res: Response) => {
+    async (req: RequestWithParamsAndBody<UriPostsIdModel, PostUpdateInputModel>, res: Response) => {
         
         const { title, shortDescription, content, blogId } = req.body
         const blog: BlogType | null = await blogsRepository.getBlogsById(blogId)
@@ -77,3 +78,4 @@ postsRouter.delete('/:id',
         const filteredPost = await postsRepository.deletePost(req.params.id)
         filteredPost ? res.sendStatus(204): res.sendStatus(404)
 })
+

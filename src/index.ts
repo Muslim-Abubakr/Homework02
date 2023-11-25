@@ -5,7 +5,9 @@ import { testsRouter } from './routes/testing-router'
 import { runDb } from './db/database'
 import bodyParser from 'body-parser'
 
+
 const app = express()
+
 
 const jsonBodyMiddleware = express.json()
 app.use(jsonBodyMiddleware)

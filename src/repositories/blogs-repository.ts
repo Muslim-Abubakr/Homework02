@@ -32,7 +32,7 @@ export const blogsRepository = {
             isMembership: false
         }
 
-        blogsCollection.insertOne(newBlog)
+        await blogsCollection.insertOne(newBlog)
         return newBlog
     },
 

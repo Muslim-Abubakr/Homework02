@@ -12,7 +12,6 @@ export const validationCreateUpdatePost = [
        if (!foundBlog) {
           throw new Error('blog for specific post not found')
        } else {
-         
           return true 
        }
    }),

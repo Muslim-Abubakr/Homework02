@@ -3,4 +3,6 @@ export type ViewBlogModel = {
     name: string | void
     description: string
     websiteUrl: string
+    createdAt: string
+    isMembership: boolean
 }
