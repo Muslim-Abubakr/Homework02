@@ -4,10 +4,12 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const url = 'mongodb+srv://Mus_Ab:7514566m@cluster0.hiks6hp.mongodb.net/?retryWrites=true&w=majority'
-const mongoUri = process.env.mongoURI || url
-
+const mongoUri = process.env.mongoURI || process.env.MONGO_URL
+if (!mongoUri) {
+  throw new Error('! URL not found')
+}
 export const client = new MongoClient(mongoUri)
+
 
 console.log(process.env.MONGO_URL)
 
