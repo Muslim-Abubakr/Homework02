@@ -32,7 +32,7 @@ export const blogsRepository = {
             isMembership: false
         }
 
-        await blogsCollection.insertOne(newBlog)
+        await blogsCollection.insertOne(newBlog, { writeConcern: { w: 1, j: true, wtimeout: 2000 }, forceServerObjectId: false })
         return newBlog
     },
 

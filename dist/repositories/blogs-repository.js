@@ -42,7 +42,7 @@ exports.blogsRepository = {
                 createdAt: new Date().toISOString(),
                 isMembership: false
             };
-            yield database_1.blogsCollection.insertOne(newBlog);
+            yield database_1.blogsCollection.insertOne(newBlog, { writeConcern: { w: 1, j: true, wtimeout: 2000 }, forceServerObjectId: false });
             return newBlog;
         });
     },
