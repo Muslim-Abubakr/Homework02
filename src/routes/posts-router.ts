@@ -11,6 +11,7 @@ import { BlogType } from '../models/types'
 import { PostCreateInputModel } from '../models/PostCreateModel'
 import { PostUpdateInputModel } from '../models/PostUpdateModel'
 import { HTTP_STATUSES } from '../statuses/statuses'
+import { getPostsViewModel } from '../models/postsMapper/getPostViewModel'
 
 export const postsRouter = Router({})
 
@@ -18,7 +19,7 @@ postsRouter.get('/', async (req: RequestWithQuery<PostGetModel>, res: Response<V
     const foundPosts: PostType[] = await postsRepository.findPosts(req.query.title)
     res
         .status(HTTP_STATUSES.OK200)
-        .send(foundPosts)
+        .send(foundPosts.map(getPostsViewModel))
 })
 
 postsRouter.get('/:id', async (req: RequestWithUriParams<UriPostsIdModel>, res: Response<PostType>) => {

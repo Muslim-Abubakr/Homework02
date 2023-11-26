@@ -14,20 +14,22 @@ const express_1 = require("express");
 const blogs_repository_1 = require("../repositories/blogs-repository");
 const blogs_validation_1 = require("../middlewares/blogs-validation");
 const authorization_1 = require("../middlewares/authorization");
+const statuses_1 = require("../statuses/statuses");
+const getBlogViewModel_1 = require("../models/blogsMapper/getBlogViewModel");
 exports.blogsRouter = (0, express_1.Router)({});
 exports.blogsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const foundBlogs = yield blogs_repository_1.blogsRepository.findBlogs(req.query.name);
-    res.send(foundBlogs);
+    res.send(foundBlogs.map(getBlogViewModel_1.getBlogViewModel));
 }));
 exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const foundBlogs = yield blogs_repository_1.blogsRepository.getBlogsById(req.params.id);
     if (foundBlogs) {
         res
-            .status(200)
+            .status(statuses_1.HTTP_STATUSES.OK200)
             .send(foundBlogs);
     }
     else {
-        res.send(404);
+        res.send(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
     }
 }));
 exports.blogsRouter.post('/', authorization_1.authorizationMiddleware, blogs_validation_1.validationCreateUpdateBlog, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -35,7 +37,7 @@ exports.blogsRouter.post('/', authorization_1.authorizationMiddleware, blogs_val
     const newBlog = yield blogs_repository_1.blogsRepository.createBlog(name, description, websiteUrl);
     newBlog;
     res
-        .status(201)
+        .status(statuses_1.HTTP_STATUSES.CREATED_201)
         .send(newBlog);
 }));
 exports.blogsRouter.put('/:id', authorization_1.authorizationMiddleware, blogs_validation_1.validationCreateUpdateBlog, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -44,14 +46,14 @@ exports.blogsRouter.put('/:id', authorization_1.authorizationMiddleware, blogs_v
     if (isUpdated) {
         const blog = yield blogs_repository_1.blogsRepository.getBlogsById(req.params.id);
         res
-            .status(204)
+            .status(statuses_1.HTTP_STATUSES.NO_CONTENT_204)
             .send(blog);
     }
     else {
-        res.send(404);
+        res.send(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
     }
 }));
 exports.blogsRouter.delete('/:id', authorization_1.authorizationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const filteredBlog = yield blogs_repository_1.blogsRepository.deleteBlog(req.params.id);
-    filteredBlog ? res.send(204) : res.send(404);
+    filteredBlog ? res.send(statuses_1.HTTP_STATUSES.NO_CONTENT_204) : res.send(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
 }));

@@ -21,12 +21,17 @@ const app = (0, express_1.default)();
 const jsonBodyMiddleware = express_1.default.json();
 app.use(jsonBodyMiddleware);
 const port = process.env.PORT || 3000;
+const RouterPaths = {
+    testing: '/testing',
+    blogs: '/blogs',
+    posts: '/posts'
+};
 app.get('/', (req, res) => {
     res.send('Welcome to the main page');
 });
-app.use('/testing', testing_router_1.testsRouter);
-app.use('/blogs', blogs_router_1.blogsRouter);
-app.use('/posts', posts_router_1.postsRouter);
+app.use(RouterPaths.testing, testing_router_1.testsRouter);
+app.use(RouterPaths.blogs, blogs_router_1.blogsRouter);
+app.use(RouterPaths.posts, posts_router_1.postsRouter);
 const startApp = () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, database_1.runDb)();
     app.listen(port, () => {

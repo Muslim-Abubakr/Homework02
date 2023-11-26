@@ -7,12 +7,13 @@ import { ViewBlogModel } from '../models/ViewBlogModel'
 import { BlogType, RequestWithQuery, RequestWithUriParams } from '../models/types'
 import { BlogGetModel } from '../models/blogGetModel'
 import { HTTP_STATUSES } from '../statuses/statuses'
+import { getBlogViewModel } from '../models/blogsMapper/getBlogViewModel'
 
 export const blogsRouter = Router({})
 
 blogsRouter.get('/', async (req: RequestWithQuery<BlogGetModel>, res: Response<ViewBlogModel[]>) => {
     const foundBlogs: BlogType[] = await blogsRepository.findBlogs(req.query.name)
-    res.send(foundBlogs)
+    res.send(foundBlogs.map(getBlogViewModel))
 })
 
 blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>, 

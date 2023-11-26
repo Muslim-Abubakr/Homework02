@@ -15,53 +15,55 @@ const posts_repository_1 = require("../repositories/posts-repository");
 const posts_validation_1 = require("../middlewares/posts-validation");
 const authorization_1 = require("../middlewares/authorization");
 const blogs_repository_1 = require("../repositories/blogs-repository");
+const statuses_1 = require("../statuses/statuses");
+const getPostViewModel_1 = require("../models/postsMapper/getPostViewModel");
 exports.postsRouter = (0, express_1.Router)({});
 exports.postsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const foundPosts = yield posts_repository_1.postsRepository.findPosts(req.query.title);
     res
-        .status(200)
-        .send(foundPosts);
+        .status(statuses_1.HTTP_STATUSES.OK200)
+        .send(foundPosts.map(getPostViewModel_1.getPostsViewModel));
 }));
 exports.postsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const foundPosts = yield posts_repository_1.postsRepository.getPostsById(+req.params.id);
     if (foundPosts) {
         res
-            .status(200)
+            .status(statuses_1.HTTP_STATUSES.OK200)
             .send(foundPosts);
     }
     else {
-        res.sendStatus(404);
+        res.sendStatus(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
     }
 }));
 exports.postsRouter.post('/', authorization_1.authorizationMiddleware, posts_validation_1.validationCreateUpdatePost, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, shortDescription, content, blogId } = req.body;
     const blog = yield blogs_repository_1.blogsRepository.getBlogsById(blogId);
     if (!blog) {
-        return res.sendStatus(400);
+        return res.sendStatus(statuses_1.HTTP_STATUSES.BAD_REQUEST_400);
     }
     const newPost = yield posts_repository_1.postsRepository.createPost(title, shortDescription, content, blogId, blog.name);
     res
-        .status(201)
+        .status(statuses_1.HTTP_STATUSES.CREATED_201)
         .send(newPost);
 }));
 exports.postsRouter.put('/:id', authorization_1.authorizationMiddleware, posts_validation_1.validationCreateUpdatePost, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, shortDescription, content, blogId } = req.body;
     const blog = yield blogs_repository_1.blogsRepository.getBlogsById(blogId);
     if (!blog) {
-        return res.sendStatus(400);
+        return res.sendStatus(statuses_1.HTTP_STATUSES.BAD_REQUEST_400);
     }
     const isUpdated = yield posts_repository_1.postsRepository.updatePost(req.params.id, title, shortDescription, content, blogId, blog.name);
     if (isUpdated) {
         const post = yield posts_repository_1.postsRepository.getPostsById(blogId);
         res
-            .status(204)
+            .status(statuses_1.HTTP_STATUSES.NO_CONTENT_204)
             .send(post);
     }
     else {
-        res.send(404);
+        res.send(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
     }
 }));
 exports.postsRouter.delete('/:id', authorization_1.authorizationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const filteredPost = yield posts_repository_1.postsRepository.deletePost(req.params.id);
-    filteredPost ? res.sendStatus(204) : res.sendStatus(404);
+    filteredPost ? res.sendStatus(statuses_1.HTTP_STATUSES.NO_CONTENT_204) : res.sendStatus(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
 }));

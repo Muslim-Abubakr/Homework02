@@ -13,9 +13,10 @@ exports.testsRouter = void 0;
 const express_1 = require("express");
 const blogs_repository_1 = require("../repositories/blogs-repository");
 const posts_repository_1 = require("../repositories/posts-repository");
+const statuses_1 = require("../statuses/statuses");
 exports.testsRouter = (0, express_1.Router)({});
 exports.testsRouter.delete('/all-data', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     blogs_repository_1.blogsRepository.deleteAll();
     posts_repository_1.postsRepository.deleteAll();
-    res.sendStatus(204);
+    res.sendStatus(statuses_1.HTTP_STATUSES.NO_CONTENT_204);
 }));
