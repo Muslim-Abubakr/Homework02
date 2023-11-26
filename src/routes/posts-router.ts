@@ -10,13 +10,14 @@ import { ViewPostModel } from '../models/ViewPostModel'
 import { BlogType } from '../models/types'
 import { PostCreateInputModel } from '../models/PostCreateModel'
 import { PostUpdateInputModel } from '../models/PostUpdateModel'
+import { HTTP_STATUSES } from '../statuses/statuses'
 
 export const postsRouter = Router({})
 
 postsRouter.get('/', async (req: RequestWithQuery<PostGetModel>, res: Response<ViewPostModel[]>) => {
     const foundPosts: PostType[] = await postsRepository.findPosts(req.query.title)
     res
-        .status(200)
+        .status(HTTP_STATUSES.OK200)
         .send(foundPosts)
 })
 
@@ -25,10 +26,10 @@ postsRouter.get('/:id', async (req: RequestWithUriParams<UriPostsIdModel>, res: 
 
     if (foundPosts) {
         res
-            .status(200)    
+            .status(HTTP_STATUSES.OK200)    
             .send(foundPosts)
     } else {
-        res.sendStatus(404)
+        res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
     }
 })  
 
@@ -39,12 +40,12 @@ postsRouter.post('/',
         const { title, shortDescription, content, blogId } = req.body
         const blog : BlogType | null = await blogsRepository.getBlogsById(blogId)
         if (!blog){
-            return res.sendStatus(400)
+            return res.sendStatus(HTTP_STATUSES.BAD_REQUEST_400)
         }
         const newPost = await postsRepository.createPost(title, shortDescription, content, blogId, blog.name)
         
         res
-            .status(201)
+            .status(HTTP_STATUSES.CREATED_201)
             .send(newPost)
 })
 
@@ -57,7 +58,7 @@ postsRouter.put('/:id',
         const blog: BlogType | null = await blogsRepository.getBlogsById(blogId)
 
         if (!blog){
-            return res.sendStatus(400)
+            return res.sendStatus(HTTP_STATUSES.BAD_REQUEST_400)
         }
 
         const isUpdated = await postsRepository.updatePost(req.params.id, title, shortDescription, content, blogId, blog.name)
@@ -65,10 +66,10 @@ postsRouter.put('/:id',
         if (isUpdated) {
             const post = await postsRepository.getPostsById(blogId)
             res
-                .status(204)
+                .status(HTTP_STATUSES.NO_CONTENT_204)
                 .send(post)
         } else {
-            res.send(404)
+            res.send(HTTP_STATUSES.NOT_FOUND_404)
         }
 })
 
@@ -76,6 +77,6 @@ postsRouter.delete('/:id',
     authorizationMiddleware,
     async (req: Request, res: Response) => {
         const filteredPost = await postsRepository.deletePost(req.params.id)
-        filteredPost ? res.sendStatus(204): res.sendStatus(404)
+        filteredPost ? res.sendStatus(HTTP_STATUSES.NO_CONTENT_204): res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
 })
 
