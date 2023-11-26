@@ -1,5 +1,6 @@
 import { blogsCollection } from '../db/database'
 import { BlogType } from '../models/types'
+import { uid } from 'uid'
 
 export const blogsRepository = {
     async findBlogs(name: string): Promise<BlogType[]> {
@@ -24,7 +25,7 @@ export const blogsRepository = {
 
     async createBlog(name: string, description: string, websiteUrl: string): Promise<BlogType | void> {
         const newBlog = {
-            id: (+(new Date())).toString(),
+            id: uid(),
             name,
             description,
             websiteUrl,

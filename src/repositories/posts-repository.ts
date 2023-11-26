@@ -1,5 +1,6 @@
 import { PostType } from '../models/types'
 import { postsCollection } from '../db/database'
+import { uid } from 'uid'
 
 export const postsRepository = {
     async findPosts(title: string): Promise<PostType[]> {
@@ -23,7 +24,7 @@ export const postsRepository = {
 
     async createPost(title: string, shortDescription: string, content: string, blogId: string, blogName: string): Promise<PostType> {
         const newPost = {
-            id: String(+(new Date())),
+            id: uid(),
             title: title,
             shortDescription: shortDescription,
             content: content,

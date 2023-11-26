@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postsRepository = void 0;
 const database_1 = require("../db/database");
+const uid_1 = require("uid");
 exports.postsRepository = {
     findPosts(title) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -36,7 +37,7 @@ exports.postsRepository = {
     createPost(title, shortDescription, content, blogId, blogName) {
         return __awaiter(this, void 0, void 0, function* () {
             const newPost = {
-                id: String(+(new Date())),
+                id: (0, uid_1.uid)(),
                 title: title,
                 shortDescription: shortDescription,
                 content: content,

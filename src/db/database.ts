@@ -3,7 +3,9 @@ import { MongoClient } from "mongodb"
 import dotenv from 'dotenv'
 
 dotenv.config()
-const mongoUri = process.env.mongoURI || "mongodb://0.0.0.0:27017"
+
+const url = 'mongodb+srv://Mus_Ab:7514566m@cluster0.hiks6hp.mongodb.net/?retryWrites=true&w=majority'
+const mongoUri = process.env.mongoURI || url
 
 export const client = new MongoClient(mongoUri)
 
