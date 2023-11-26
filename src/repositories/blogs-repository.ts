@@ -22,7 +22,7 @@ export const blogsRepository = {
         }
     },
 
-    async createBlog(name: string, description: string, websiteUrl: string): Promise<BlogType> {
+    async createBlog(name: string, description: string, websiteUrl: string): Promise<BlogType | void> {
         const newBlog = {
             id: (+(new Date())).toString(),
             name,
@@ -31,9 +31,13 @@ export const blogsRepository = {
             createdAt: new Date().toISOString(),
             isMembership: false
         }
+        try {
+            await blogsCollection.insertOne(newBlog)
+            return newBlog    
+        } catch {
+            return console.log('Error')
+        }
 
-        await blogsCollection.insertOne(newBlog, { writeConcern: { w: 1, j: true, wtimeout: 2000 }, forceServerObjectId: false })
-        return newBlog
     },
 
     async updateBlog(id: string, name: string, description: string, websiteUrl: string): Promise<boolean> {

@@ -32,7 +32,6 @@ export const postsRepository = {
             createdAt: new Date().toISOString(),
             isMembership: false
         }
-        
         await postsCollection.insertOne(newPost)
         return newPost
     },

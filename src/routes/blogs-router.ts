@@ -6,6 +6,7 @@ import { UriBlogsModel } from '../models/UriBlogsModel'
 import { ViewBlogModel } from '../models/ViewBlogModel'
 import { BlogType, RequestWithQuery, RequestWithUriParams } from '../models/types'
 import { BlogGetModel } from '../models/blogGetModel'
+import { HTTP_STATUSES } from '../statuses/statuses'
 
 export const blogsRouter = Router({})
 
@@ -20,22 +21,22 @@ blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>,
 
     if (foundBlogs) {
         res
-            .status(200)
+            .status(HTTP_STATUSES.OK200)
             .send(foundBlogs)
     } else {
-        res.send(404)
+        res.send(HTTP_STATUSES.NOT_FOUND_404)
     }
 })
 
 blogsRouter.post('/', 
     authorizationMiddleware,
     validationCreateUpdateBlog,
-    async (req: Request, res: Response<ViewBlogModel>) => {
+    async (req: Request, res: Response<ViewBlogModel | void>) => {
         const { name, description, websiteUrl } = req.body
         const newBlog = await blogsRepository.createBlog(name, description, websiteUrl)
         newBlog
         res
-            .status(201) 
+            .status(HTTP_STATUSES.CREATED_201) 
             .send(newBlog)
 })
 
@@ -49,10 +50,10 @@ blogsRouter.put('/:id',
         if (isUpdated) {
             const blog = await blogsRepository.getBlogsById(req.params.id)
             res
-                .status(204)
+                .status(HTTP_STATUSES.NO_CONTENT_204)
                 .send(blog)
         } else {
-            res.send(404)
+            res.send(HTTP_STATUSES.NOT_FOUND_404)
         }
         
 })
@@ -61,5 +62,5 @@ blogsRouter.delete('/:id',
     authorizationMiddleware,
     async (req: Request, res: Response) => {
         const filteredBlog = await blogsRepository.deleteBlog(req.params.id)
-        filteredBlog ? res.send(204): res.send(404)
+        filteredBlog ? res.send(HTTP_STATUSES.NO_CONTENT_204): res.send(HTTP_STATUSES.NOT_FOUND_404)
 })
