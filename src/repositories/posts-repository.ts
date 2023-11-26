@@ -21,7 +21,7 @@ export const postsRepository = {
         }
     },
 
-    async createPost(title: string, shortDescription: string, content: string, blogId: string, blogName: string): Promise<PostType> {
+    async createPost(_id:string, title: string, shortDescription: string, content: string, blogId: string, blogName: string): Promise<PostType> {
         const newPost = {
             id: String(+(new Date())),
             title: title,

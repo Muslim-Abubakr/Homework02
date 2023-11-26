@@ -33,7 +33,7 @@ exports.postsRepository = {
             }
         });
     },
-    createPost(title, shortDescription, content, blogId, blogName) {
+    createPost(_id, title, shortDescription, content, blogId, blogName) {
         return __awaiter(this, void 0, void 0, function* () {
             const newPost = {
                 id: String(+(new Date())),

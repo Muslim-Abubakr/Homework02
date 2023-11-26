@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express'
+import express, { Request, Response, NextFunction } from 'express'
 import { blogsRouter } from './routes/blogs-router'
 import { postsRouter } from './routes/posts-router'
 import { testsRouter } from './routes/testing-router'
@@ -9,7 +9,7 @@ import bodyParser from 'body-parser'
 const app = express()
 
 
-const jsonBodyMiddleware = express.json()
+const jsonBodyMiddleware = express.json()   
 app.use(jsonBodyMiddleware)
 
 const port = process.env.PORT || 3000

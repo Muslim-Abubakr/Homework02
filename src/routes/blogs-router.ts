@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express'
+import { Request, Response, Router, NextFunction } from 'express'
 import { blogsRepository } from '../repositories/blogs-repository'
 import { validationCreateUpdateBlog } from '../middlewares/blogs-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
@@ -8,7 +8,10 @@ import { BlogType, RequestWithQuery, RequestWithUriParams } from '../models/type
 import { BlogGetModel } from '../models/blogGetModel'
 
 export const blogsRouter = Router({})
-
+const addHackerResponseHeaders = (req: Request, res: Response, next: NextFunction) => {
+    res.setHeader('hacker', 'samurai')
+    next()
+}
 blogsRouter.get('/', async (req: RequestWithQuery<BlogGetModel>, res: Response<ViewBlogModel[]>) => {
     const foundBlogs: BlogType[] = await blogsRepository.findBlogs(req.query.name)
     res.send(foundBlogs)
