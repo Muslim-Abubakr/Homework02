@@ -24,9 +24,9 @@ exports.blogsRepository = {
     },
     getBlogsById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let blogs = yield database_1.blogsCollection.findOne({ id: id });
-            if (blogs) {
-                return blogs;
+            let blog = yield database_1.blogsCollection.findOne({ id: id });
+            if (blog) {
+                return blog;
             }
             else {
                 return null;

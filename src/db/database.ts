@@ -5,9 +5,11 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const mongoUri = process.env.mongoURI || process.env.MONGO_URL
+
 if (!mongoUri) {
   throw new Error('! URL not found')
 }
+
 export const client = new MongoClient(mongoUri)
 
 

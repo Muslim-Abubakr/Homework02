@@ -8,6 +8,7 @@ import { BlogType, RequestWithQuery, RequestWithUriParams } from '../models/type
 import { BlogGetModel } from '../models/blogGetModel'
 import { HTTP_STATUSES } from '../statuses/statuses'
 import { getBlogViewModel } from '../models/blogsMapper/getBlogViewModel'
+import { getPostsViewModel } from '../models/postsMapper/getPostViewModel'
 
 export const blogsRouter = Router({})
 
@@ -18,7 +19,7 @@ blogsRouter.get('/', async (req: RequestWithQuery<BlogGetModel>, res: Response<V
 
 blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>, 
     res: Response<ViewBlogModel | Number>) => {
-    const foundBlogs = await blogsRepository.getBlogsById(req.params.id)
+    const foundBlogs: BlogType | null = await blogsRepository.getBlogsById(req.params.id)
 
     if (foundBlogs) {
         res

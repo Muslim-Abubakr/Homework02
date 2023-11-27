@@ -22,8 +22,8 @@ postsRouter.get('/', async (req: RequestWithQuery<PostGetModel>, res: Response<V
         .send(foundPosts.map(getPostsViewModel))
 })
 
-postsRouter.get('/:id', async (req: RequestWithUriParams<UriPostsIdModel>, res: Response<PostType>) => {
-    const foundPosts: PostType | null = await postsRepository.getPostsById(+req.params.id)
+postsRouter.get('/:id', async (req: RequestWithUriParams<UriPostsIdModel>, res: Response<ViewPostModel>) => {
+    const foundPosts: PostType | null = await postsRepository.getPostsById(req.params.id)
 
     if (foundPosts) {
         res

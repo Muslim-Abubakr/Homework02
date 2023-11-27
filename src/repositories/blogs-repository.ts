@@ -14,10 +14,10 @@ export const blogsRepository = {
     },
 
     async getBlogsById(id: string | null | undefined): Promise<BlogType | null> {
-        let blogs: BlogType | null = await blogsCollection.findOne({id: id})
+        let blog: BlogType | null = await blogsCollection.findOne({id: id})
 
-        if (blogs) {
-            return blogs
+        if (blog) {
+            return blog
         } else {
             return null
         }

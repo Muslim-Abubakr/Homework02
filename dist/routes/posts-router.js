@@ -25,7 +25,7 @@ exports.postsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, fun
         .send(foundPosts.map(getPostViewModel_1.getPostsViewModel));
 }));
 exports.postsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const foundPosts = yield posts_repository_1.postsRepository.getPostsById(+req.params.id);
+    const foundPosts = yield posts_repository_1.postsRepository.getPostsById(req.params.id);
     if (foundPosts) {
         res
             .status(statuses_1.HTTP_STATUSES.OK200)
