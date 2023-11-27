@@ -19,13 +19,13 @@ exports.postsRepository = {
             if (title) {
                 filter.title = { $regex: title };
             }
-            const posts = database_1.postsCollection.find({}, { projection: { _id: 0 } }).toArray();
+            const posts = database_1.postsCollection.find({}).toArray();
             return posts;
         });
     },
     getPostsById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const post = yield database_1.postsCollection.findOne({ id: id }, { projection: { _id: 0 } });
+            const post = yield database_1.postsCollection.findOne({ id: id });
             if (post) {
                 return post;
             }

@@ -10,12 +10,12 @@ export const postsRepository = {
             filter.title = {$regex: title}
         }
 
-        const posts = postsCollection.find({}, {projection: {_id: 0}}).toArray()
+        const posts = postsCollection.find({}).toArray()
         return posts
     },
 
     async getPostsById(id: number | string): Promise<PostType | null> {
-        const post: PostType | null = await postsCollection.findOne({id: id}, {projection: {_id: 0}})
+        const post: PostType | null = await postsCollection.findOne({id: id})
 
         if (post) {
             return post

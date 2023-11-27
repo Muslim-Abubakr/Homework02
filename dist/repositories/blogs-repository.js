@@ -19,13 +19,13 @@ exports.blogsRepository = {
             if (name) {
                 filter.name = { $regex: name };
             }
-            const blogs = database_1.blogsCollection.find({}, { projection: { _id: 0 } }).toArray();
+            const blogs = database_1.blogsCollection.find({}).toArray();
             return blogs;
         });
     },
     getBlogsById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let blog = yield database_1.blogsCollection.findOne({ id: id }, { projection: { _id: 0 } });
+            let blog = yield database_1.blogsCollection.findOne({ id: id });
             if (blog) {
                 return blog;
             }
