@@ -8,6 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRepository = void 0;
 const database_1 = require("../db/database");
@@ -19,13 +30,13 @@ exports.blogsRepository = {
             if (name) {
                 filter.name = { $regex: name };
             }
-            const blogs = database_1.blogsCollection.find({}).toArray();
+            const blogs = database_1.blogsCollection.find({}, { projection: { _id: 0 } }).toArray();
             return blogs;
         });
     },
     getBlogsById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let blog = yield database_1.blogsCollection.findOne({ id: id });
+            let blog = yield database_1.blogsCollection.findOne({ id: id }, { projection: { _id: 0 } });
             if (blog) {
                 return blog;
             }
@@ -44,13 +55,9 @@ exports.blogsRepository = {
                 createdAt: new Date().toISOString(),
                 isMembership: false
             };
-            try {
-                yield database_1.blogsCollection.insertOne(newBlog);
-                return newBlog;
-            }
-            catch (_a) {
-                return console.log('Error');
-            }
+            yield database_1.blogsCollection.insertOne(newBlog);
+            let { _id } = newBlog, newBlogWithout_Id = __rest(newBlog, ["_id"]);
+            return newBlogWithout_Id;
         });
     },
     updateBlog(id, name, description, websiteUrl) {

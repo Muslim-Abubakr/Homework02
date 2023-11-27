@@ -1,20 +1,21 @@
 import { blogsCollection } from '../db/database'
 import { BlogType } from '../models/types'
 import { uid } from 'uid'
+import { BlogModelOutType } from '../models/types'
 
 export const blogsRepository = {
-    async findBlogs(name: string): Promise<BlogType[]> {
+    async findBlogs(name: string): Promise<BlogModelOutType[]> {
         const filter: any = {}
 
         if (name) {
             filter.name = {$regex: name}
         }
-        const blogs = blogsCollection.find({}).toArray()
+        const blogs = blogsCollection.find({}, {projection: {_id: 0}}).toArray()
         return blogs
     },
 
-    async getBlogsById(id: string | null | undefined): Promise<BlogType | null> {
-        let blog: BlogType | null = await blogsCollection.findOne({id: id})
+    async getBlogsById(id: string | null | undefined): Promise<BlogModelOutType | null> {
+        let blog: BlogType | null = await blogsCollection.findOne({id: id}, {projection: {_id: 0}})
 
         if (blog) {
             return blog
@@ -23,8 +24,8 @@ export const blogsRepository = {
         }
     },
 
-    async createBlog(name: string, description: string, websiteUrl: string): Promise<BlogType | void> {
-        const newBlog = {
+    async createBlog(name: string, description: string, websiteUrl: string): Promise<BlogModelOutType | void> {
+        const newBlog: BlogModelOutType = {
             id: uid(),
             name,
             description,
@@ -32,13 +33,10 @@ export const blogsRepository = {
             createdAt: new Date().toISOString(),
             isMembership: false
         }
-        try {
-            await blogsCollection.insertOne(newBlog)
-            return newBlog    
-        } catch {
-            return console.log('Error')
-        }
 
+        await blogsCollection.insertOne(newBlog)
+        let {_id, ...newBlogWithout_Id} = newBlog
+        return newBlogWithout_Id
     },
 
     async updateBlog(id: string, name: string, description: string, websiteUrl: string): Promise<boolean> {

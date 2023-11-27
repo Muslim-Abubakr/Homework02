@@ -1,21 +1,22 @@
-import { PostType } from '../models/types'
+import { PostType, PostModelOutType } from '../models/types'
 import { postsCollection } from '../db/database'
 import { uid } from 'uid'
 
+
 export const postsRepository = {
-    async findPosts(title: string): Promise<PostType[]> {
+    async findPosts(title: string): Promise<PostModelOutType[]> {
         const filter: any = {}
 
         if (title) {
             filter.title = {$regex: title}
         }
 
-        const posts = postsCollection.find({}).toArray()
+        const posts = postsCollection.find({}, {projection: {_id: 0}}).toArray()
         return posts
     },
 
-    async getPostsById(id: number | string): Promise<PostType | null> {
-        const post: PostType | null = await postsCollection.findOne({id: id})
+    async getPostsById(id: number | string): Promise<PostModelOutType | null> {
+        const post: PostType | null = await postsCollection.findOne({id: id}, {projection: {_id: 0}})
 
         if (post) {
             return post
@@ -25,18 +26,18 @@ export const postsRepository = {
     },
 
     async createPost(title: string, shortDescription: string, content: string, blogId: string, blogName: string): Promise<PostType> {
-        const newPost = {
+        const newPost: PostModelOutType = {
             id: uid(),
             title: title,
             shortDescription: shortDescription,
             content: content,
             blogId: blogId,
             blogName: blogName,
-            createdAt: new Date().toISOString(),
-            isMembership: false
+            createdAt: new Date().toISOString()
         }
         await postsCollection.insertOne(newPost)
-        return newPost
+        let {_id, ...newPostWithoud_id} = newPost
+        return newPostWithoud_id
     },
 
     async updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string, blogName: string): Promise<boolean> {

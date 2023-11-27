@@ -16,7 +16,28 @@ export type PostType = {
     createdAt: string
 }
 
+export type PostModelOutType = {
+    _id?: any
+    id: number | string
+    title: string
+    shortDescription: string
+    content: string
+    blogId: string
+    blogName: string
+    createdAt: string
+}
+
 export type BlogType = {
+    id: string | null | undefined
+    name: string
+    description: string
+    websiteUrl: string
+    createdAt: string
+    isMembership: boolean
+}
+
+export type BlogModelOutType = {
+    _id?: any
     id: string | null | undefined
     name: string
     description: string
