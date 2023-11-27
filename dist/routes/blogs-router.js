@@ -15,11 +15,10 @@ const blogs_repository_1 = require("../repositories/blogs-repository");
 const blogs_validation_1 = require("../middlewares/blogs-validation");
 const authorization_1 = require("../middlewares/authorization");
 const statuses_1 = require("../statuses/statuses");
-const getBlogViewModel_1 = require("../models/blogsMapper/getBlogViewModel");
 exports.blogsRouter = (0, express_1.Router)({});
 exports.blogsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const foundBlogs = yield blogs_repository_1.blogsRepository.findBlogs(req.query.name);
-    res.send(foundBlogs.map(getBlogViewModel_1.getBlogViewModel));
+    res.send(foundBlogs);
 }));
 exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const foundBlogs = yield blogs_repository_1.blogsRepository.getBlogsById(req.params.id);

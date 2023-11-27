@@ -4,16 +4,18 @@ import { uid } from 'uid'
 
 export const postsRepository = {
     async findPosts(title: string): Promise<PostType[]> {
+        const filter: any = {}
+
         if (title) {
-            return postsCollection.find({name: {$regex: title}}).toArray()
-        } else {
-            return postsCollection.find({}).toArray()
+            filter.title = {$regex: title}
         }
-        
+
+        const posts = postsCollection.find({}, {projection: {_id: 0}}).toArray()
+        return posts
     },
 
     async getPostsById(id: number | string): Promise<PostType | null> {
-        const post: PostType | null = await postsCollection.findOne({id: id})
+        const post: PostType | null = await postsCollection.findOne({id: id}, {projection: {_id: 0}})
 
         if (post) {
             return post

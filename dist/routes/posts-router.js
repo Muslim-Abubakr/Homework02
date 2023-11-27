@@ -16,13 +16,12 @@ const posts_validation_1 = require("../middlewares/posts-validation");
 const authorization_1 = require("../middlewares/authorization");
 const blogs_repository_1 = require("../repositories/blogs-repository");
 const statuses_1 = require("../statuses/statuses");
-const getPostViewModel_1 = require("../models/postsMapper/getPostViewModel");
 exports.postsRouter = (0, express_1.Router)({});
 exports.postsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const foundPosts = yield posts_repository_1.postsRepository.findPosts(req.query.title);
     res
         .status(statuses_1.HTTP_STATUSES.OK200)
-        .send(foundPosts.map(getPostViewModel_1.getPostsViewModel));
+        .send(foundPosts);
 }));
 exports.postsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const foundPosts = yield posts_repository_1.postsRepository.getPostsById(req.params.id);

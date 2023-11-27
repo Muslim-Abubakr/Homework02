@@ -15,17 +15,17 @@ const uid_1 = require("uid");
 exports.postsRepository = {
     findPosts(title) {
         return __awaiter(this, void 0, void 0, function* () {
+            const filter = {};
             if (title) {
-                return database_1.postsCollection.find({ name: { $regex: title } }).toArray();
+                filter.title = { $regex: title };
             }
-            else {
-                return database_1.postsCollection.find({}).toArray();
-            }
+            const posts = database_1.postsCollection.find({}, { projection: { _id: 0 } }).toArray();
+            return posts;
         });
     },
     getPostsById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const post = yield database_1.postsCollection.findOne({ id: id });
+            const post = yield database_1.postsCollection.findOne({ id: id }, { projection: { _id: 0 } });
             if (post) {
                 return post;
             }
