@@ -9,17 +9,18 @@ import { BlogGetModel } from '../models/blogGetModel'
 import { HTTP_STATUSES } from '../statuses/statuses'
 import { getBlogViewModel } from '../models/blogsMapper/getBlogViewModel'
 import { getPostsViewModel } from '../models/postsMapper/getPostViewModel'
+import { blogsService } from '../domain/blogs-service'
 
 export const blogsRouter = Router({})
 
 blogsRouter.get('/', async (req: RequestWithQuery<BlogGetModel>, res: Response<ViewBlogModel[]>) => {
-    const foundBlogs: BlogType[] = await blogsRepository.findBlogs(req.query.name)
+    const foundBlogs: BlogType[] = await blogsService.findBlogs(req.query.name)
     res.send(foundBlogs)
 })
 
 blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>, 
     res: Response<ViewBlogModel | Number>) => {
-    const foundBlogs: BlogType | null = await blogsRepository.getBlogsById(req.params.id)
+    const foundBlogs: BlogType | null = await blogsService.getBlogsById(req.params.id)
 
     if (foundBlogs) {
         res
@@ -35,7 +36,7 @@ blogsRouter.post('/',
     validationCreateUpdateBlog,
     async (req: Request, res: Response<ViewBlogModel | void>) => {
         const { name, description, websiteUrl } = req.body
-        const newBlog = await blogsRepository.createBlog(name, description, websiteUrl)
+        const newBlog = await blogsService.createBlog(name, description, websiteUrl)
         newBlog
         res
             .status(HTTP_STATUSES.CREATED_201) 
@@ -47,10 +48,10 @@ blogsRouter.put('/:id',
     validationCreateUpdateBlog,
     async (req: Request, res: Response<ViewBlogModel | null | Number>) => {
         const { name, description, websiteUrl} = req.body
-        const isUpdated = await blogsRepository.updateBlog(req.params.id, name, description, websiteUrl)
+        const isUpdated = await blogsService.updateBlog(req.params.id, name, description, websiteUrl)
 
         if (isUpdated) {
-            const blog = await blogsRepository.getBlogsById(req.params.id)
+            const blog = await blogsService.getBlogsById(req.params.id)
             res
                 .status(HTTP_STATUSES.NO_CONTENT_204)
                 .send(blog)
@@ -63,6 +64,6 @@ blogsRouter.put('/:id',
 blogsRouter.delete('/:id',
     authorizationMiddleware,
     async (req: Request, res: Response) => {
-        const filteredBlog = await blogsRepository.deleteBlog(req.params.id)
+        const filteredBlog = await blogsService.deleteBlog(req.params.id)
         filteredBlog ? res.send(HTTP_STATUSES.NO_CONTENT_204): res.send(HTTP_STATUSES.NOT_FOUND_404)
 })

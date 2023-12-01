@@ -12,7 +12,6 @@ if (!mongoUri) {
 
 export const client = new MongoClient(mongoUri)
 
-
 console.log(process.env.MONGO_URL)
 
 export const db = client.db('blogPlatform')

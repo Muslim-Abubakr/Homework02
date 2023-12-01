@@ -11,17 +11,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRouter = void 0;
 const express_1 = require("express");
-const blogs_repository_1 = require("../repositories/blogs-repository");
 const blogs_validation_1 = require("../middlewares/blogs-validation");
 const authorization_1 = require("../middlewares/authorization");
 const statuses_1 = require("../statuses/statuses");
+const blogs_service_1 = require("../domain/blogs-service");
 exports.blogsRouter = (0, express_1.Router)({});
 exports.blogsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const foundBlogs = yield blogs_repository_1.blogsRepository.findBlogs(req.query.name);
+    const foundBlogs = yield blogs_service_1.blogsService.findBlogs(req.query.name);
     res.send(foundBlogs);
 }));
 exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const foundBlogs = yield blogs_repository_1.blogsRepository.getBlogsById(req.params.id);
+    const foundBlogs = yield blogs_service_1.blogsService.getBlogsById(req.params.id);
     if (foundBlogs) {
         res
             .status(statuses_1.HTTP_STATUSES.OK200)
@@ -33,7 +33,7 @@ exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
 }));
 exports.blogsRouter.post('/', authorization_1.authorizationMiddleware, blogs_validation_1.validationCreateUpdateBlog, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, description, websiteUrl } = req.body;
-    const newBlog = yield blogs_repository_1.blogsRepository.createBlog(name, description, websiteUrl);
+    const newBlog = yield blogs_service_1.blogsService.createBlog(name, description, websiteUrl);
     newBlog;
     res
         .status(statuses_1.HTTP_STATUSES.CREATED_201)
@@ -41,9 +41,9 @@ exports.blogsRouter.post('/', authorization_1.authorizationMiddleware, blogs_val
 }));
 exports.blogsRouter.put('/:id', authorization_1.authorizationMiddleware, blogs_validation_1.validationCreateUpdateBlog, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, description, websiteUrl } = req.body;
-    const isUpdated = yield blogs_repository_1.blogsRepository.updateBlog(req.params.id, name, description, websiteUrl);
+    const isUpdated = yield blogs_service_1.blogsService.updateBlog(req.params.id, name, description, websiteUrl);
     if (isUpdated) {
-        const blog = yield blogs_repository_1.blogsRepository.getBlogsById(req.params.id);
+        const blog = yield blogs_service_1.blogsService.getBlogsById(req.params.id);
         res
             .status(statuses_1.HTTP_STATUSES.NO_CONTENT_204)
             .send(blog);
@@ -53,6 +53,6 @@ exports.blogsRouter.put('/:id', authorization_1.authorizationMiddleware, blogs_v
     }
 }));
 exports.blogsRouter.delete('/:id', authorization_1.authorizationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const filteredBlog = yield blogs_repository_1.blogsRepository.deleteBlog(req.params.id);
+    const filteredBlog = yield blogs_service_1.blogsService.deleteBlog(req.params.id);
     filteredBlog ? res.send(statuses_1.HTTP_STATUSES.NO_CONTENT_204) : res.send(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
 }));

@@ -24,19 +24,8 @@ export const blogsRepository = {
         }
     },
 
-    async createBlog(name: string, description: string, websiteUrl: string): Promise<BlogModelOutType | void> {
-        const newBlog: BlogModelOutType = {
-            id: uid(),
-            name,
-            description,
-            websiteUrl,
-            createdAt: new Date().toISOString(),
-            isMembership: false
-        }
-
+    async createBlog(newBlog: BlogModelOutType): Promise<BlogModelOutType | void> {
         await blogsCollection.insertOne(newBlog)
-        let {_id, ...newBlogWithout_Id} = newBlog
-        return newBlogWithout_Id
     },
 
     async updateBlog(id: string, name: string, description: string, websiteUrl: string): Promise<boolean> {
