@@ -1,5 +1,4 @@
 import { Request, Response, Router } from 'express'
-import { blogsRepository } from '../repositories/blogs-repository'
 import { validationCreateUpdateBlog } from '../middlewares/blogs-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
 import { UriBlogsModel } from '../models/UriBlogsModel'
@@ -7,8 +6,6 @@ import { ViewBlogModel } from '../models/ViewBlogModel'
 import { BlogType, RequestWithQuery, RequestWithUriParams } from '../models/types'
 import { BlogGetModel } from '../models/blogGetModel'
 import { HTTP_STATUSES } from '../statuses/statuses'
-import { getBlogViewModel } from '../models/blogsMapper/getBlogViewModel'
-import { getPostsViewModel } from '../models/postsMapper/getPostViewModel'
 import { blogsService } from '../domain/blogs-service'
 
 export const blogsRouter = Router({})
