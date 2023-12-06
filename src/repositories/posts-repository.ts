@@ -25,19 +25,8 @@ export const postsRepository = {
         }
     },
 
-    async createPost(title: string, shortDescription: string, content: string, blogId: string, blogName: string): Promise<PostType> {
-        const newPost: PostModelOutType = {
-            id: uid(),
-            title: title,
-            shortDescription: shortDescription,
-            content: content,
-            blogId: blogId,
-            blogName: blogName,
-            createdAt: new Date().toISOString()
-        }
+    async createPost(newPost: PostModelOutType): Promise<PostModelOutType | void> {
         await postsCollection.insertOne(newPost)
-        let {_id, ...newPostWithoud_id} = newPost
-        return newPostWithoud_id
     },
 
     async updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string, blogName: string): Promise<boolean> {

@@ -1,5 +1,3 @@
-import { blogsCollection } from '../db/database'
-import { BlogType } from '../models/types'
 import { uid } from 'uid'
 import { BlogModelOutType } from '../models/types'
 import { blogsRepository } from '../repositories/blogs-repository'
