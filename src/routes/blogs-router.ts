@@ -34,7 +34,6 @@ blogsRouter.post('/',
     async (req: Request, res: Response<ViewBlogModel | void>) => {
         const { name, description, websiteUrl } = req.body
         const newBlog = await blogsService.createBlog(name, description, websiteUrl)
-        newBlog
         res
             .status(HTTP_STATUSES.CREATED_201) 
             .send(newBlog)

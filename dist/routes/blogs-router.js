@@ -34,7 +34,6 @@ exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
 exports.blogsRouter.post('/', authorization_1.authorizationMiddleware, blogs_validation_1.validationCreateUpdateBlog, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, description, websiteUrl } = req.body;
     const newBlog = yield blogs_service_1.blogsService.createBlog(name, description, websiteUrl);
-    newBlog;
     res
         .status(statuses_1.HTTP_STATUSES.CREATED_201)
         .send(newBlog);
