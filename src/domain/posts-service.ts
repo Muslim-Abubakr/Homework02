@@ -1,7 +1,6 @@
 import { PostType, PostModelOutType } from '../models/types'
-import { postsCollection } from '../db/database'
 import { uid } from 'uid'
-import { postsRepository } from '../repositories/posts-repository'
+import { postsRepository } from '../repositories/posts/posts-repository'
 
 
 export const postsService = {
@@ -38,7 +37,7 @@ export const postsService = {
         return result
     },
 
-    async deleteAll(){
+    async deleteAll() {
         const result = postsRepository.deleteAll
         return result
     }

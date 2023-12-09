@@ -1,6 +1,6 @@
 import { uid } from 'uid'
 import { BlogModelOutType } from '../models/types'
-import { blogsRepository } from '../repositories/blogs-repository'
+import { blogsRepository } from '../repositories/blogs/blogs-repository'
 
 export const blogsService = {
     async findBlogs(name: string): Promise<BlogModelOutType[]> {

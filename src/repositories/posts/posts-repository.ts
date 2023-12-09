@@ -1,5 +1,5 @@
-import { PostType, PostModelOutType } from '../models/types'
-import { postsCollection } from '../db/database'
+import { PostType, PostModelOutType } from '../../models/types'
+import { postsCollection } from '../../db/database'
 import { uid } from 'uid'
 
 

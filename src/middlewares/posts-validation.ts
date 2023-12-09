@@ -1,6 +1,6 @@
 import { body } from "express-validator/src/middlewares/validation-chain-builders";
 import { inputValidationMiddleware } from "./input-validation-middlewares";
-import { blogsRepository } from "../repositories/blogs-repository";
+import { blogsRepository } from "../repositories/blogs/blogs-repository";
 
 export const validationCreateUpdatePost = [
    body('title').notEmpty().isString().trim().isLength({min: 1, max: 30}).withMessage('title should not be empty and length min 1 - max 30'),

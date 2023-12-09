@@ -1,6 +1,6 @@
-import { blogsCollection } from '../db/database'
-import { BlogType } from '../models/types'
-import { BlogModelOutType } from '../models/types'
+import { blogsCollection } from '../../db/database'
+import { BlogType } from '../../models/types'
+import { BlogModelOutType } from '../../models/types'
 
 export const blogsRepository = {
     async findBlogs(name: string): Promise<BlogModelOutType[]> {
