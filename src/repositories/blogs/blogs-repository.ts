@@ -26,9 +26,11 @@ export const blogsRepository = {
                 console.error("Неверный формат ID:", id);
                 return null;
             }
-
+            
             const objectId = new ObjectId(String(id)) 
+
             const blog: BlogDbType | null = await blogsCollection.findOne({_id: objectId})
+
             return blog ? blogMapping(blog) : null;
         } catch (error) {
             console.error("Ошибка при получении блога по ID:", error);
@@ -42,12 +44,13 @@ export const blogsRepository = {
     },
 
     async updateBlog(id: string, name: string, description: string, websiteUrl: string): Promise<boolean> {
-        const updateBlog = await blogsCollection.updateOne({id: id}, {$set: {name: name, description: description, websiteUrl: websiteUrl}})
+        const objectId = new ObjectId(String(id)) 
+        const updateBlog = await blogsCollection.updateOne({_id: objectId}, {$set: {name: name, description: description, websiteUrl: websiteUrl}})
         return updateBlog.matchedCount === 1
     },
 
     async deleteBlog(id: string): Promise<boolean> {
-        const deleteBlog = await blogsCollection.deleteOne({id: id})
+        const deleteBlog = await blogsCollection.deleteOne({_id: ObjectId})
         return deleteBlog.deletedCount === 1
     },
 
