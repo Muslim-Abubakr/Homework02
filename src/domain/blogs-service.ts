@@ -1,6 +1,8 @@
 import { uid } from 'uid'
-import { BlogModelOutType } from '../models/types'
+import { BlogDbType, BlogModelOutType } from '../models/types'
 import { blogsRepository } from '../repositories/blogs/blogs-repository'
+import { ObjectId } from 'mongodb'
+import { blogMapping } from '../helpers/BlogMappingViews'
 
 export const blogsService = {
     async findBlogs(name: string): Promise<BlogModelOutType[]> {
@@ -12,7 +14,8 @@ export const blogsService = {
     },
 
     async createBlog(name: string, description: string, websiteUrl: string): Promise<BlogModelOutType | void> {
-        const newBlog: BlogModelOutType = {
+        const newBlog: BlogDbType = {
+            _id: new ObjectId(),
             id: uid(),
             name,
             description,
@@ -22,8 +25,8 @@ export const blogsService = {
         }
 
         await blogsRepository.createBlog(newBlog)
-        let {_id, ...newBlogWithout_Id} = newBlog
-        return newBlogWithout_Id
+        return blogMapping(newBlog)
+       
     },
 
     async updateBlog(id: string, name: string, description: string, websiteUrl: string): Promise<boolean> {

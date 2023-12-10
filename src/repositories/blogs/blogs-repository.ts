@@ -1,4 +1,5 @@
 import { blogsCollection } from '../../db/database'
+import { blogMapping } from '../../helpers/BlogMappingViews'
 import { BlogType } from '../../models/types'
 import { BlogModelOutType } from '../../models/types'
 
@@ -9,8 +10,8 @@ export const blogsRepository = {
         if (name) {
             filter.name = {$regex: name}
         }
-        const blogs = blogsCollection.find({}, {projection: {_id: 0}}).toArray()
-        return blogs
+        const blogs = await blogsCollection.find({}).toArray()
+        return blogs.map(blog => blogMapping(blog)) 
     },
 
     async getBlogsById(id: string | null | undefined): Promise<BlogModelOutType | null> {

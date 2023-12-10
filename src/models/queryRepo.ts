@@ -1,10 +1,11 @@
 const blogQueryRepo = {
 
     getBlogs(): BlogModelOutType[] {
-        const dbBlogs: BlogType[] = []
         return []
     }
 }
+
+type s = []
 
 type BlogModelOutType = {
     _id?: any

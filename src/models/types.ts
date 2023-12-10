@@ -1,5 +1,5 @@
-import { time } from "console"
 import { Request } from "express"
+import { ObjectId } from "mongodb"
 
 export type DBType = {
     posts: PostType[]
@@ -38,6 +38,16 @@ export type BlogType = {
 
 export type BlogModelOutType = {
     _id?: any
+    id: string | null | undefined
+    name: string
+    description: string
+    websiteUrl: string
+    createdAt: string
+    isMembership: boolean
+}
+
+export type BlogDbType = {
+    _id: ObjectId
     id: string | null | undefined
     name: string
     description: string

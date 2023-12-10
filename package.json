@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "types": "module",
   "dependencies": {
     "@types/jest": "^29.5.10",
     "@types/supertest": "^2.0.16",
