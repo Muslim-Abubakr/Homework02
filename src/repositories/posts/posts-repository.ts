@@ -1,4 +1,4 @@
-import { PostType, PostModelOutType, PostDbType } from '../../models/types'
+import { PostModelOutType, PostDbType } from '../../models/types'
 import { postsCollection } from '../../db/database'
 import { postMapping } from '../../helpers/PostMappingViews'
 import { ObjectId } from 'mongodb'
@@ -16,13 +16,23 @@ export const postsRepository = {
     },
 
     async getPostsById(id: number | string): Promise<PostModelOutType | null> {
-        const objectId = new ObjectId(String(id))
-        const post: PostDbType | null = await postsCollection.findOne({_id: objectId})
-
-        if (post) {
-            return postMapping(post)
-        } else {
+        if (!id) {
             return null
+        }
+
+        try {
+            if (!ObjectId.isValid(id)) {
+                console.error("Неверный формат ID:", id);
+                return null;
+            }
+            const objectId = new ObjectId(String(id))
+
+            const post: PostDbType | null = await postsCollection.findOne({_id: objectId})
+
+            return post ? postMapping(post) : null
+        } catch (error) {
+            console.error("Ошибка при получении блога по ID:", error);
+            return null;
         }
     },
 

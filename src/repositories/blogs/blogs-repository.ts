@@ -17,14 +17,24 @@ export const blogsRepository = {
     },
 
     async getBlogsById(id: string | null | undefined): Promise<BlogModelOutType | null> {
-        const objectId = new ObjectId(String(id)) 
-        const blog: BlogDbType | null = await blogsCollection.findOne({_id: objectId})
-
-        if (blog) {
-            return blogMapping(blog)
-        } else {
+        if (!id) {
             return null
         }
+        
+        try {
+            if (!ObjectId.isValid(id)) {
+                console.error("Неверный формат ID:", id);
+                return null;
+            }
+
+            const objectId = new ObjectId(String(id)) 
+            const blog: BlogDbType | null = await blogsCollection.findOne({_id: objectId})
+            return blog ? blogMapping(blog) : null;
+        } catch (error) {
+            console.error("Ошибка при получении блога по ID:", error);
+            return null;
+        }
+
     },
 
     async createBlog(newBlog: BlogModelOutType): Promise<BlogModelOutType | void> {
