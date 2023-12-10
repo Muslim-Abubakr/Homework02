@@ -56,6 +56,17 @@ export type BlogDbType = {
     isMembership: boolean
 }
 
+export type PostDbType = {
+    _id: ObjectId
+    id: number | string
+    title: string
+    shortDescription: string
+    content: string
+    blogId: string
+    blogName: string
+    createdAt: string
+}
+
 export type RequestWithBody<T> = Request<{},{}, T>
 export type RequestWithQuery<T> = Request<{},{},{}, T>
 export type RequestWithUriParams<T> = Request<T>
