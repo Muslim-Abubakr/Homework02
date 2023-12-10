@@ -1,6 +1,8 @@
-import { PostType, PostModelOutType } from '../models/types'
+import { PostType, PostModelOutType, PostDbType } from '../models/types'
 import { uid } from 'uid'
 import { postsRepository } from '../repositories/posts/posts-repository'
+import { postMapping } from '../helpers/PostMappingViews'
+import { ObjectId } from 'mongodb'
 
 
 export const postsService = {
@@ -12,8 +14,9 @@ export const postsService = {
         return await postsRepository.getPostsById(id)
     },
 
-    async createPost(title: string, shortDescription: string, content: string, blogId: string, blogName: string): Promise<PostType> {
-        const newPost: PostModelOutType = {
+    async createPost(title: string, shortDescription: string, content: string, blogId: string, blogName: string): Promise<PostModelOutType> {
+        const newPost: PostDbType = {
+            _id: new ObjectId(),
             id: uid(),
             title: title,
             shortDescription: shortDescription,
@@ -23,8 +26,8 @@ export const postsService = {
             createdAt: new Date().toISOString()
         }
         await postsRepository.createPost(newPost)
-        let {_id, ...newPostWithoud_id} = newPost
-        return newPostWithoud_id
+        return postMapping(newPost)
+        
     },
 
     async updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string, blogName: string): Promise<boolean> {

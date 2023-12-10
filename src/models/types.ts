@@ -58,7 +58,7 @@ export type BlogDbType = {
 
 export type PostDbType = {
     _id: ObjectId
-    id: number | string
+    id: string | null | undefined
     title: string
     shortDescription: string
     content: string

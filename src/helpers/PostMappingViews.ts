@@ -1,6 +1,5 @@
 import { PostDbType } from "../models/types";
 
-
 export function postMapping(post: PostDbType) {
     return {
         id: post._id,
