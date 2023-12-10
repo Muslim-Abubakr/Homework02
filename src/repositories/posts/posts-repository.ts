@@ -1,7 +1,5 @@
 import { PostType, PostModelOutType } from '../../models/types'
 import { postsCollection } from '../../db/database'
-import { uid } from 'uid'
-
 
 export const postsRepository = {
     async findPosts(title: string): Promise<PostModelOutType[]> {

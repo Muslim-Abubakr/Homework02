@@ -1,6 +1,6 @@
 import { BlogDbType } from "../models/types"
 
-export function blogMapping (blog : BlogDbType) {
+export function blogMapping(blog : BlogDbType) {
     return {
         id: blog._id.toString(),
         name: blog.name,

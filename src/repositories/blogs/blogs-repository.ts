@@ -1,7 +1,8 @@
 import { blogsCollection } from '../../db/database'
 import { blogMapping } from '../../helpers/BlogMappingViews'
-import { BlogType } from '../../models/types'
+import { BlogDbType } from '../../models/types'
 import { BlogModelOutType } from '../../models/types'
+import { ObjectId } from 'mongodb'
 
 export const blogsRepository = {
     async findBlogs(name: string): Promise<BlogModelOutType[]> {
@@ -15,10 +16,11 @@ export const blogsRepository = {
     },
 
     async getBlogsById(id: string | null | undefined): Promise<BlogModelOutType | null> {
-        let blog: BlogType | null = await blogsCollection.findOne({id: id}, {projection: {_id: 0}})
+        const objectId = new ObjectId(String(id)) 
+        let blog: BlogDbType | null = await blogsCollection.findOne({_id: objectId})
 
         if (blog) {
-            return blog
+            return blogMapping(blog)
         } else {
             return null
         }

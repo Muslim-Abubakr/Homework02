@@ -2,7 +2,7 @@ import { PostDbType } from "../models/types";
 
 export function postMapping(post: PostDbType) {
     return {
-        id: post._id,
+        id: post._id.toString(),
         title: post.title,
         shortDescription: post.shortDescription,
         content: post.content,

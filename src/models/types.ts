@@ -27,6 +27,17 @@ export type PostModelOutType = {
     createdAt: string
 }
 
+export type PostDbType = {
+    _id: ObjectId
+    id: number | string
+    title: string
+    shortDescription: string
+    content: string
+    blogId: string
+    blogName: string
+    createdAt: string
+}
+
 export type BlogType = {
     id: string | null | undefined
     name: string
@@ -56,16 +67,6 @@ export type BlogDbType = {
     isMembership: boolean
 }
 
-export type PostDbType = {
-    _id: ObjectId
-    id: string | null | undefined
-    title: string
-    shortDescription: string
-    content: string
-    blogId: string
-    blogName: string
-    createdAt: string
-}
 
 export type RequestWithBody<T> = Request<{},{}, T>
 export type RequestWithQuery<T> = Request<{},{},{}, T>

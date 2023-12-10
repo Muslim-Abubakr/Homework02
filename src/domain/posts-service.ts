@@ -1,8 +1,8 @@
-import { PostType, PostModelOutType, PostDbType } from '../models/types'
+import { PostModelOutType, PostDbType } from '../models/types'
 import { uid } from 'uid'
 import { postsRepository } from '../repositories/posts/posts-repository'
-import { postMapping } from '../helpers/PostMappingViews'
 import { ObjectId } from 'mongodb'
+import { postMapping } from '../helpers/PostMappingViews'
 
 
 export const postsService = {
@@ -16,7 +16,7 @@ export const postsService = {
 
     async createPost(title: string, shortDescription: string, content: string, blogId: string, blogName: string): Promise<PostModelOutType> {
         const newPost: PostDbType = {
-            _id: new ObjectId(),
+            _id: new ObjectId,
             id: uid(),
             title: title,
             shortDescription: shortDescription,
