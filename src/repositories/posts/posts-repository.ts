@@ -1,5 +1,7 @@
-import { PostType, PostModelOutType } from '../../models/types'
+import { PostType, PostModelOutType, PostDbType } from '../../models/types'
 import { postsCollection } from '../../db/database'
+import { postMapping } from '../../helpers/PostMappingViews'
+import { ObjectId } from 'mongodb'
 
 export const postsRepository = {
     async findPosts(title: string): Promise<PostModelOutType[]> {
@@ -9,15 +11,16 @@ export const postsRepository = {
             filter.title = {$regex: title}
         }
 
-        const posts = postsCollection.find({}, {projection: {_id: 0}}).toArray()
-        return posts
+        const posts = await postsCollection.find({}).toArray()
+        return posts.map(post => postMapping(post))
     },
 
     async getPostsById(id: number | string): Promise<PostModelOutType | null> {
-        const post: PostType | null = await postsCollection.findOne({id: id}, {projection: {_id: 0}})
+        const objectId = new ObjectId(String(id))
+        const post: PostDbType | null = await postsCollection.findOne({_id: objectId})
 
         if (post) {
-            return post
+            return postMapping(post)
         } else {
             return null
         }

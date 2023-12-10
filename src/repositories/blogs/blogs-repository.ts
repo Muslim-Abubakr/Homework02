@@ -11,13 +11,14 @@ export const blogsRepository = {
         if (name) {
             filter.name = {$regex: name}
         }
+
         const blogs = await blogsCollection.find({}).toArray()
         return blogs.map(blog => blogMapping(blog)) 
     },
 
     async getBlogsById(id: string | null | undefined): Promise<BlogModelOutType | null> {
         const objectId = new ObjectId(String(id)) 
-        let blog: BlogDbType | null = await blogsCollection.findOne({_id: objectId})
+        const blog: BlogDbType | null = await blogsCollection.findOne({_id: objectId})
 
         if (blog) {
             return blogMapping(blog)
