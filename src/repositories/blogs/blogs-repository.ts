@@ -62,9 +62,15 @@ export const blogsRepository = {
         }
     },
 
-    async deleteBlog(id: string): Promise<boolean> {
-        const deleteBlog = await blogsCollection.deleteOne({_id: ObjectId})
-        return deleteBlog.deletedCount === 1
+    async deleteBlog(id: string): Promise<boolean | undefined> {
+        try {
+            const objectId = new ObjectId(String(id)) 
+            const deleteBlog = await blogsCollection.deleteOne({_id: objectId})
+            return deleteBlog.deletedCount === 1
+        } catch (error) {
+            console.error("Ошибка при получении блога по ID:", error);
+            return undefined;
+        }
     },
 
     async deleteAll(): Promise<boolean> {
