@@ -30,12 +30,12 @@ export const postsService = {
         
     },
 
-    async updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string, blogName: string): Promise<boolean> {
+    async updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string, blogName: string): Promise<boolean | null> {
         const post = await postsRepository.updatePost(id, title, shortDescription, content, blogId, blogName)
         return post
     },
 
-    async deletePost(id: string): Promise<boolean> {
+    async deletePost(id: string): Promise<boolean | null> {
         const result = await postsRepository.deletePost(id)
         return result
     },

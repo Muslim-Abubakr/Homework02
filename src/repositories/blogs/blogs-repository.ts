@@ -28,9 +28,7 @@ export const blogsRepository = {
             }
             
             const objectId = new ObjectId(String(id)) 
-
             const blog: BlogDbType | null = await blogsCollection.findOne({_id: objectId})
-
             return blog ? blogMapping(blog) : null;
         } catch (error) {
             console.error("Ошибка при получении блога по ID:", error);
@@ -52,9 +50,7 @@ export const blogsRepository = {
             }
 
             const objectId = new ObjectId(String(id)) 
-
             const updateBlog = await blogsCollection.updateOne({_id: objectId}, {$set: {name: name, description: description, websiteUrl: websiteUrl}})
-            
             return updateBlog.matchedCount === 1
         } catch (error) {
             console.error("Ошибка при получении блога по ID:", error);
@@ -62,14 +58,14 @@ export const blogsRepository = {
         }
     },
 
-    async deleteBlog(id: string): Promise<boolean | undefined> {
+    async deleteBlog(id: string): Promise<boolean | null> {
         try {
             const objectId = new ObjectId(String(id)) 
             const deleteBlog = await blogsCollection.deleteOne({_id: objectId})
             return deleteBlog.deletedCount === 1
         } catch (error) {
             console.error("Ошибка при получении блога по ID:", error);
-            return undefined;
+            return null;
         }
     },
 
