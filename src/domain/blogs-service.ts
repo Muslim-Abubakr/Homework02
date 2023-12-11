@@ -29,7 +29,7 @@ export const blogsService = {
        
     },
 
-    async updateBlog(id: string, name: string, description: string, websiteUrl: string): Promise<boolean> {
+    async updateBlog(id: string, name: string, description: string, websiteUrl: string): Promise<boolean | null> {
         const updateBlog = await blogsRepository.updateBlog(id, name, description, websiteUrl)
         return updateBlog
     },

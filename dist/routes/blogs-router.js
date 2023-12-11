@@ -53,5 +53,10 @@ exports.blogsRouter.put('/:id', authorization_1.authorizationMiddleware, blogs_v
 }));
 exports.blogsRouter.delete('/:id', authorization_1.authorizationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const filteredBlog = yield blogs_service_1.blogsService.deleteBlog(req.params.id);
-    filteredBlog ? res.send(statuses_1.HTTP_STATUSES.NO_CONTENT_204) : res.send(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
+    if (filteredBlog) {
+        res.send(statuses_1.HTTP_STATUSES.NO_CONTENT_204);
+    }
+    else {
+        res.send(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
+    }
 }));
