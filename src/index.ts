@@ -2,14 +2,11 @@ import express, { Request, Response } from 'express'
 import { blogsRouter } from './routes/blogs-router'
 import { postsRouter } from './routes/posts-router'
 import { testsRouter } from './routes/testing-router'
-import { runDb } from './db/database'
     
-const app = express()
+export const app = express()
 
 const jsonBodyMiddleware = express.json()   
 app.use(jsonBodyMiddleware)
-
-const port = process.env.PORT || 3000
 
 const RouterPaths = {
     testing: '/testing',
@@ -27,13 +24,6 @@ app.use(RouterPaths.blogs, blogsRouter)
 
 app.use(RouterPaths.posts, postsRouter)
 
-const startApp = async() => {
-    await runDb()
-    app.listen(port, () => {
-        console.log(`Example app listening on port ${port}`)
-    })
-}
 
-startApp()
 
 

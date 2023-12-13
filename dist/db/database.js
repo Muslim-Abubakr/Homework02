@@ -34,8 +34,8 @@ function runDb() {
             yield exports.client.db('blogPlatform').command({ ping: 1 });
             console.log("Connecting succesfully to mongo server");
         }
-        catch (_a) {
-            console.log(`Can't connect to db`);
+        catch (error) {
+            console.log(`Can't connect to db`, error);
             // Ensures that the client will close when you finish/error
             yield exports.client.close();
         }

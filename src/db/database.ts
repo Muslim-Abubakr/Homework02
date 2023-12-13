@@ -25,8 +25,8 @@ export async function runDb() {
     // Establish and verify connection
     await client.db('blogPlatform').command({ ping: 1 })
     console.log("Connecting succesfully to mongo server")
-  } catch {
-    console.log(`Can't connect to db`)
+  } catch(error) {
+    console.log(`Can't connect to db`, error)
     // Ensures that the client will close when you finish/error
     await client.close()
   }
