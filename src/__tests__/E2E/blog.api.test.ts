@@ -19,7 +19,7 @@ describe('/blogs', () => {
     })
 
     it('should create blog with correct input data', async () => {
-        await request(app)
+        const createResponse = await request(app)
             .post('/blogs')
             .send({
                 name: 'Muslim',
