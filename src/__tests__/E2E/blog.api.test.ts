@@ -1,5 +1,8 @@
 import request from 'supertest'
 import { app } from '../../app'
+import { HTTP_STATUSES } from '../../statuses/statuses'
+
+const token = 'Basic YWRtaW46cXdlcnR5' 
 
 describe('/blogs', () => {
     beforeAll(async ()=> {
@@ -9,36 +12,49 @@ describe('/blogs', () => {
     it('should return 200 and empty array', async () => {
         await request(app)
             .get('/blogs')
-            .expect(200, [])
+            .expect(HTTP_STATUSES.OK200, [])
     }) 
 
     it('should return 404 for not existing blog', async () => {
         await request(app)
             .get('/blogs/111')
-            .expect(404)
-    })
-
-    it('should create blog with correct input data', async () => {
-        const createResponse = await request(app)
-            .post('/blogs')
-            .send({
-                name: 'Muslim',
-                description: 'test-blog',
-                websiteUrl: 'https://www.webSite.ru'
-            })
-        const createdBlog = createResponse.body
-
-        expect(createdBlog).toEqual(({}))
+            .expect(HTTP_STATUSES.NOT_FOUND_404)
     })
 
     it('shouldn`t create blog with incorrect input data', async() => {
-        await request(app)
+        const incorrectBlogData = {
+            name: 'Muslim',
+            description: '',
+            websiteUrl: 'https://www.webSite.ru'
+        }
+       await request(app)
             .post('/blogs')
-            .send({
+            .set('Authorization', token)
+            .send(incorrectBlogData)
+            .expect(HTTP_STATUSES.BAD_REQUEST_400)
+    })
+
+    it('should create blog with correct input data', async () => {
+        const blogData = {
+            name: 'Muslim',
+            description: 'test-blog',
+            websiteUrl: 'https://www.webSite.ru'
+        }
+        const createResponse = await request(app)
+            .post('/blogs')
+            .set('Authorization', token)
+            .send(blogData)
+            .expect(HTTP_STATUSES.CREATED_201)
+
+        const createdBlog = createResponse.body
+
+        expect(createdBlog).toEqual({
+                id: expect.any(String),
                 name: 'Muslim',
-                description: '',
-                websiteUrl: 'https://www.webSite.ru'
-            })
-            .expect(401)
+                description: 'test-blog',
+                websiteUrl: 'https://www.webSite.ru',
+                createdAt: expect.any(String),
+                isMembership: expect.any(Boolean)
+        })
     })
 })
