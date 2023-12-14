@@ -26,6 +26,9 @@ describe('/blogs', () => {
                 description: 'test-blog',
                 websiteUrl: 'https://www.webSite.ru'
             })
+        const createdBlog = createResponse.body
+
+        expect(createdBlog).toEqual(({}))
     })
 
     it('shouldn`t create blog with incorrect input data', async() => {
