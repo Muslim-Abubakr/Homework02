@@ -94,7 +94,7 @@ describe('/blogs', () => {
 
     it('should update blog with correct input model', async() => {
         const blogData = {
-            name: 'Muslim Abubakarov',
+            name: 'Muslim_Abubakarov',
             description: 'test-blog',
             websiteUrl: 'https://www.webSite.ru'
         }
@@ -107,6 +107,9 @@ describe('/blogs', () => {
 
         await request(app)
             .get('/blogs/' + createdBlog.id)
-            .expect(HTTP_STATUSES.OK200, createdBlog)
+            .expect(HTTP_STATUSES.OK200, {
+                ...createdBlog,
+                name: 'Muslim_Abubakarov'
+            })
     })
 })
