@@ -72,5 +72,9 @@ describe('/blogs', () => {
             .set('Authorization', token)
             .send(blogData)
             .expect(HTTP_STATUSES.BAD_REQUEST_400)
+
+        await request(app)
+            .get('/blogs/' + createdBlog.id)
+            .expect(HTTP_STATUSES.OK200, [createdBlog])
     })
 })
