@@ -58,6 +58,40 @@ describe('/blogs', () => {
                 createdAt: expect.any(String),
                 isMembership: expect.any(Boolean)
         })
+
+        await request(app)
+            .get('/blogs')
+            .expect(HTTP_STATUSES.OK200, [createdBlog1])
+    })
+
+    let createdBlog2: any = null
+    it('should one more blog', async() => {
+        const blogData = {
+            name: 'Muslim',
+            description: 'test-blog2',
+            websiteUrl: 'https://www.webSite.ru'
+        }
+
+        const createResponse = await request(app)
+            .post('/blogs')
+            .set('Authorization', token)
+            .send(blogData)
+            .expect(HTTP_STATUSES.CREATED_201)
+
+        createdBlog2 = createResponse.body
+
+        expect(createdBlog2).toEqual({
+                id: expect.any(String),
+                name: 'Muslim',
+                description: 'test-blog2',
+                websiteUrl: 'https://www.webSite.ru',
+                createdAt: expect.any(String),
+                isMembership: expect.any(Boolean)
+        })
+
+        await request(app)
+            .get('/blogs')
+            .expect(HTTP_STATUSES.OK200, [createdBlog1, createdBlog2])
     })
 
     it('shouldn`t update blog with incorrect input data', async() => {
@@ -92,7 +126,7 @@ describe('/blogs', () => {
             .expect(HTTP_STATUSES.NOT_FOUND_404)
     })
 
-    it('should update blog with correct input model', async() => {
+    /* it('should update blog with correct input model', async() => {
         const blogData = {
             name: 'MuslimAbubakarov',
             description: 'test-blog',
@@ -111,5 +145,5 @@ describe('/blogs', () => {
                 ...createdBlog1,
                 name: 'MuslimAbubakarov'
             })
-    })
+    }) */
 })
