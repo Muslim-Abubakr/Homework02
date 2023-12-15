@@ -75,6 +75,38 @@ describe('/blogs', () => {
 
         await request(app)
             .get('/blogs/' + createdBlog.id)
-            .expect(HTTP_STATUSES.OK200, [createdBlog])
+            .expect(HTTP_STATUSES.OK200, createdBlog)
+    })
+
+    it('shouldn`t update blog that no exist', async() => {
+        const blogData = {
+            name: 'Muslim',
+            description: 'test-blog',
+            websiteUrl: 'https://www.webSite.ru'
+        }
+
+        await request(app)
+            .put('/blogs' + 111)
+            .set('Authorization', token)
+            .send(blogData)
+            .expect(HTTP_STATUSES.NOT_FOUND_404)
+    })
+
+    it('should update blog with correct input model', async() => {
+        const blogData = {
+            name: 'Muslim Abubakarov',
+            description: 'test-blog',
+            websiteUrl: 'https://www.webSite.ru'
+        }
+
+        await request(app)
+            .put('/blogs/' + createdBlog.id)
+            .set('Authorization', token)
+            .send(blogData)
+            .expect(HTTP_STATUSES.NO_CONTENT_204)
+
+        await request(app)
+            .get('/blogs/' + createdBlog.id)
+            .expect(HTTP_STATUSES.OK200, createdBlog)
     })
 })
