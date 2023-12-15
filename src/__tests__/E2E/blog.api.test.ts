@@ -34,7 +34,7 @@ describe('/blogs', () => {
             .expect(HTTP_STATUSES.BAD_REQUEST_400)
     })
 
-    let createdBlog: any = null
+    let createdBlog1: any = null
     it('should create blog with correct input data', async () => {
         const blogData = {
             name: 'Muslim',
@@ -48,9 +48,9 @@ describe('/blogs', () => {
             .send(blogData)
             .expect(HTTP_STATUSES.CREATED_201)
 
-        createdBlog = createResponse.body
+        createdBlog1 = createResponse.body
 
-        expect(createdBlog).toEqual({
+        expect(createdBlog1).toEqual({
                 id: expect.any(String),
                 name: 'Muslim',
                 description: 'test-blog',
@@ -68,14 +68,14 @@ describe('/blogs', () => {
         }
 
         await request(app)
-            .put('/blogs/' + createdBlog.id)
+            .put('/blogs/' + createdBlog1.id)
             .set('Authorization', token)
             .send(blogData)
             .expect(HTTP_STATUSES.BAD_REQUEST_400)
 
         await request(app)
-            .get('/blogs/' + createdBlog.id)
-            .expect(HTTP_STATUSES.OK200, createdBlog)
+            .get('/blogs/' + createdBlog1.id)
+            .expect(HTTP_STATUSES.OK200, createdBlog1)
     })
 
     it('shouldn`t update blog that no exist', async() => {
@@ -94,22 +94,22 @@ describe('/blogs', () => {
 
     it('should update blog with correct input model', async() => {
         const blogData = {
-            name: 'Muslim_Abubakarov',
+            name: 'MuslimAbubakarov',
             description: 'test-blog',
             websiteUrl: 'https://www.webSite.ru'
         }
 
         await request(app)
-            .put('/blogs/' + createdBlog.id)
+            .put('/blogs/' + createdBlog1.id)
             .set('Authorization', token)
             .send(blogData)
             .expect(HTTP_STATUSES.NO_CONTENT_204)
 
         await request(app)
-            .get('/blogs/' + createdBlog.id)
+            .get('/blogs/' + createdBlog1.id)
             .expect(HTTP_STATUSES.OK200, {
-                ...createdBlog,
-                name: 'Muslim_Abubakarov'
+                ...createdBlog1,
+                name: 'MuslimAbubakarov'
             })
     })
 })
