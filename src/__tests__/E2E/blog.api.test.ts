@@ -34,19 +34,21 @@ describe('/blogs', () => {
             .expect(HTTP_STATUSES.BAD_REQUEST_400)
     })
 
+    let createdBlog: any = null
     it('should create blog with correct input data', async () => {
         const blogData = {
             name: 'Muslim',
             description: 'test-blog',
             websiteUrl: 'https://www.webSite.ru'
         }
+
         const createResponse = await request(app)
             .post('/blogs')
             .set('Authorization', token)
             .send(blogData)
             .expect(HTTP_STATUSES.CREATED_201)
 
-        const createdBlog = createResponse.body
+        createdBlog = createResponse.body
 
         expect(createdBlog).toEqual({
                 id: expect.any(String),
@@ -56,5 +58,19 @@ describe('/blogs', () => {
                 createdAt: expect.any(String),
                 isMembership: expect.any(Boolean)
         })
+    })
+
+    it('shouldn`t update blog with incorrect input data', async() => {
+        const blogData = {
+            name: '',
+            description: 'test-blog',
+            websiteUrl: 'https://www.webSite.ru'
+        }
+
+        await request(app)
+            .put('/blogs/' + createdBlog.id)
+            .set('Authorization', token)
+            .send(blogData)
+            .expect(HTTP_STATUSES.BAD_REQUEST_400)
     })
 })
