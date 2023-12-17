@@ -126,9 +126,9 @@ describe('/blogs', () => {
             .expect(HTTP_STATUSES.NOT_FOUND_404)
     })
 
-    /* it('should update blog with correct input model', async() => {
+    it('should update blog with correct input model', async() => {
         const blogData = {
-            name: 'MuslimAbubakarov',
+            name: 'MuslimAbubakr',
             description: 'test-blog',
             websiteUrl: 'https://www.webSite.ru'
         }
@@ -143,7 +143,7 @@ describe('/blogs', () => {
             .get('/blogs/' + createdBlog1.id)
             .expect(HTTP_STATUSES.OK200, {
                 ...createdBlog1,
-                name: 'MuslimAbubakarov'
+                name: 'MuslimAbubakr'
             })
-    }) */
+    })
 })
