@@ -160,6 +160,6 @@ describe('/blogs', () => {
     
         await request(app)
             .get('/blogs/')
-            .expect(HTTP_STATUSES.NOT_FOUND_404)
+            .expect(HTTP_STATUSES.OK200, [])
     })
 })
