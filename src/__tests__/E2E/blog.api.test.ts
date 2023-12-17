@@ -146,4 +146,11 @@ describe('/blogs', () => {
                 name: 'MuslimAbubakr'
             })
     })
+
+    it('should delete blog', async() => {
+        await request(app)
+            .delete('/blogs' + createdBlog1.id)
+            .set('Authorization', token)
+            .expect(HTTP_STATUSES.NO_CONTENT_204)
+    })
 })
