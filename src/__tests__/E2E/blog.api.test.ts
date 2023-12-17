@@ -149,8 +149,17 @@ describe('/blogs', () => {
 
     it('should delete blog', async() => {
         await request(app)
-            .delete('/blogs' + createdBlog1.id)
+            .delete('/blogs/' + createdBlog1.id)
             .set('Authorization', token)
             .expect(HTTP_STATUSES.NO_CONTENT_204)
+
+        await request(app)
+            .delete('/blogs/' + createdBlog2.id)
+            .set('Authorization', token)
+            .expect(HTTP_STATUSES.NO_CONTENT_204)
+    
+        await request(app)
+            .get('/blogs/')
+            .expect(HTTP_STATUSES.NOT_FOUND_404)
     })
 })
