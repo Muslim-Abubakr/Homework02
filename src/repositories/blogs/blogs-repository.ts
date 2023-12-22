@@ -5,7 +5,7 @@ import { BlogModelOutType } from '../../models/types'
 import { ObjectId } from 'mongodb'
 
 export const blogsRepository = {
-    async findBlogs(name: string): Promise<BlogModelOutType[]> {
+    async getAllBlogs(name: string): Promise<BlogModelOutType[]> {
         const filter: any = {}
 
         if (name) {

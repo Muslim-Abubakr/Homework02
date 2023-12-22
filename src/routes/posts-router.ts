@@ -15,10 +15,10 @@ import { blogsService } from '../domain/blogs-service'
 export const postsRouter = Router({})
 
 postsRouter.get('/', async (req: RequestWithQuery<PostGetModel>, res: Response<ViewPostModel[]>) => {
-    const foundPosts: PostType[] = await postsService.findPosts(req.query.title)
+    const getAllPosts: PostType[] = await postsService.findPosts(req.query.title)
     res
         .status(HTTP_STATUSES.OK200)
-        .send(foundPosts)
+        .send(getAllPosts)
 })
 
 postsRouter.get('/:id', async (req: RequestWithUriParams<UriPostsIdModel>, res: Response<ViewPostModel>) => {

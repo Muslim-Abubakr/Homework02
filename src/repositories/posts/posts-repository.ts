@@ -4,7 +4,7 @@ import { postMapping } from '../../helpers/PostMappingViews'
 import { ObjectId } from 'mongodb'
 
 export const postsRepository = {
-    async findPosts(title: string): Promise<PostModelOutType[]> {
+    async getAllPosts(title: string): Promise<PostModelOutType[]> {
         const filter: any = {}
 
         if (title) {

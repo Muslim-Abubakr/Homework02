@@ -12,12 +12,10 @@ import { ViewPostModel } from '../models/ViewPostModel'
 
 export const blogsRouter = Router({})
 
-// Добавлены дополнительные endpoints:
-// - POST - blogs/{id}/posts - создание поста для конкретного блога; 
 
 blogsRouter.get('/', async (req: RequestWithQuery<BlogGetModel>, res: Response<ViewBlogModel[]>) => {
-    const foundBlogs: BlogType[] = await blogsService.findBlogs(req.query.name)
-    res.send(foundBlogs)
+    const getAllBlogs: BlogType[] = await blogsService.findBlogs(req.query.name)
+    res.send(getAllBlogs)
 })
 
 blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>, 
