@@ -7,8 +7,13 @@ import { BlogType, RequestWithQuery, RequestWithUriParams } from '../models/type
 import { BlogGetModel } from '../models/blogGetModel'
 import { HTTP_STATUSES } from '../statuses/statuses'
 import { blogsService } from '../domain/blogs-service'
+import { UriPostsIdModel } from '../models/UriPostsIdModel'
+import { ViewPostModel } from '../models/ViewPostModel'
 
 export const blogsRouter = Router({})
+
+// Добавлены дополнительные endpoints:
+// - POST - blogs/{id}/posts - создание поста для конкретного блога; 
 
 blogsRouter.get('/', async (req: RequestWithQuery<BlogGetModel>, res: Response<ViewBlogModel[]>) => {
     const foundBlogs: BlogType[] = await blogsService.findBlogs(req.query.name)
@@ -26,6 +31,13 @@ blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>,
     } else {
         res.send(HTTP_STATUSES.NOT_FOUND_404)
     }
+})
+
+// эндпоинт на получение постов для конкретного блога
+
+blogsRouter.get('/:id/posts', async (req: RequestWithUriParams<UriPostsIdModel>,
+    res: Response<ViewPostModel>) => {
+
 })
 
 blogsRouter.post('/', 

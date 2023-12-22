@@ -66,3 +66,4 @@ export const postsRepository = {
         return result.deletedCount === 1
     }
 }
+

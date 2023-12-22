@@ -37,6 +37,8 @@ export const blogsRepository = {
 
     },
 
+    async getPostsByBlogId() {},
+
     async createBlog(newBlog: BlogModelOutType): Promise<BlogModelOutType | void> {
         await blogsCollection.insertOne(newBlog)
     },
