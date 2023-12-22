@@ -33,13 +33,6 @@ blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>,
     }
 })
 
-// эндпоинт на получение постов для конкретного блога
-
-blogsRouter.get('/:id/posts', async (req: RequestWithUriParams<UriPostsIdModel>,
-    res: Response<ViewPostModel>) => {
-
-})
-
 blogsRouter.post('/', 
     authorizationMiddleware,
     validationCreateUpdateBlog,
