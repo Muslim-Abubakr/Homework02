@@ -14,8 +14,8 @@ export const blogsRouter = Router({})
 
 
 blogsRouter.get('/', async (req: RequestWithQuery<BlogGetModel>, res: Response<ViewBlogModel[]>) => {
-    const getAllBlogs: BlogType[] = await blogsService.findBlogs(req.query.name)
-    res.send(getAllBlogs)
+    const foundBlogs: BlogType[] = await blogsService.getAllBlogs(req.query.name)
+    res.send(foundBlogs)
 })
 
 blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>, 
