@@ -7,14 +7,21 @@ import { BlogType, RequestWithQuery, RequestWithUriParams } from '../models/type
 import { BlogGetModel } from '../models/blogGetModel'
 import { HTTP_STATUSES } from '../statuses/statuses'
 import { blogsService } from '../domain/blogs-service'
-import { UriPostsIdModel } from '../models/UriPostsIdModel'
-import { ViewPostModel } from '../models/ViewPostModel'
+
 
 export const blogsRouter = Router({})
 
 
-blogsRouter.get('/', async (req: RequestWithQuery<BlogGetModel>, res: Response<ViewBlogModel[]>) => {
-    const foundBlogs: BlogType[] = await blogsService.getAllBlogs(req.query.name)
+blogsRouter.get('/', async (req: Request, res: Response) => {
+    const sortData: {searchNameTerm: any, sortBy: any, sortDirection: any, pageNumber: any, pageSize: any} = {
+        searchNameTerm: req.query.searchNameTerm,
+        sortBy: req.query.sortBy,
+        sortDirection: req.query.sortDirection,
+        pageNumber: req.query.pageNumber,
+        pageSize: req.query.pageSize
+    }
+
+    const foundBlogs: BlogType[] = await blogsService.getAllBlogs()
     res.send(foundBlogs)
 })
 

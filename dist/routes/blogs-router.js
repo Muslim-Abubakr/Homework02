@@ -17,7 +17,14 @@ const statuses_1 = require("../statuses/statuses");
 const blogs_service_1 = require("../domain/blogs-service");
 exports.blogsRouter = (0, express_1.Router)({});
 exports.blogsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const foundBlogs = yield blogs_service_1.blogsService.findBlogs(req.query.name);
+    const sortData = {
+        searchNameTerm: req.query.searchNameTerm,
+        sortBy: req.query.sortBy,
+        sortDirection: req.query.sortDirection,
+        pageNumber: req.query.pageNumber,
+        pageSize: req.query.pageSize
+    };
+    const foundBlogs = yield blogs_service_1.blogsService.getAllBlogs();
     res.send(foundBlogs);
 }));
 exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {

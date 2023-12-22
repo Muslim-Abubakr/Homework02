@@ -5,12 +5,7 @@ import { BlogModelOutType } from '../../models/types'
 import { ObjectId } from 'mongodb'
 
 export const blogsRepository = {
-    async getAllBlogs(name: string): Promise<BlogModelOutType[]> {
-        const filter: any = {}
-
-        if (name) {
-            filter.name = {$regex: name}
-        }
+    async getAllBlogs(): Promise<BlogModelOutType[]> {
 
         const blogs = await blogsCollection.find({}).toArray()
         return blogs.map(blog => blogMapping(blog)) 

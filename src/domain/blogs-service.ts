@@ -5,8 +5,8 @@ import { ObjectId } from 'mongodb'
 import { blogMapping } from '../helpers/BlogMappingViews'
 
 export const blogsService = {
-    async getAllBlogs(name: string): Promise<BlogModelOutType[]> {
-        return blogsRepository.getAllBlogs(name)
+    async getAllBlogs(): Promise<BlogModelOutType[]> {
+        return blogsRepository.getAllBlogs()
     },
 
     async getBlogsById(id: string | null | undefined): Promise<BlogModelOutType | null> {

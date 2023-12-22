@@ -6,8 +6,8 @@ import { postMapping } from '../helpers/PostMappingViews'
 
 
 export const postsService = {
-    async getAllPosts(title: string): Promise<PostModelOutType[]> {
-        return postsRepository.getAllPosts(title)
+    async getAllPosts(): Promise<PostModelOutType[]> {
+        return postsRepository.getAllPosts()
     },
 
     async getPostsById(id: number | string): Promise<PostModelOutType | null> {

@@ -15,7 +15,7 @@ import { blogsService } from '../domain/blogs-service'
 export const postsRouter = Router({})
 
 postsRouter.get('/', async (req: RequestWithQuery<PostGetModel>, res: Response<ViewPostModel[]>) => {
-    const foundPosts: PostType[] = await postsService.getAllPosts(req.query.title)
+    const foundPosts: PostType[] = await postsService.getAllPosts()
     res
         .status(HTTP_STATUSES.OK200)
         .send(foundPosts)

@@ -4,13 +4,7 @@ import { postMapping } from '../../helpers/PostMappingViews'
 import { ObjectId } from 'mongodb'
 
 export const postsRepository = {
-    async getAllPosts(title: string): Promise<PostModelOutType[]> {
-        const filter: any = {}
-
-        if (title) {
-            filter.title = {$regex: title}
-        }
-
+    async getAllPosts(): Promise<PostModelOutType[]> {
         const posts = await postsCollection.find({}).toArray()
         return posts.map(post => postMapping(post))
     },
