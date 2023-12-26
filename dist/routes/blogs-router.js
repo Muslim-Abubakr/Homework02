@@ -15,6 +15,7 @@ const blogs_validation_1 = require("../middlewares/blogs-validation");
 const authorization_1 = require("../middlewares/authorization");
 const statuses_1 = require("../statuses/statuses");
 const blogs_service_1 = require("../domain/blogs-service");
+const posts_validation_1 = require("../middlewares/posts-validation");
 exports.blogsRouter = (0, express_1.Router)({});
 exports.blogsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sortData = {
@@ -39,6 +40,13 @@ exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
     }
 }));
 exports.blogsRouter.post('/', authorization_1.authorizationMiddleware, blogs_validation_1.validationCreateUpdateBlog, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { name, description, websiteUrl } = req.body;
+    const newBlog = yield blogs_service_1.blogsService.createBlog(name, description, websiteUrl);
+    res
+        .status(statuses_1.HTTP_STATUSES.CREATED_201)
+        .send(newBlog);
+}));
+exports.blogsRouter.post('/:id/posts', authorization_1.authorizationMiddleware, posts_validation_1.validationCreateUpdatePost, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, description, websiteUrl } = req.body;
     const newBlog = yield blogs_service_1.blogsService.createBlog(name, description, websiteUrl);
     res

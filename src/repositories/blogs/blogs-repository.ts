@@ -6,7 +6,7 @@ import { BlogModelOutType } from '../../models/types'
 import { ObjectId } from 'mongodb'
 
 export const blogsRepository = {
-    async getAllBlogs(sortData: SortDataType): Promise<BlogModelOutType[]> {
+    async getAllBlogs(sortData: SortDataType) {
         const sortDirection: 'asc' | 'desc' = sortData.sortDirection ?? 'desc'
         const sortBy: string = sortData.sortBy ?? 'createdAt'
         const searchNameTerm: string | null = sortData.searchNameTerm ?? null
@@ -22,7 +22,7 @@ export const blogsRepository = {
             }}
         }
 
-        const blogs = await blogsCollection
+        const blogs: BlogDbType[] = await blogsCollection
             .find(filter)
             .sort(sortBy, sortDirection)
             .skip((+pageNumber - 1) *  +pageSize)
@@ -30,13 +30,17 @@ export const blogsRepository = {
             .toArray()
 
         const totalCount = await blogsCollection
-            .find(filter)
-            .sort(sortBy, sortDirection)
-            .skip((+pageNumber - 1) *  +pageSize)
-            .limit(+pageSize)
-            .toArray()
+            .countDocuments(filter)
+            
+        const pageCount = Math.ceil(totalCount / +pageSize)
 
-        return blogs.map(blog => blogMapping(blog)) 
+        return {
+            pagesCount: pageCount,
+            page: +pageNumber,
+            pageSize: +pageSize,
+            totalCount: +totalCount,
+            items: blogs.map(blogMapping)
+        }
     },
 
     async getBlogsById(id: string | null | undefined): Promise<BlogModelOutType | null> {

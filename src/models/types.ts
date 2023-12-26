@@ -67,6 +67,10 @@ export type BlogDbType = {
     isMembership: boolean
 }
 
+export type BlogParams = {
+    id: string
+}
+
 export type SortDataType = {
     searchNameTerm?: string
     sortBy?: 'asc' | 'desc'

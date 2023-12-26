@@ -5,7 +5,7 @@ import { ObjectId } from 'mongodb'
 import { blogMapping } from '../helpers/BlogMappingViews'
 
 export const blogsService = {
-    async getAllBlogs(sortData: SortDataType): Promise<BlogModelOutType[]> {
+    async getAllBlogs(sortData: SortDataType) {
         return blogsRepository.getAllBlogs(sortData)
     },
 
