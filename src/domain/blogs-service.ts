@@ -1,12 +1,12 @@
 import { uid } from 'uid'
-import { BlogDbType, BlogModelOutType } from '../models/types'
+import { BlogDbType, BlogModelOutType, SortDataType } from '../models/types'
 import { blogsRepository } from '../repositories/blogs/blogs-repository'
 import { ObjectId } from 'mongodb'
 import { blogMapping } from '../helpers/BlogMappingViews'
 
 export const blogsService = {
-    async getAllBlogs(): Promise<BlogModelOutType[]> {
-        return blogsRepository.getAllBlogs()
+    async getAllBlogs(sortData: SortDataType): Promise<BlogModelOutType[]> {
+        return blogsRepository.getAllBlogs(sortData)
     },
 
     async getBlogsById(id: string | null | undefined): Promise<BlogModelOutType | null> {

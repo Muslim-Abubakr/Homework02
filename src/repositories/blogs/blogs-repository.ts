@@ -1,13 +1,41 @@
+import { serialize } from 'v8'
 import { blogsCollection } from '../../db/database'
 import { blogMapping } from '../../helpers/BlogMappingViews'
-import { BlogDbType, PostModelOutType } from '../../models/types'
+import { BlogDbType, SortDataType } from '../../models/types'
 import { BlogModelOutType } from '../../models/types'
 import { ObjectId } from 'mongodb'
 
 export const blogsRepository = {
-    async getAllBlogs(): Promise<BlogModelOutType[]> {
+    async getAllBlogs(sortData: SortDataType): Promise<BlogModelOutType[]> {
+        const sortDirection: 'asc' | 'desc' = sortData.sortDirection ?? 'desc'
+        const sortBy: string = sortData.sortBy ?? 'createdAt'
+        const searchNameTerm: string | null = sortData.searchNameTerm ?? null
+        const pageSize: number = sortData.pageSize ?? 10
+        const pageNumber: number | undefined = sortData.pageNumber ?? 1
 
-        const blogs = await blogsCollection.find({}).toArray()
+        let filter: {} = {}
+
+        if (searchNameTerm) {
+            filter = {name: {
+                $regex: searchNameTerm,
+                $options: 'i'
+            }}
+        }
+
+        const blogs = await blogsCollection
+            .find(filter)
+            .sort(sortBy, sortDirection)
+            .skip((+pageNumber - 1) *  +pageSize)
+            .limit(+pageSize)
+            .toArray()
+
+        const totalCount = await blogsCollection
+            .find(filter)
+            .sort(sortBy, sortDirection)
+            .skip((+pageNumber - 1) *  +pageSize)
+            .limit(+pageSize)
+            .toArray()
+
         return blogs.map(blog => blogMapping(blog)) 
     },
 

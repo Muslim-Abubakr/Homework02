@@ -3,8 +3,7 @@ import { validationCreateUpdateBlog } from '../middlewares/blogs-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
 import { UriBlogsModel } from '../models/UriBlogsModel'
 import { ViewBlogModel } from '../models/ViewBlogModel'
-import { BlogType, RequestWithQuery, RequestWithUriParams } from '../models/types'
-import { BlogGetModel } from '../models/blogGetModel'
+import { BlogType, RequestWithQuery, RequestWithUriParams, SortDataType } from '../models/types'
 import { HTTP_STATUSES } from '../statuses/statuses'
 import { blogsService } from '../domain/blogs-service'
 
@@ -12,7 +11,7 @@ import { blogsService } from '../domain/blogs-service'
 export const blogsRouter = Router({})
 
 
-blogsRouter.get('/', async (req: Request, res: Response) => {
+blogsRouter.get('/', async (req: RequestWithQuery<SortDataType>, res: Response): Promise<void> => {
     const sortData: {searchNameTerm: any, sortBy: any, sortDirection: any, pageNumber: any, pageSize: any} = {
         searchNameTerm: req.query.searchNameTerm,
         sortBy: req.query.sortBy,
@@ -21,12 +20,12 @@ blogsRouter.get('/', async (req: Request, res: Response) => {
         pageSize: req.query.pageSize
     }
 
-    const foundBlogs: BlogType[] = await blogsService.getAllBlogs()
+    const foundBlogs: BlogType[] = await blogsService.getAllBlogs(sortData)
     res.send(foundBlogs)
 })
 
 blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>, 
-    res: Response<ViewBlogModel | Number>) => {
+    res: Response<ViewBlogModel | Number>): Promise<void> => {
     const foundBlogs: BlogType | null = await blogsService.getBlogsById(req.params.id)
 
     if (foundBlogs) {

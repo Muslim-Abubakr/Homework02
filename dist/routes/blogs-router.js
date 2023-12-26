@@ -24,7 +24,7 @@ exports.blogsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, fun
         pageNumber: req.query.pageNumber,
         pageSize: req.query.pageSize
     };
-    const foundBlogs = yield blogs_service_1.blogsService.getAllBlogs();
+    const foundBlogs = yield blogs_service_1.blogsService.getAllBlogs(sortData);
     res.send(foundBlogs);
 }));
 exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {

@@ -1,4 +1,4 @@
-import { db } from "./db/database"
+/* import { db } from "./db/database"
 
 const videoQueryRepo = {
     getVideos(): VideoOutputModel[] {
@@ -93,3 +93,5 @@ type BannedVideoOutputModel = {
     }
     banReason: string
 }
+
+*/

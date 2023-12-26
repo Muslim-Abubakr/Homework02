@@ -67,6 +67,13 @@ export type BlogDbType = {
     isMembership: boolean
 }
 
+export type SortDataType = {
+    searchNameTerm?: string
+    sortBy?: 'asc' | 'desc'
+    sortDirection?: 'asc' | 'desc'
+    pageNumber?: number
+    pageSize?: number
+}
 
 export type RequestWithBody<T> = Request<{},{}, T>
 export type RequestWithQuery<T> = Request<{},{},{}, T>
