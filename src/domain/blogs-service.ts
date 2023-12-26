@@ -29,6 +29,23 @@ export const blogsService = {
        
     },
 
+    async createPostToBlog(name: string, description: string, websiteUrl: string): Promise<BlogModelOutType | void> {
+        const newBlog: BlogDbType = {
+            _id: new ObjectId(),
+            id: uid(),
+            name,
+            description,
+            websiteUrl,
+            createdAt: new Date().toISOString(),
+            isMembership: false
+        }
+
+        await blogsRepository.createBlog(newBlog)
+        return blogMapping(newBlog)
+       
+    },
+
+
     async updateBlog(id: string, name: string, description: string, websiteUrl: string): Promise<boolean | null> {
         const updateBlog = await blogsRepository.updateBlog(id, name, description, websiteUrl)
         return updateBlog

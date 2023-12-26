@@ -56,13 +56,21 @@ blogsRouter.post('/:id',
         const id = req.params.id
 
         const {title, shortDescription, content} = req.body
+
+        const blog = await blogsService.createBlog(title, shortDescription, content)
 })
 
 blogsRouter.post('/:id/posts', 
     authorizationMiddleware,
     validationCreateUpdateBlog,
     async (req: RequestWithParamsAndBody<BlogParams, {title: string, shortDescription: string, content: string}>, res: Response) => {
-    
+        const id = req.params.id
+
+        const {title, shortDescription, content} = req.body
+
+        const blog = await blogsService.createPostToBlog(title, shortDescription, content)
+
+        const blog = await blogsService.createPostToBlog(title, shortDescription, content)
 })
 
 blogsRouter.put('/:id',
