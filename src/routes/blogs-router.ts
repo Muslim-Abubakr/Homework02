@@ -7,6 +7,7 @@ import { BlogParams, BlogType, RequestWithParamsAndBody, RequestWithQuery, Reque
 import { HTTP_STATUSES } from '../statuses/statuses'
 import { blogsService } from '../domain/blogs-service'
 import { validationCreateUpdatePost } from '../middlewares/posts-validation'
+import { blogsRepository } from '../repositories/blogs/blogs-repository'
 
 
 export const blogsRouter = Router({})
@@ -63,14 +64,26 @@ blogsRouter.post('/:id',
 blogsRouter.post('/:id/posts', 
     authorizationMiddleware,
     validationCreateUpdateBlog,
-    async (req: RequestWithParamsAndBody<BlogParams, {title: string, shortDescription: string, content: string}>, res: Response) => {
+    async (req: RequestWithParamsAndBody<BlogParams, {title: string, shortDescription: string, content: string, blogName: string, blogId: string}>, res: Response) => {
         const id = req.params.id
 
-        const {title, shortDescription, content} = req.body
+        const {title, shortDescription, content, blogName, blogId} = req.body
 
-        const blog = await blogsService.createPostToBlog(title, shortDescription, content)
+        const checkBlog = await blogsRepository.getBlogsById(id)
 
-        const blog = await blogsService.createPostToBlog(title, shortDescription, content)
+        if (!checkBlog) {
+            res.send(HTTP_STATUSES.NOT_FOUND_404)
+            return
+        }
+
+        const createdPostId = await blogsService.createPostToBlog(title, shortDescription, content, blogName, blogId)
+
+        if (!createdPostId) {
+            res.send(HTTP_STATUSES.NOT_FOUND_404)
+            return
+        }
+
+        res.send(createdPostId)
 })
 
 blogsRouter.put('/:id',

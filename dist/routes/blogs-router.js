@@ -16,6 +16,7 @@ const authorization_1 = require("../middlewares/authorization");
 const statuses_1 = require("../statuses/statuses");
 const blogs_service_1 = require("../domain/blogs-service");
 const posts_validation_1 = require("../middlewares/posts-validation");
+const blogs_repository_1 = require("../repositories/blogs/blogs-repository");
 exports.blogsRouter = (0, express_1.Router)({});
 exports.blogsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sortData = {
@@ -53,9 +54,18 @@ exports.blogsRouter.post('/:id', authorization_1.authorizationMiddleware, posts_
 }));
 exports.blogsRouter.post('/:id/posts', authorization_1.authorizationMiddleware, blogs_validation_1.validationCreateUpdateBlog, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    const { title, shortDescription, content } = req.body;
-    const blog = yield blogs_service_1.blogsService.createPostToBlog(title, shortDescription, content);
-    const blog = yield blogs_service_1.blogsService.createPostToBlog(title, shortDescription, content);
+    const { title, shortDescription, content, blogName, blogId } = req.body;
+    const checkBlog = yield blogs_repository_1.blogsRepository.getBlogsById(id);
+    if (!checkBlog) {
+        res.send(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
+        return;
+    }
+    const createdPostId = yield blogs_service_1.blogsService.createPostToBlog(title, shortDescription, content, blogName, blogId);
+    if (!createdPostId) {
+        res.send(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
+        return;
+    }
+    res.send(createdPostId);
 }));
 exports.blogsRouter.put('/:id', authorization_1.authorizationMiddleware, blogs_validation_1.validationCreateUpdateBlog, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, description, websiteUrl } = req.body;
