@@ -30,23 +30,20 @@ export const blogsService = {
        
     },
 
-    async createPostToBlog(blogId: string, title: string, shortDescription: string, content: string, blogName: string
-    ): Promise<PostModelOutType | void | null> {
+    async createPostToBlog(blogId: string, postData: {title: string, shortDescription: string, content: string}
+    ): Promise<{} | null> {
         const blog: BlogModelOutType | null = await blogsRepository.getBlogsById(blogId)
 
-        const newPost: PostDbType = {
-            _id: new ObjectId,
-            id: uid(),
-            title: title,
-            shortDescription: shortDescription,
-            content: content,
-            blogId: blogId,
-            blogName: blogName,
-            createdAt: new Date().toISOString()
+        if (!blog) {
+            return null
+        }
+
+        const newPost = {
+            
         }
         
 
-        const id = await postsRepository.createPost(newPost)
+        const id = await postsRepository.createPostto(newPost)
 
         if (!newPost) {
             return null
