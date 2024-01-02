@@ -1,12 +1,22 @@
-import { PostModelOutType, PostDbType } from '../../models/types'
+import { PostModelOutType, PostDbType, SortDataType } from '../../models/types'
 import { postsCollection } from '../../db/database'
 import { postMapping } from '../../helpers/PostMappingViews'
 import { ObjectId } from 'mongodb'
 
 export const postsRepository = {
-    async getAllPosts(): Promise<PostModelOutType[]> {
+    async getAllPosts(sortData: SortDataType): Promise<PostModelOutType[]> {
+        const sortDirection: 'asc' | 'desc' = sortData.sortDirection ?? 'desc'
+        const sortBy: string = sortData.sortBy ?? 'createdAt'
+        const searchNameTerm: string | null = sortData.searchNameTerm ?? null
+        const pageSize: number = sortData.pageSize ?? 10
+        const pageNumber: number | undefined = sortData.pageNumber ?? 1
+
+        let filter: {} = []
+
         const posts = await postsCollection.find({}).toArray()
         return posts.map(post => postMapping(post))
+
+
     },
 
     async getPostsById(id: number | string): Promise<PostModelOutType | null> {
