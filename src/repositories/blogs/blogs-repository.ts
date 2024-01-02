@@ -1,4 +1,3 @@
-import { serialize } from 'v8'
 import { blogsCollection } from '../../db/database'
 import { blogMapping } from '../../helpers/BlogMappingViews'
 import { BlogDbType, SortDataType } from '../../models/types'
