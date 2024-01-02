@@ -14,6 +14,7 @@ export const blogsRepository = {
 
         let filter: {} = {}
 
+        // переопределяем фильтр, поиск по имени без привязки к регистру
         if (searchNameTerm) {
             filter = {name: {
                 $regex: searchNameTerm,
@@ -21,7 +22,7 @@ export const blogsRepository = {
             }}
         }
 
-        const blogs: BlogDbType[] = await blogsCollection
+        const blogs = await blogsCollection
             .find(filter)
             .sort(sortBy, sortDirection)
             .skip((+pageNumber - 1) *  +pageSize)
