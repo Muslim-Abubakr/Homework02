@@ -10,6 +10,7 @@ import { validationCreateUpdatePost } from '../middlewares/posts-validation'
 import { CreatePostBlogModel, PostCreateInputModel } from '../models/PostCreateModel'
 import { blogsRepository } from '../repositories/blogs/blogs-repository'
 import { postsRepository } from '../repositories/posts/posts-repository'
+import { ObjectId } from 'mongodb'
 
 export const blogsRouter = Router({})
 

@@ -81,6 +81,8 @@ export const blogsRepository = {
         }
 
         const res = await postsCollection.insertOne(post)
+        
+        return res.insertedId
     },
 
     async updateBlog(id: string, name: string, description: string, websiteUrl: string): Promise<boolean | null> {
