@@ -13,6 +13,10 @@ export const postsRepository = {
 
         let filter: {} = []
 
+        if (searchNameTerm) {
+            
+        }
+
         const posts = await postsCollection.find({}).toArray()
         return posts.map(post => postMapping(post))
 

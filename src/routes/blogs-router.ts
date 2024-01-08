@@ -3,12 +3,12 @@ import { validationCreateUpdateBlog } from '../middlewares/blogs-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
 import { UriBlogsModel } from '../models/UriBlogsModel'
 import { ViewBlogModel } from '../models/ViewBlogModel'
-import { BlogParams, BlogType, RequestWithParamsAndBody, RequestWithQuery, RequestWithUriParams, SortDataType } from '../models/types'
+import { BlogParams, BlogType, PostModelOutType, RequestWithParamsAndBody, RequestWithQuery, RequestWithUriParams, SortDataType } from '../models/types'
 import { HTTP_STATUSES } from '../statuses/statuses'
 import { blogsService } from '../domain/blogs-service'
 import { validationCreateUpdatePost } from '../middlewares/posts-validation'
+import { PostCreateInputModel } from '../models/PostCreateModel'
 import { blogsRepository } from '../repositories/blogs/blogs-repository'
-
 
 export const blogsRouter = Router({})
 
@@ -64,26 +64,20 @@ blogsRouter.post('/:id',
 blogsRouter.post('/:id/posts', 
     authorizationMiddleware,
     validationCreateUpdateBlog,
-    async (req: RequestWithParamsAndBody<BlogParams, {title: string, shortDescription: string, content: string, blogName: string, blogId: string}>, res: Response) => {
-        const id = req.params.id
+    async (req: RequestWithParamsAndBody<{id: string}, PostCreateInputModel>, res: Response) => {
+        const title = req.body.title
+        const shortDescription = req.body.shortDescription
+        const content = req.body.content
 
-        const {title, shortDescription, content, blogName, blogId} = req.body
+        const blogId = req.params.id
 
-        const checkBlog = await blogsRepository.getBlogsById(id)
+        const blog = await blogsRepository.getBlogsById(blogId)
 
-        if (!checkBlog) {
-            res.send(HTTP_STATUSES.NOT_FOUND_404)
-            return
+        if (!blog) {
+            res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
+            return;
         }
-
-        const createdPostId = await blogsService.createPostToBlog(title, shortDescription, content, blogName, blogId)
-
-        if (!createdPostId) {
-            res.send(HTTP_STATUSES.NOT_FOUND_404)
-            return
-        }
-
-        res.send(createdPostId)
+        
 })
 
 blogsRouter.put('/:id',

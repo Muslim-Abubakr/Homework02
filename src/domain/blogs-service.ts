@@ -43,7 +43,7 @@ export const blogsService = {
         }
         
 
-        const id = await postsRepository.createPostto(newPost)
+        const id = await postsRepository.createPost(newPost)
 
         if (!newPost) {
             return null
