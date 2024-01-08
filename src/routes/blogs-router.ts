@@ -9,6 +9,7 @@ import { blogsService } from '../domain/blogs-service'
 import { validationCreateUpdatePost } from '../middlewares/posts-validation'
 import { CreatePostBlogModel, PostCreateInputModel } from '../models/PostCreateModel'
 import { blogsRepository } from '../repositories/blogs/blogs-repository'
+import { postsRepository } from '../repositories/posts/posts-repository'
 
 export const blogsRouter = Router({})
 
@@ -80,6 +81,7 @@ blogsRouter.post('/:id/posts',
 
         const createdPostId = await blogsRepository.createPostToBlog(blogId, {title, shortDescription, content})  
         
+        const post = await postsRepository.getPostsById(createdPostId)
 })
 
 blogsRouter.put('/:id',

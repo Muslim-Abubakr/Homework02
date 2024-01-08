@@ -1,4 +1,4 @@
-import { blogsCollection } from '../../db/database'
+import { blogsCollection, postsCollection } from '../../db/database'
 import { blogMapping } from '../../helpers/BlogMappingViews'
 import { CreatePostBlogModel } from '../../models/PostCreateModel'
 import { BlogDbType, SortDataType } from '../../models/types'
@@ -70,7 +70,17 @@ export const blogsRepository = {
     },
 
     async createPostToBlog(blogId: string, postData: CreatePostBlogModel) {
+        const blog = await this.getBlogsById(blogId)
 
+        const post = {
+            title: postData.title,
+            shortDescription: postData.shortDescription,
+            content: postData.content,
+            blogId: blogId,
+            blogName: blog?.name
+        }
+
+        const res = await postsCollection.insertOne(post)
     },
 
     async updateBlog(id: string, name: string, description: string, websiteUrl: string): Promise<boolean | null> {
