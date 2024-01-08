@@ -7,7 +7,7 @@ import { BlogParams, BlogType, PostModelOutType, RequestWithParamsAndBody, Reque
 import { HTTP_STATUSES } from '../statuses/statuses'
 import { blogsService } from '../domain/blogs-service'
 import { validationCreateUpdatePost } from '../middlewares/posts-validation'
-import { PostCreateInputModel } from '../models/PostCreateModel'
+import { CreatePostBlogModel, PostCreateInputModel } from '../models/PostCreateModel'
 import { blogsRepository } from '../repositories/blogs/blogs-repository'
 
 export const blogsRouter = Router({})
@@ -64,7 +64,7 @@ blogsRouter.post('/:id',
 blogsRouter.post('/:id/posts', 
     authorizationMiddleware,
     validationCreateUpdateBlog,
-    async (req: RequestWithParamsAndBody<{id: string}, PostCreateInputModel>, res: Response) => {
+    async (req: RequestWithParamsAndBody<{id: string}, CreatePostBlogModel>, res: Response) => {
         const title = req.body.title
         const shortDescription = req.body.shortDescription
         const content = req.body.content
@@ -78,7 +78,7 @@ blogsRouter.post('/:id/posts',
             return;
         }
 
-        const createdPostId = await blogsRepository.createBlog()  
+        const createdPostId = await blogsRepository.createPostToBlog(blogId, {title, shortDescription, content})  
         
 })
 
