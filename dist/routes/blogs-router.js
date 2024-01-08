@@ -62,6 +62,7 @@ exports.blogsRouter.post('/:id/posts', authorization_1.authorizationMiddleware, 
         res.sendStatus(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
         return;
     }
+    const createdPostId = yield blogs_repository_1.blogsRepository.createBlog();
 }));
 exports.blogsRouter.put('/:id', authorization_1.authorizationMiddleware, blogs_validation_1.validationCreateUpdateBlog, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, description, websiteUrl } = req.body;

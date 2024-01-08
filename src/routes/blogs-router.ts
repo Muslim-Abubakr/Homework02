@@ -77,6 +77,8 @@ blogsRouter.post('/:id/posts',
             res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
             return;
         }
+
+        const createdPostId = await blogsRepository.createBlog()  
         
 })
 

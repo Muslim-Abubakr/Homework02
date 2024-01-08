@@ -1,5 +1,6 @@
 import { blogsCollection } from '../../db/database'
 import { blogMapping } from '../../helpers/BlogMappingViews'
+import { PostCreateInputModel } from '../../models/PostCreateModel'
 import { BlogDbType, SortDataType } from '../../models/types'
 import { BlogModelOutType } from '../../models/types'
 import { ObjectId } from 'mongodb'
@@ -66,6 +67,10 @@ export const blogsRepository = {
 
     async createBlog(newBlog: BlogModelOutType): Promise<BlogModelOutType | void> {
         await blogsCollection.insertOne(newBlog)
+    },
+
+    async createPostToBlog(blogId: string, postData: PostCreateInputModel) {
+
     },
 
     async updateBlog(id: string, name: string, description: string, websiteUrl: string): Promise<boolean | null> {
