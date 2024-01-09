@@ -1,4 +1,4 @@
-import { PostModelOutType, PostDbType, SortDataType } from '../../models/types'
+import { PostModelOutType, PostType, SortDataType } from '../../models/types'
 import { postsCollection } from '../../db/database'
 import { postMapping } from '../../helpers/PostMappingViews'
 import { ObjectId } from 'mongodb'
@@ -13,6 +13,7 @@ export const postsRepository = {
 
         let filter: {} = []
 
+        // переопределяем фильтр, поиск по имени без привязки к регистру
         if (searchNameTerm) {
             filter = {name: {
                 $regex: searchNameTerm,
@@ -52,7 +53,7 @@ export const postsRepository = {
                 return null;
             }
             const objectId = new ObjectId(String(id))
-            const post: PostDbType | null = await postsCollection.findOne({_id: objectId})
+            const post = await postsCollection.findOne({_id: objectId})
             return post ? postMapping(post) : null
         } catch (error) {
             console.error("Ошибка при получении блога по ID:", error);

@@ -42,37 +42,3 @@ function runDb() {
     });
 }
 exports.runDb = runDb;
-// export const db: DBType = {
-//     posts: [
-//         {
-//             "id": "1",
-//             "title": "post-01",
-//             "shortDescription": "string",
-//             "content": "string",
-//             "blogId": "string",
-//             "blogName": "string"
-//         },
-//         {
-//             "id": "2",
-//             "title": "post-02",
-//             "shortDescription": "string",
-//             "content": "string",
-//             "blogId": "string",
-//             "blogName": "string"
-//         }
-//     ] ,
-//     blogs: [
-//         {
-//             "id": "1",
-//             "name": "blog-01",
-//             "description": "string",
-//             "websiteUrl": "string"
-//         },
-//         {
-//             "id": "2",
-//             "name": "blog-02",
-//             "description": "string",
-//             "websiteUrl": "string"
-//         }
-//     ]
-// }
