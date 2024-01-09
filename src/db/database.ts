@@ -17,7 +17,7 @@ console.log(process.env.MONGO_URL)
 
 export const db = client.db('blogPlatform')
 export const blogsCollection = db.collection<BlogType>('blogs')    
-export const postsCollection = db.collection<PostType | CreatePostBlogModel>('posts')
+export const postsCollection = db.collection<PostType>('posts')
 
 export async function runDb() {
   try {

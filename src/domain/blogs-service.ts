@@ -29,8 +29,7 @@ export const blogsService = {
        
     },
 
-    async createPostToBlog(blogId: string, postData: {title: string, shortDescription: string, content: string}
-    ) {
+    async createPostToBlog(blogId: string, postData: {title: string, shortDescription: string, content: string}) {
         
     },
 

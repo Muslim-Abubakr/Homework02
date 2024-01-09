@@ -9,7 +9,11 @@ export type PostCreateInputModel = {
 }
 
 export type CreatePostBlogModel = {
+    id: number | string
     title: string
-    shortDescription: string 
+    shortDescription: string
     content: string
+    blogId: string
+    blogName: string
+    createdAt: string
 }
