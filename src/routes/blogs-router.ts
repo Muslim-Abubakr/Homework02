@@ -3,14 +3,13 @@ import { validationCreateUpdateBlog } from '../middlewares/blogs-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
 import { UriBlogsModel } from '../models/UriBlogsModel'
 import { ViewBlogModel } from '../models/ViewBlogModel'
-import { BlogParams, BlogType, PostModelOutType, RequestWithParamsAndBody, RequestWithQuery, RequestWithUriParams, SortDataType } from '../models/types'
+import { BlogParams, BlogType, RequestWithParamsAndBody, RequestWithQuery, RequestWithUriParams, SortDataType } from '../models/types'
 import { HTTP_STATUSES } from '../statuses/statuses'
 import { blogsService } from '../domain/blogs-service'
 import { validationCreateUpdatePost } from '../middlewares/posts-validation'
-import { CreatePostBlogModel, PostCreateInputModel } from '../models/PostCreateModel'
+import { CreatePostBlogModel } from '../models/PostCreateModel'
 import { blogsRepository } from '../repositories/blogs/blogs-repository'
-import { postsRepository } from '../repositories/posts/posts-repository'
-import { ObjectId } from 'mongodb'
+
 import { postsService } from '../domain/posts-service'
 
 export const blogsRouter = Router({})
