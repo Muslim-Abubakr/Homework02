@@ -1,4 +1,4 @@
-import { PostModelOutType, PostDbType } from '../models/types'
+import { PostModelOutType, PostDbType, SortDataType} from '../models/types'
 import { uid } from 'uid'
 import { postsRepository } from '../repositories/posts/posts-repository'
 import { ObjectId } from 'mongodb'
@@ -6,8 +6,8 @@ import { postMapping } from '../helpers/PostMappingViews'
 
 
 export const postsService = {
-    async getAllPosts(): Promise<PostModelOutType[]> {
-        return postsRepository.getAllPosts()
+    async getAllPosts(sortData: SortDataType) {
+        return postsRepository.getAllPosts(sortData)
     },
 
     async getPostsById(id: number | string): Promise<PostModelOutType | null> {

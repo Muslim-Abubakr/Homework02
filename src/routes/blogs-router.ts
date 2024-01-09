@@ -11,6 +11,7 @@ import { CreatePostBlogModel, PostCreateInputModel } from '../models/PostCreateM
 import { blogsRepository } from '../repositories/blogs/blogs-repository'
 import { postsRepository } from '../repositories/posts/posts-repository'
 import { ObjectId } from 'mongodb'
+import { postsService } from '../domain/posts-service'
 
 export const blogsRouter = Router({})
 
@@ -80,9 +81,16 @@ blogsRouter.post('/:id/posts',
             return;
         }
 
-        const createdPostId = await blogsRepository.createPostToBlog(blogId, {title, shortDescription, content})  
+        const post  = await postsService.createPost(title, shortDescription, content, blogId, blog.name) //postService.createPost(...) 
         
-        const post = await postsRepository.getPostsById(createdPostId)
+        if (!post) {
+            res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
+            return;
+        }
+
+        res
+            .status(HTTP_STATUSES.CREATED_201)
+            .send(post)
 })
 
 blogsRouter.put('/:id',

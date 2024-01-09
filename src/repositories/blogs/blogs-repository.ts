@@ -69,7 +69,7 @@ export const blogsRepository = {
         await blogsCollection.insertOne(newBlog)
     },
 
-    async createPostToBlog(blogId: string, postData: CreatePostBlogModel) {
+    async createPostToBlog(blogId: string, postData: CreatePostBlogModel): Promise <any> {
         const blog = await this.getBlogsById(blogId)
 
         const post = {
@@ -81,7 +81,7 @@ export const blogsRepository = {
         }
 
         const res = await postsCollection.insertOne(post)
-        
+
         return res.insertedId
     },
 

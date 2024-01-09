@@ -1,8 +1,7 @@
 import { Request, Response, Router } from 'express'
 import { validationCreateUpdatePost } from '../middlewares/posts-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
-import { PostType, RequestWithBody, RequestWithParamsAndBody, RequestWithQuery, RequestWithUriParams } from '../models/types'
-import { PostGetModel } from '../models/postGetModel'
+import { PostType, RequestWithBody, RequestWithParamsAndBody, RequestWithQuery, RequestWithUriParams, SortDataType } from '../models/types'
 import { UriPostsIdModel } from '../models/UriPostsIdModel'
 import { ViewPostModel } from '../models/ViewPostModel'
 import { BlogType } from '../models/types'
@@ -12,13 +11,20 @@ import { HTTP_STATUSES } from '../statuses/statuses'
 import { postsService } from '../domain/posts-service'
 import { blogsService } from '../domain/blogs-service'
 
+
 export const postsRouter = Router({})
 
-postsRouter.get('/', async (req: RequestWithQuery<PostGetModel>, res: Response<ViewPostModel[]>) => {
-    const foundPosts: PostType[] = await postsService.getAllPosts()
-    res
-        .status(HTTP_STATUSES.OK200)
-        .send(foundPosts)
+postsRouter.get('/', async (req: RequestWithQuery<SortDataType>, res: Response) => {
+    const sortData: {searchNameTerm: any, sortBy: any, sortDirection: any, pageNumber: any, pageSize: any} = {
+        searchNameTerm: req.query.searchNameTerm,
+        sortBy: req.query.sortBy,
+        sortDirection: req.query.sortDirection,
+        pageNumber: req.query.pageNumber,
+        pageSize: req.query.pageSize
+    }
+
+    const foundPosts = await postsService.getAllPosts(sortData)
+    res.send(foundPosts)
 })
 
 postsRouter.get('/:id', async (req: RequestWithUriParams<UriPostsIdModel>, res: Response<ViewPostModel>) => {

@@ -4,7 +4,7 @@ import { postMapping } from '../../helpers/PostMappingViews'
 import { ObjectId } from 'mongodb'
 
 export const postsRepository = {
-    async getAllPosts(sortData: SortDataType): Promise<PostModelOutType[]> {
+    async getAllPosts(sortData: SortDataType) {
         const sortDirection: 'asc' | 'desc' = sortData.sortDirection ?? 'desc'
         const sortBy: string = sortData.sortBy ?? 'createdAt'
         const searchNameTerm: string | null = sortData.searchNameTerm ?? null
@@ -14,13 +14,31 @@ export const postsRepository = {
         let filter: {} = []
 
         if (searchNameTerm) {
-            
+            filter = {name: {
+                $regex: searchNameTerm,
+                $options: 'i'
+            }}
         }
 
-        const posts = await postsCollection.find({}).toArray()
-        return posts.map(post => postMapping(post))
+        const posts = await postsCollection
+            .find(filter)
+            .sort(sortBy, sortDirection)
+            .skip((+pageNumber - 1) *  +pageSize)
+            .limit(+pageSize)
+            .toArray()
 
+        const totalCount = await postsCollection
+            .countDocuments(filter)
+            
+        const pageCount = Math.ceil(totalCount / +pageSize)
 
+        return {
+            pagesCount: pageCount,
+            page: +pageNumber,
+            pageSize: +pageSize,
+            totalCount: +totalCount,
+            items: posts.map(postMapping)
+        }
     },
 
     async getPostsById(id: number | string): Promise<PostModelOutType | null> {

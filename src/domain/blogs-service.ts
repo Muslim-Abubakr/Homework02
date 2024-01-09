@@ -1,9 +1,8 @@
 import { uid } from 'uid'
-import { BlogDbType, BlogModelOutType, PostDbType, PostModelOutType, SortDataType } from '../models/types'
+import { BlogDbType, BlogModelOutType, SortDataType } from '../models/types'
 import { blogsRepository } from '../repositories/blogs/blogs-repository'
 import { ObjectId } from 'mongodb'
 import { blogMapping } from '../helpers/BlogMappingViews'
-import { postsRepository } from '../repositories/posts/posts-repository'
 
 export const blogsService = {
     async getAllBlogs(sortData: SortDataType) {
@@ -31,25 +30,8 @@ export const blogsService = {
     },
 
     async createPostToBlog(blogId: string, postData: {title: string, shortDescription: string, content: string}
-    ): Promise<{} | null> {
-        const blog: BlogModelOutType | null = await blogsRepository.getBlogsById(blogId)
-
-        if (!blog) {
-            return null
-        }
-
-        const newPost = {
-            
-        }
+    ) {
         
-
-        const id = await postsRepository.createPost(newPost)
-
-        if (!newPost) {
-            return null
-        }
-       
-        return newPost
     },
 
 

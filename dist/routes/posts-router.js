@@ -18,10 +18,15 @@ const posts_service_1 = require("../domain/posts-service");
 const blogs_service_1 = require("../domain/blogs-service");
 exports.postsRouter = (0, express_1.Router)({});
 exports.postsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const foundPosts = yield posts_service_1.postsService.getAllPosts();
-    res
-        .status(statuses_1.HTTP_STATUSES.OK200)
-        .send(foundPosts);
+    const sortData = {
+        searchNameTerm: req.query.searchNameTerm,
+        sortBy: req.query.sortBy,
+        sortDirection: req.query.sortDirection,
+        pageNumber: req.query.pageNumber,
+        pageSize: req.query.pageSize
+    };
+    const foundPosts = yield posts_service_1.postsService.getAllPosts(sortData);
+    res.send(foundPosts);
 }));
 exports.postsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const foundPosts = yield posts_service_1.postsService.getPostsById(req.params.id);
