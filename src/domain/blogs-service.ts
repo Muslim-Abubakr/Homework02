@@ -1,5 +1,5 @@
 import { uid } from 'uid'
-import { BlogDbType, BlogModelOutType, SortDataType } from '../models/types'
+import { BlogDbType, BlogModelOutType, PostModelOutType, SortDataType } from '../models/types'
 import { blogsRepository } from '../repositories/blogs/blogs-repository'
 import { ObjectId } from 'mongodb'
 import { blogMapping } from '../helpers/BlogMappingViews'
@@ -11,6 +11,10 @@ export const blogsService = {
 
     async getBlogsById(id: string | null | undefined): Promise<BlogModelOutType | null> {
         return await blogsRepository.getBlogsById(id)
+    },
+
+    async getPostsByBlogId(id: string): Promise<PostModelOutType | null> {
+        return await blogsRepository.getPostsByBlogId(id)
     },
 
     async createBlog(name: string, description: string, websiteUrl: string): Promise<BlogModelOutType | void> {

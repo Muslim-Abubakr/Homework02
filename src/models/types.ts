@@ -77,7 +77,7 @@ export type SortDataType = {
     sortDirection?: 'asc' | 'desc'
     pageNumber?: number
     pageSize?: number
-}
+}   
 
 export type ParamsType = {
     id: string

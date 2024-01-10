@@ -42,7 +42,14 @@ exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
     }
 })),
     exports.blogsRouter.get('/:id/posts', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const foundBlogs = yield blogs_service_1.blogsService.getBlogsById(req.params.id);
+        const id = req.params.id;
+        const sortData = {
+            sortBy: req.query.sortBy,
+            sortDirection: req.query.sortDirection,
+            pageNumber: req.query.pageNumber,
+            pageSize: req.query.pageSize
+        };
+        const foundBlogs = yield blogs_service_1.blogsService.getBlogsById(id);
         if (foundBlogs) {
             res
                 .status(statuses_1.HTTP_STATUSES.OK200)

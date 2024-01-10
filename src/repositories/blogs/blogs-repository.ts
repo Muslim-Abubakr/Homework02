@@ -1,7 +1,7 @@
 import { blogsCollection, postsCollection } from '../../db/database'
 import { blogMapping } from '../../helpers/BlogMappingViews'
-import { CreatePostBlogModel } from '../../models/PostCreateModel'
-import { BlogDbType, PostType, SortDataType } from '../../models/types'
+import { CreatePostBlogModel } from '../../models/posts/PostCreateModel'
+import { BlogDbType, PostModelOutType, PostType, SortDataType } from '../../models/types'
 import { BlogModelOutType } from '../../models/types'
 import { ObjectId } from 'mongodb'
 
@@ -60,6 +60,10 @@ export const blogsRepository = {
         } catch (error) {
             return null;
         }
+
+    },
+
+    async getPostsByBlogId(blogId: string, sortData: ): Promise<PostModelOutType | null> {
 
     },
 

@@ -1,7 +1,7 @@
 import { BlogType, PostType } from "../models/types"
 import { MongoClient } from "mongodb"
 import dotenv from 'dotenv'
-import { CreatePostBlogModel } from "../models/PostCreateModel"
+import { CreatePostBlogModel } from "../models/posts/PostCreateModel"
 
 dotenv.config()
 

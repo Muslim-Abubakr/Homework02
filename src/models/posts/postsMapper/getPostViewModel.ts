@@ -1,5 +1,5 @@
 import { ViewPostModel } from "../ViewPostModel";
-import { PostType } from "../types";
+import { PostType } from "../../types";
 
 export const getPostsViewModel = (post: PostType): ViewPostModel => ({
     id: post.id,

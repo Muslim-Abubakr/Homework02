@@ -7,10 +7,11 @@ import { BlogParams, BlogType, ParamsType, RequestWithParamsAndBody, RequestWith
 import { HTTP_STATUSES } from '../statuses/statuses'
 import { blogsService } from '../domain/blogs-service'
 import { validationCreateUpdatePost } from '../middlewares/posts-validation'
-import { CreatePostBlogModel } from '../models/PostCreateModel'
+import { CreatePostBlogModel } from '../models/posts/PostCreateModel'
 import { blogsRepository } from '../repositories/blogs/blogs-repository'
 
 import { postsService } from '../domain/posts-service'
+import { QueryPostByBlogIdInputModel } from '../models/blogs/input/query.blog.input.model'
 
 
 export const blogsRouter = Router({})
@@ -41,9 +42,18 @@ blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>,
     }
 }),
 
-blogsRouter.get('/:id/posts', async (req: RequestWithParamsAndQuery<ParamsType, {}>, 
-    res: Response<ViewBlogModel | Number>): Promise<void> => {
-    const foundBlogs: BlogType | null = await blogsService.getBlogsById(req.params.id)
+blogsRouter.get('/:id/posts', async (req: RequestWithParamsAndQuery<ParamsType, QueryPostByBlogIdInputModel>, 
+    res: Response): Promise<void> => {
+    const id = req.params.id
+
+    const sortData: {sortBy: any, sortDirection: any, pageNumber: any, pageSize: any} = {
+        sortBy: req.query.sortBy,
+        sortDirection: req.query.sortDirection,
+        pageNumber: req.query.pageNumber,
+        pageSize: req.query.pageSize
+    }
+
+    const foundBlogs: BlogType | null = await blogsService.getBlogsById(id)
 
     if (foundBlogs) {
         res
