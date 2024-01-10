@@ -1,4 +1,4 @@
-import { PostModelOutType, PostType, SortDataType } from '../../models/types'
+import { PostDbType, PostModelOutType, SortDataType } from '../../models/types'
 import { postsCollection } from '../../db/database'
 import { postMapping } from '../../helpers/PostMappingViews'
 import { ObjectId } from 'mongodb'
@@ -42,7 +42,7 @@ export const postsRepository = {
         }
     },
 
-    async getPostsById(id: number | string): Promise<PostModelOutType | null> {
+    async getPostsById(id: string | null | undefined): Promise<PostModelOutType | null> {
         if (!id) {
             return null
         }
@@ -52,9 +52,10 @@ export const postsRepository = {
                 console.error("Неверный формат ID:", id);
                 return null;
             }
+
             const objectId = new ObjectId(String(id))
-            const post = await postsCollection.findOne({_id: objectId})
-            return post ? postMapping(post) : null
+            const post: PostDbType | null = await postsCollection.findOne({_id: objectId})
+            return post ? postMapping(post) : null;
         } catch (error) {
             console.error("Ошибка при получении блога по ID:", error);
             return null;
