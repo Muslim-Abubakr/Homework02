@@ -49,15 +49,13 @@ export const postsRepository = {
 
         try {
             if (!ObjectId.isValid(id)) {
-                console.error("Неверный формат ID:", id);
                 return null;
             }
-
+            
             const objectId = new ObjectId(String(id))
             const post: PostDbType | null = await postsCollection.findOne({_id: objectId})
-            return post ? postMapping(post) : null;
+            return post ? postMapping(post) : null
         } catch (error) {
-            console.error("Ошибка при получении блога по ID:", error);
             return null;
         }
     },
@@ -72,7 +70,6 @@ export const postsRepository = {
             const result = await postsCollection.updateOne({_id: objectId}, {$set: {id: id, title: title, shortDescription: shortDescription, content: content, blogId: blogId, blogName: blogName}})
             return result.matchedCount === 1
         } catch (error) {
-            console.error("Ошибка при получении блога по ID:", error);
             return null;
         }
     },
@@ -83,7 +80,6 @@ export const postsRepository = {
             const result = await postsCollection.deleteOne({_id: objectId})
             return result.deletedCount === 1
         } catch (error) {
-            console.error("Ошибка при удалении поста по ID:", error);
             return null;
         }
         

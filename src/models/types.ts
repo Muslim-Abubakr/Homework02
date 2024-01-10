@@ -79,7 +79,12 @@ export type SortDataType = {
     pageSize?: number
 }
 
+export type ParamsType = {
+    id: string
+}
+
 export type RequestWithBody<T> = Request<{},{}, T>
 export type RequestWithQuery<T> = Request<{},{},{}, T>
 export type RequestWithUriParams<T> = Request<T>
 export type RequestWithParamsAndBody<T, Y> = Request<T, {}, Y> 
+export type RequestWithParamsAndQuery<P, Q> = Request<P, {}, {}, Q>

@@ -40,14 +40,25 @@ exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
     else {
         res.send(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
     }
-}));
-exports.blogsRouter.post('/', authorization_1.authorizationMiddleware, blogs_validation_1.validationCreateUpdateBlog, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, description, websiteUrl } = req.body;
-    const newBlog = yield blogs_service_1.blogsService.createBlog(name, description, websiteUrl);
-    res
-        .status(statuses_1.HTTP_STATUSES.CREATED_201)
-        .send(newBlog);
-}));
+})),
+    exports.blogsRouter.get('/:id/posts', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const foundBlogs = yield blogs_service_1.blogsService.getBlogsById(req.params.id);
+        if (foundBlogs) {
+            res
+                .status(statuses_1.HTTP_STATUSES.OK200)
+                .send(foundBlogs);
+        }
+        else {
+            res.send(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
+        }
+    })),
+    exports.blogsRouter.post('/', authorization_1.authorizationMiddleware, blogs_validation_1.validationCreateUpdateBlog, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { name, description, websiteUrl } = req.body;
+        const newBlog = yield blogs_service_1.blogsService.createBlog(name, description, websiteUrl);
+        res
+            .status(statuses_1.HTTP_STATUSES.CREATED_201)
+            .send(newBlog);
+    }));
 exports.blogsRouter.post('/:id', authorization_1.authorizationMiddleware, posts_validation_1.validationCreateUpdatePost, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const { title, shortDescription, content } = req.body;

@@ -1,9 +1,9 @@
 import { Request, Response, Router } from 'express'
 import { validationCreateUpdateBlog } from '../middlewares/blogs-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
-import { UriBlogsModel } from '../models/UriBlogsModel'
-import { ViewBlogModel } from '../models/ViewBlogModel'
-import { BlogParams, BlogType, RequestWithParamsAndBody, RequestWithQuery, RequestWithUriParams, SortDataType } from '../models/types'
+import { UriBlogsModel } from '../models/blogs/UriBlogsModel'
+import { ViewBlogModel } from '../models/blogs/ViewBlogModel'
+import { BlogParams, BlogType, ParamsType, RequestWithParamsAndBody, RequestWithParamsAndQuery, RequestWithQuery, RequestWithUriParams, SortDataType } from '../models/types'
 import { HTTP_STATUSES } from '../statuses/statuses'
 import { blogsService } from '../domain/blogs-service'
 import { validationCreateUpdatePost } from '../middlewares/posts-validation'
@@ -39,7 +39,20 @@ blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>,
     } else {
         res.send(HTTP_STATUSES.NOT_FOUND_404)
     }
-})
+}),
+
+blogsRouter.get('/:id/posts', async (req: RequestWithParamsAndQuery<ParamsType, {}>, 
+    res: Response<ViewBlogModel | Number>): Promise<void> => {
+    const foundBlogs: BlogType | null = await blogsService.getBlogsById(req.params.id)
+
+    if (foundBlogs) {
+        res
+            .status(HTTP_STATUSES.OK200)
+            .send(foundBlogs)
+    } else {
+        res.send(HTTP_STATUSES.NOT_FOUND_404)
+    }
+}),
 
 blogsRouter.post('/', 
     authorizationMiddleware,

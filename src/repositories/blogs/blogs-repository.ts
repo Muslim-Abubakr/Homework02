@@ -51,7 +51,6 @@ export const blogsRepository = {
         
         try {
             if (!ObjectId.isValid(id)) {
-                console.error("Неверный формат ID:", id);
                 return null;
             }
             
@@ -59,7 +58,6 @@ export const blogsRepository = {
             const blog: BlogDbType | null = await blogsCollection.findOne({_id: objectId})
             return blog ? blogMapping(blog) : null;
         } catch (error) {
-            console.error("Ошибка при получении блога по ID:", error);
             return null;
         }
 
@@ -91,7 +89,6 @@ export const blogsRepository = {
 
         try {
             if (!ObjectId.isValid(id)) {
-                console.error("Неверный формат ID:", id);
                 return null;
             }
 
@@ -99,7 +96,6 @@ export const blogsRepository = {
             const updateBlog = await blogsCollection.updateOne({_id: objectId}, {$set: {name: name, description: description, websiteUrl: websiteUrl}})
             return updateBlog.matchedCount === 1
         } catch (error) {
-            console.error("Ошибка при получении блога по ID:", error);
             return null;
         }
     },
@@ -110,7 +106,6 @@ export const blogsRepository = {
             const deleteBlog = await blogsCollection.deleteOne({_id: objectId})
             return deleteBlog.deletedCount === 1
         } catch (error) {
-            console.error("Ошибка при получении блога по ID:", error);
             return null;
         }
     },

@@ -1,4 +1,4 @@
-import { ViewBlogModel } from "../ViewBlogModel";
+import { ViewBlogModel } from "../blogs/ViewBlogModel";
 import { BlogType } from "../types";
 
 export const getBlogViewModel = (blog: BlogType): ViewBlogModel => ({
