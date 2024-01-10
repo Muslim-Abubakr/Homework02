@@ -3,6 +3,7 @@ import { BlogDbType, BlogModelOutType, PostModelOutType, SortDataType } from '..
 import { blogsRepository } from '../repositories/blogs/blogs-repository'
 import { ObjectId } from 'mongodb'
 import { blogMapping } from '../helpers/BlogMappingViews'
+import { QueryPostByBlogIdInputModel } from '../models/blogs/input/query.blog.input.model'
 
 export const blogsService = {
     async getAllBlogs(sortData: SortDataType) {
@@ -13,8 +14,8 @@ export const blogsService = {
         return await blogsRepository.getBlogsById(id)
     },
 
-    async getPostsByBlogId(id: string): Promise<PostModelOutType | null> {
-        return await blogsRepository.getPostsByBlogId(id)
+    async getPostsByBlogId(id: string, sortData: QueryPostByBlogIdInputModel): Promise<void> {
+        return await blogsRepository.getPostsByBlogId(id, sortData)
     },
 
     async createBlog(name: string, description: string, websiteUrl: string): Promise<BlogModelOutType | void> {

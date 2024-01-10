@@ -43,7 +43,7 @@ blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>,
 }),
 
 blogsRouter.get('/:id/posts', async (req: RequestWithParamsAndQuery<ParamsType, QueryPostByBlogIdInputModel>, 
-    res: Response): Promise<void> => {
+    res: Response): Promise<BlogType | null> => {
     const id = req.params.id
 
     const sortData: {sortBy: any, sortDirection: any, pageNumber: any, pageSize: any} = {
@@ -53,12 +53,12 @@ blogsRouter.get('/:id/posts', async (req: RequestWithParamsAndQuery<ParamsType, 
         pageSize: req.query.pageSize
     }
 
-    const foundBlogs: BlogType | null = await blogsService.getBlogsById(id)
+    const foundPosts: BlogType | null = await blogsService.getPostsByBlogId(id, sortData)
 
-    if (foundBlogs) {
+    if (foundPosts) {
         res
             .status(HTTP_STATUSES.OK200)
-            .send(foundBlogs)
+            .send(foundPosts)
     } else {
         res.send(HTTP_STATUSES.NOT_FOUND_404)
     }

@@ -49,11 +49,11 @@ exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
             pageNumber: req.query.pageNumber,
             pageSize: req.query.pageSize
         };
-        const foundBlogs = yield blogs_service_1.blogsService.getBlogsById(id);
-        if (foundBlogs) {
+        const foundPosts = yield blogs_service_1.blogsService.getPostsByBlogId(id, sortData);
+        if (foundPosts) {
             res
                 .status(statuses_1.HTTP_STATUSES.OK200)
-                .send(foundBlogs);
+                .send(foundPosts);
         }
         else {
             res.send(statuses_1.HTTP_STATUSES.NOT_FOUND_404);

@@ -1,5 +1,7 @@
 import { blogsCollection, postsCollection } from '../../db/database'
 import { blogMapping } from '../../helpers/BlogMappingViews'
+import { postMapping } from '../../helpers/PostMappingViews'
+import { QueryBlogInputModel, QueryPostByBlogIdInputModel } from '../../models/blogs/input/query.blog.input.model'
 import { CreatePostBlogModel } from '../../models/posts/PostCreateModel'
 import { BlogDbType, PostModelOutType, PostType, SortDataType } from '../../models/types'
 import { BlogModelOutType } from '../../models/types'
@@ -63,8 +65,31 @@ export const blogsRepository = {
 
     },
 
-    async getPostsByBlogId(blogId: string, sortData: ): Promise<PostModelOutType | null> {
+    async getPostsByBlogId(blogId: string, sortData: QueryPostByBlogIdInputModel): Promise<any> {
+        const sortDirection: 'asc' | 'desc' = sortData.sortDirection ?? 'desc'
+        const sortBy: string = sortData.sortBy ?? 'createdAt'
+        const pageSize: number = sortData.pageSize ?? 10
+        const pageNumber: number | undefined = sortData.pageNumber ?? 1
 
+        const posts = await postsCollection
+            .find({blogId: blogId})
+            .sort(sortBy, sortDirection)
+            .skip((+pageNumber - 1) *  +pageSize)
+            .limit(+pageSize)
+            .toArray()
+
+            const totalCount = await postsCollection
+            .countDocuments({blogId: blogId})
+
+            const pageCount = Math.ceil(totalCount / +pageSize)
+
+            return {
+                pageCount,
+                page: +pageNumber,
+                pageSize: +pageSize,
+                totalCount: +totalCount,
+                items: posts.map(postMapping)
+            }
     },
 
     async createBlog(newBlog: BlogModelOutType): Promise<BlogModelOutType | void> {
