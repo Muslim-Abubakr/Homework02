@@ -1,10 +1,11 @@
 import { uid } from 'uid'
-import { BlogDbType, BlogModelOutType, PostModelOutType, SortDataType } from '../models/types'
+import { BlogDbType, BlogModelOutType, PostDbType, PostModelOutType, SortDataType } from '../models/types'
 import { blogsRepository } from '../repositories/blogs/blogs-repository'
 import { ObjectId } from 'mongodb'
 import { blogMapping } from '../helpers/BlogMappingViews'
 import { QueryPostByBlogIdInputModel } from '../models/blogs/input/query.blog.input.model'
 import { postsRepository } from '../repositories/posts/posts-repository'
+import { postMapping } from '../helpers/PostMappingViews'
 
 export const blogsService = {
     async getAllBlogs(sortData: SortDataType) {
@@ -35,10 +36,20 @@ export const blogsService = {
        
     },
 
-    async createPostToBlog(blogId: string, postData: {id: string, title: string, shortDescription: string, content: string, blogName: string, createdAt: string}): Promise<PostModelOutType | void> {
-        await postsRepository.createPost
+    async createPostToBlog(blogId: string, postData: {id: string, title: string, shortDescription: string, content: string, blogName: string, createdAt: string}): Promise<PostModelOutType> {
+        const newPost: PostDbType = {
+            _id: new ObjectId,
+            id: uid(),
+            title: postData.title,
+            shortDescription: postData.shortDescription,
+            content: postData.content,
+            blogId: blogId,
+            blogName: postData.blogName,
+            createdAt: new Date().toISOString()
+        }
 
-
+        await postsRepository.createPost(newPost)
+        return postMapping(newPost)
     },
 
 
