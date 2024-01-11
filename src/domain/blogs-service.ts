@@ -4,6 +4,7 @@ import { blogsRepository } from '../repositories/blogs/blogs-repository'
 import { ObjectId } from 'mongodb'
 import { blogMapping } from '../helpers/BlogMappingViews'
 import { QueryPostByBlogIdInputModel } from '../models/blogs/input/query.blog.input.model'
+import { postsRepository } from '../repositories/posts/posts-repository'
 
 export const blogsService = {
     async getAllBlogs(sortData: SortDataType) {
@@ -34,8 +35,10 @@ export const blogsService = {
        
     },
 
-    async createPostToBlog(blogId: string, postData: {title: string, shortDescription: string, content: string}) {
-        
+    async createPostToBlog(blogId: string, postData: {id: string, title: string, shortDescription: string, content: string, blogName: string, createdAt: string}): Promise<PostModelOutType | void> {
+        await postsRepository.createPost
+
+
     },
 
 

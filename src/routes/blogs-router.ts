@@ -3,13 +3,12 @@ import { validationCreateUpdateBlog } from '../middlewares/blogs-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
 import { UriBlogsModel } from '../models/blogs/UriBlogsModel'
 import { ViewBlogModel } from '../models/blogs/ViewBlogModel'
-import { BlogParams, BlogType, ParamsType, PostModelOutType, RequestWithParamsAndBody, RequestWithParamsAndQuery, RequestWithQuery, RequestWithUriParams, SortDataType } from '../models/types'
+import { BlogParams, BlogType, ParamsType, RequestWithParamsAndBody, RequestWithParamsAndQuery, RequestWithQuery, RequestWithUriParams, SortDataType } from '../models/types'
 import { HTTP_STATUSES } from '../statuses/statuses'
 import { blogsService } from '../domain/blogs-service'
 import { validationCreateUpdatePost } from '../middlewares/posts-validation'
 import { CreatePostBlogModel } from '../models/posts/PostCreateModel'
 import { blogsRepository } from '../repositories/blogs/blogs-repository'
-
 import { postsService } from '../domain/posts-service'
 import { QueryPostByBlogIdInputModel } from '../models/blogs/input/query.blog.input.model'
 
@@ -73,18 +72,7 @@ blogsRouter.post('/',
         res
             .status(HTTP_STATUSES.CREATED_201) 
             .send(newBlog)
-})
-
-blogsRouter.post('/:id', 
-    authorizationMiddleware,
-    validationCreateUpdatePost,
-    async (req: RequestWithUriParams<BlogParams>, res: Response) => {
-        const id = req.params.id
-
-        const {title, shortDescription, content} = req.body
-
-        const blog = await blogsService.createBlog(title, shortDescription, content)
-})
+}),
 
 blogsRouter.post('/:id/posts', 
     authorizationMiddleware,

@@ -1,9 +1,9 @@
 import { blogsCollection, postsCollection } from '../../db/database'
 import { blogMapping } from '../../helpers/BlogMappingViews'
 import { postMapping } from '../../helpers/PostMappingViews'
-import { QueryBlogInputModel, QueryPostByBlogIdInputModel } from '../../models/blogs/input/query.blog.input.model'
+import { QueryPostByBlogIdInputModel } from '../../models/blogs/input/query.blog.input.model'
 import { CreatePostBlogModel } from '../../models/posts/PostCreateModel'
-import { BlogDbType, PostModelOutType, PostType, SortDataType } from '../../models/types'
+import { BlogDbType, PostType, SortDataType } from '../../models/types'
 import { BlogModelOutType } from '../../models/types'
 import { ObjectId } from 'mongodb'
 
