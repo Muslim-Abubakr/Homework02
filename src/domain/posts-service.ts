@@ -10,7 +10,7 @@ export const postsService = {
         return postsRepository.getAllPosts(sortData)
     },
 
-    async getPostsById(id: number | string): Promise<PostModelOutType | null> {
+    async getPostsById(id: string | null | undefined): Promise<PostModelOutType | null> {
         return await postsRepository.getPostsById(id)
     },
 
