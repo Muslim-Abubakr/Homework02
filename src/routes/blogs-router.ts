@@ -3,7 +3,7 @@ import { validationCreateUpdateBlog } from '../middlewares/blogs-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
 import { UriBlogsModel } from '../models/blogs/UriBlogsModel'
 import { ViewBlogModel } from '../models/blogs/ViewBlogModel'
-import { BlogParams, BlogType, ParamsType, RequestWithParamsAndBody, RequestWithParamsAndQuery, RequestWithQuery, RequestWithUriParams, SortDataType } from '../models/types'
+import { BlogParams, BlogType, ParamsType, PostModelOutType, RequestWithParamsAndBody, RequestWithParamsAndQuery, RequestWithQuery, RequestWithUriParams, SortDataType } from '../models/types'
 import { HTTP_STATUSES } from '../statuses/statuses'
 import { blogsService } from '../domain/blogs-service'
 import { validationCreateUpdatePost } from '../middlewares/posts-validation'
@@ -43,8 +43,8 @@ blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>,
 }),
 
 blogsRouter.get('/:id/posts', async (req: RequestWithParamsAndQuery<ParamsType, QueryPostByBlogIdInputModel>, 
-    res: Response): Promise<BlogType | null> => {
-    const id = req.params.id
+    res: Response): Promise<void> => {
+    const id = req.params.id    
 
     const sortData: {sortBy: any, sortDirection: any, pageNumber: any, pageSize: any} = {
         sortBy: req.query.sortBy,
@@ -53,12 +53,12 @@ blogsRouter.get('/:id/posts', async (req: RequestWithParamsAndQuery<ParamsType, 
         pageSize: req.query.pageSize
     }
 
-    const foundPosts: BlogType | null = await blogsService.getPostsByBlogId(id, sortData)
+    const posts = await blogsService.getPostsByBlogId(id, sortData)
 
-    if (foundPosts) {
+    if (posts) {
         res
             .status(HTTP_STATUSES.OK200)
-            .send(foundPosts)
+            .send(posts)
     } else {
         res.send(HTTP_STATUSES.NOT_FOUND_404)
     }

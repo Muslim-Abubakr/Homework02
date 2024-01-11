@@ -80,6 +80,7 @@ export const postsRepository = {
             const result = await postsCollection.deleteOne({_id: objectId})
             return result.deletedCount === 1
         } catch (error) {
+
             return null;
         }
         

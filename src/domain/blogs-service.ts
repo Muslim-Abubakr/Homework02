@@ -14,7 +14,7 @@ export const blogsService = {
         return await blogsRepository.getBlogsById(id)
     },
 
-    async getPostsByBlogId(id: string, sortData: QueryPostByBlogIdInputModel): Promise<void> {
+    async getPostsByBlogId(id: string, sortData: QueryPostByBlogIdInputModel): Promise<PostModelOutType | null> {
         return await blogsRepository.getPostsByBlogId(id, sortData)
     },
 

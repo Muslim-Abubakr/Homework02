@@ -15,8 +15,7 @@ import { blogsService } from '../domain/blogs-service'
 export const postsRouter = Router({})
 
 postsRouter.get('/', async (req: RequestWithQuery<SortDataType>, res: Response) => {
-    const sortData: {searchNameTerm: any, sortBy: any, sortDirection: any, pageNumber: any, pageSize: any} = {
-        searchNameTerm: req.query.searchNameTerm,
+    const sortData: { sortBy: any, sortDirection: any, pageNumber: any, pageSize: any} = {
         sortBy: req.query.sortBy,
         sortDirection: req.query.sortDirection,
         pageNumber: req.query.pageNumber,

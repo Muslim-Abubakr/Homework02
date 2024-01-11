@@ -19,7 +19,6 @@ const blogs_service_1 = require("../domain/blogs-service");
 exports.postsRouter = (0, express_1.Router)({});
 exports.postsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sortData = {
-        searchNameTerm: req.query.searchNameTerm,
         sortBy: req.query.sortBy,
         sortDirection: req.query.sortDirection,
         pageNumber: req.query.pageNumber,
