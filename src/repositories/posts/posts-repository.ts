@@ -11,7 +11,7 @@ export const postsRepository = {
         const pageSize: number = sortData.pageSize ?? 10
         const pageNumber: number | undefined = sortData.pageNumber ?? 1
 
-        let filter: {} = []
+        let filter = {}
 
         // переопределяем фильтр, поиск по имени без привязки к регистру
         if (searchNameTerm) {

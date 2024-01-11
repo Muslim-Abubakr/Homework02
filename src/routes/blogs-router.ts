@@ -76,7 +76,7 @@ blogsRouter.post('/',
 
 blogsRouter.post('/:id/posts', 
     authorizationMiddleware,
-    validationCreateUpdateBlog,
+    validationCreateUpdatePost,
     async (req: RequestWithParamsAndBody<{id: string}, CreatePostBlogModel>, res: Response) => {
         const title = req.body.title
         const shortDescription = req.body.shortDescription
