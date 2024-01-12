@@ -18,12 +18,7 @@ export const blogsRepository = {
         let filter: {} = {}
 
         // переопределяем фильтр, поиск по имени без привязки к регистру
-        if (searchNameTerm) {
-            filter = {name: {
-                $regex: searchNameTerm,
-                $options: 'i'
-            }}
-        }
+        
 
         const blogs = await blogsCollection
             .find(filter)
