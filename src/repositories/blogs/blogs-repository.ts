@@ -38,7 +38,6 @@ export const blogsRepository = {
         const pageCount = Math.ceil(totalCount / +pageSize)
 
         return {
-            searchNameTerm: searchNameTerm,
             pagesCount: pageCount,
             page: +pageNumber,
             pageSize: +pageSize,
