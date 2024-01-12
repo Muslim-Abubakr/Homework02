@@ -18,7 +18,12 @@ export const blogsRepository = {
         let filter: {} = {}
 
         // переопределяем фильтр, поиск по имени без привязки к регистру
-        
+        if (searchNameTerm) {
+            filter = {name: {
+                $regex: searchNameTerm,
+                $options: 'i'
+            }}
+        }
 
         const blogs = await blogsCollection
             .find(filter)
@@ -33,6 +38,7 @@ export const blogsRepository = {
         const pageCount = Math.ceil(totalCount / +pageSize)
 
         return {
+            searchNameTerm: searchNameTerm,
             pagesCount: pageCount,
             page: +pageNumber,
             pageSize: +pageSize,
