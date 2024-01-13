@@ -11,6 +11,7 @@ import { CreatePostBlogModel } from '../models/posts/PostCreateModel'
 import { blogsRepository } from '../repositories/blogs/blogs-repository'
 import { postsService } from '../domain/posts-service'
 import { QueryPostByBlogIdInputModel } from '../models/blogs/input/query.blog.input.model'
+import { validationCreateUpdatePostToBlog } from '../middlewares/post-to-blog-validation'
 
 
 export const blogsRouter = Router({})
@@ -76,7 +77,7 @@ blogsRouter.post('/',
 
 blogsRouter.post('/:id/posts', 
     authorizationMiddleware,
-    validationCreateUpdatePost,
+    validationCreateUpdatePostToBlog,
     async (req: RequestWithParamsAndBody<{id: string}, CreatePostBlogModel>, res: Response) => {
         const title = req.body.title
         const shortDescription = req.body.shortDescription
