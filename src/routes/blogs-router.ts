@@ -52,6 +52,13 @@ blogsRouter.get('/:id/posts', async (req: RequestWithParamsAndQuery<ParamsType, 
         pageSize: req.query.pageSize
     }
 
+    const blog = await blogsService.getBlogsById(id)
+
+    if (!blog) {
+        res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
+        return;
+    }
+
     const posts = await blogsService.getPostsByBlogId(id, sortData)
 
     if (posts) {
@@ -59,7 +66,7 @@ blogsRouter.get('/:id/posts', async (req: RequestWithParamsAndQuery<ParamsType, 
             .status(HTTP_STATUSES.OK200)
             .send(posts)
     } else {
-        res.send(HTTP_STATUSES.NOT_FOUND_404)
+        res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
     }
 }),
 

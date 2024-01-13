@@ -49,6 +49,11 @@ exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
             pageNumber: req.query.pageNumber,
             pageSize: req.query.pageSize
         };
+        const blog = yield blogs_service_1.blogsService.getBlogsById(id);
+        if (!blog) {
+            res.sendStatus(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
+            return;
+        }
         const posts = yield blogs_service_1.blogsService.getPostsByBlogId(id, sortData);
         if (posts) {
             res
@@ -56,7 +61,7 @@ exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
                 .send(posts);
         }
         else {
-            res.send(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
+            res.sendStatus(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
         }
     })),
     exports.blogsRouter.post('/', authorization_1.authorizationMiddleware, blogs_validation_1.validationCreateUpdateBlog, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
