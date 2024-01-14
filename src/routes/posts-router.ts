@@ -9,7 +9,8 @@ import { PostCreateInputModel } from '../models/posts/PostCreateModel'
 import { PostUpdateInputModel } from '../models/posts/PostUpdateModel'
 import { HTTP_STATUSES } from '../statuses/statuses'
 import { postsService } from '../domain/posts-service'
-import { blogsService } from '../domain/blogs-service'
+import { queryBlogsRepository } from '../repositories/blogs/queryBlogs-repository'
+import { queryPostsRepository } from '../repositories/posts/queryPosts-repository'
 
 
 export const postsRouter = Router({})
@@ -22,12 +23,12 @@ postsRouter.get('/', async (req: RequestWithQuery<SortDataType>, res: Response) 
         pageSize: req.query.pageSize
     }
 
-    const foundPosts = await postsService.getAllPosts(sortData)
+    const foundPosts = await queryPostsRepository.getAllPosts(sortData)
     res.send(foundPosts)
 })
 
 postsRouter.get('/:id', async (req: RequestWithUriParams<UriPostsIdModel>, res: Response<ViewPostModel>) => {
-    const foundPosts: PostType | null = await postsService.getPostsById(req.params.id)
+    const foundPosts: PostType | null = await queryPostsRepository.getPostsById(req.params.id)
 
     if (foundPosts) {
         res
@@ -43,7 +44,7 @@ postsRouter.post('/',
     validationCreateUpdatePost, 
     async (req: RequestWithBody<PostCreateInputModel>, res: Response<ViewPostModel>) => {
         const { title, shortDescription, content, blogId } = req.body
-        const blog : BlogType | null = await blogsService.getBlogsById(blogId)
+        const blog : BlogType | null = await queryBlogsRepository.getBlogsById(blogId)
         if (!blog){
             return res.sendStatus(HTTP_STATUSES.BAD_REQUEST_400)
         }
@@ -60,7 +61,7 @@ postsRouter.put('/:id',
     async (req: RequestWithParamsAndBody<UriPostsIdModel, PostUpdateInputModel>, res: Response) => {
         
         const { title, shortDescription, content, blogId } = req.body
-        const blog: BlogType | null = await blogsService.getBlogsById(blogId)
+        const blog: BlogType | null = await queryBlogsRepository.getBlogsById(blogId)
 
         if (!blog){
             return res.sendStatus(HTTP_STATUSES.BAD_REQUEST_400)
@@ -69,7 +70,7 @@ postsRouter.put('/:id',
         const isUpdated = await postsService.updatePost(req.params.id, title, shortDescription, content, blogId, blog.name)
 
         if (isUpdated) {
-            const post = await postsService.getPostsById(blogId)
+            const post = await queryPostsRepository.getPostsById(blogId)
             res
                 .status(HTTP_STATUSES.NO_CONTENT_204)
                 .send(post)

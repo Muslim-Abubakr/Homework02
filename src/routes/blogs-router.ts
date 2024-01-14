@@ -11,6 +11,7 @@ import { blogsRepository } from '../repositories/blogs/blogs-repository'
 import { postsService } from '../domain/posts-service'
 import { QueryPostByBlogIdInputModel } from '../models/blogs/input/query.blog.input.model'
 import { validationCreateUpdatePostToBlog } from '../middlewares/post-to-blog-validation'
+import { queryBlogsRepository } from '../repositories/blogs/queryBlogs-repository'
 
 
 export const blogsRouter = Router({})
@@ -24,13 +25,13 @@ blogsRouter.get('/', async (req: RequestWithQuery<SortDataType>, res: Response) 
         pageSize: req.query.pageSize
     }
 
-    const foundBlogs = await blogsService.getAllBlogs(sortData)
+    const foundBlogs = await queryBlogsRepository.getAllBlogs(sortData)
     res.send(foundBlogs)
 })
 
 blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>, 
     res: Response<ViewBlogModel | Number>): Promise<void> => {
-    const foundBlogs: BlogType | null = await blogsService.getBlogsById(req.params.id)
+    const foundBlogs: BlogType | null = await queryBlogsRepository.getBlogsById(req.params.id)
 
     if (foundBlogs) {
         res
@@ -52,14 +53,14 @@ blogsRouter.get('/:id/posts', async (req: RequestWithParamsAndQuery<ParamsType, 
         pageSize: req.query.pageSize
     }
 
-    const blog = await blogsService.getBlogsById(id)
+    const blog = await queryBlogsRepository.getBlogsById(id)
 
     if (!blog) {
         res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
         return;
     }
 
-    const posts = await blogsService.getPostsByBlogId(id, sortData)
+    const posts = await queryBlogsRepository.getPostsByBlogId(id, sortData)
 
     if (posts) {
         res
@@ -91,7 +92,7 @@ blogsRouter.post('/:id/posts',
 
         const blogId = req.params.id
 
-        const blog = await blogsRepository.getBlogsById(blogId)
+        const blog = await queryBlogsRepository.getBlogsById(blogId)
 
         if (!blog) {
             res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
@@ -118,7 +119,7 @@ blogsRouter.put('/:id',
         const isUpdated = await blogsService.updateBlog(req.params.id, name, description, websiteUrl)
 
         if (isUpdated) {
-            const blog = await blogsService.getBlogsById(req.params.id)
+            const blog = await queryBlogsRepository.getBlogsById(req.params.id)
             res
                 .status(HTTP_STATUSES.NO_CONTENT_204)
                 .send(blog)

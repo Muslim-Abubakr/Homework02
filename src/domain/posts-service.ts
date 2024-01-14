@@ -6,14 +6,6 @@ import { postMapping } from '../helpers/PostMappingViews'
 
 
 export const postsService = {
-    async getAllPosts(sortData: SortDataType) {
-        return postsRepository.getAllPosts(sortData)
-    },
-
-    async getPostsById(id: string | null | undefined): Promise<PostModelOutType | null> {
-        return await postsRepository.getPostsById(id)
-    },
-
     async createPost(title: string, shortDescription: string, content: string, blogId: string, blogName: string): Promise<PostModelOutType> {
         const newPost: PostDbType = {
             _id: new ObjectId,

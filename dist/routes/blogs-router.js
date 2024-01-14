@@ -15,9 +15,9 @@ const blogs_validation_1 = require("../middlewares/blogs-validation");
 const authorization_1 = require("../middlewares/authorization");
 const statuses_1 = require("../statuses/statuses");
 const blogs_service_1 = require("../domain/blogs-service");
-const blogs_repository_1 = require("../repositories/blogs/blogs-repository");
 const posts_service_1 = require("../domain/posts-service");
 const post_to_blog_validation_1 = require("../middlewares/post-to-blog-validation");
+const queryBlogs_repository_1 = require("../repositories/blogs/queryBlogs-repository");
 exports.blogsRouter = (0, express_1.Router)({});
 exports.blogsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sortData = {
@@ -27,11 +27,11 @@ exports.blogsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, fun
         pageNumber: req.query.pageNumber,
         pageSize: req.query.pageSize
     };
-    const foundBlogs = yield blogs_service_1.blogsService.getAllBlogs(sortData);
+    const foundBlogs = yield queryBlogs_repository_1.queryBlogsRepository.getAllBlogs(sortData);
     res.send(foundBlogs);
 }));
 exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const foundBlogs = yield blogs_service_1.blogsService.getBlogsById(req.params.id);
+    const foundBlogs = yield queryBlogs_repository_1.queryBlogsRepository.getBlogsById(req.params.id);
     if (foundBlogs) {
         res
             .status(statuses_1.HTTP_STATUSES.OK200)
@@ -49,12 +49,12 @@ exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
             pageNumber: req.query.pageNumber,
             pageSize: req.query.pageSize
         };
-        const blog = yield blogs_service_1.blogsService.getBlogsById(id);
+        const blog = yield queryBlogs_repository_1.queryBlogsRepository.getBlogsById(id);
         if (!blog) {
             res.sendStatus(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
             return;
         }
-        const posts = yield blogs_service_1.blogsService.getPostsByBlogId(id, sortData);
+        const posts = yield queryBlogs_repository_1.queryBlogsRepository.getPostsByBlogId(id, sortData);
         if (posts) {
             res
                 .status(statuses_1.HTTP_STATUSES.OK200)
@@ -76,7 +76,7 @@ exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
         const shortDescription = req.body.shortDescription;
         const content = req.body.content;
         const blogId = req.params.id;
-        const blog = yield blogs_repository_1.blogsRepository.getBlogsById(blogId);
+        const blog = yield queryBlogs_repository_1.queryBlogsRepository.getBlogsById(blogId);
         if (!blog) {
             res.sendStatus(statuses_1.HTTP_STATUSES.NOT_FOUND_404);
             return;
@@ -94,7 +94,7 @@ exports.blogsRouter.put('/:id', authorization_1.authorizationMiddleware, blogs_v
     const { name, description, websiteUrl } = req.body;
     const isUpdated = yield blogs_service_1.blogsService.updateBlog(req.params.id, name, description, websiteUrl);
     if (isUpdated) {
-        const blog = yield blogs_service_1.blogsService.getBlogsById(req.params.id);
+        const blog = yield queryBlogs_repository_1.queryBlogsRepository.getBlogsById(req.params.id);
         res
             .status(statuses_1.HTTP_STATUSES.NO_CONTENT_204)
             .send(blog);

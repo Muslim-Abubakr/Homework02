@@ -15,7 +15,8 @@ const posts_validation_1 = require("../middlewares/posts-validation");
 const authorization_1 = require("../middlewares/authorization");
 const statuses_1 = require("../statuses/statuses");
 const posts_service_1 = require("../domain/posts-service");
-const blogs_service_1 = require("../domain/blogs-service");
+const queryBlogs_repository_1 = require("../repositories/blogs/queryBlogs-repository");
+const queryPosts_repository_1 = require("../repositories/posts/queryPosts-repository");
 exports.postsRouter = (0, express_1.Router)({});
 exports.postsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sortData = {
@@ -24,11 +25,11 @@ exports.postsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, fun
         pageNumber: req.query.pageNumber,
         pageSize: req.query.pageSize
     };
-    const foundPosts = yield posts_service_1.postsService.getAllPosts(sortData);
+    const foundPosts = yield queryPosts_repository_1.queryPostsRepository.getAllPosts(sortData);
     res.send(foundPosts);
 }));
 exports.postsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const foundPosts = yield posts_service_1.postsService.getPostsById(req.params.id);
+    const foundPosts = yield queryPosts_repository_1.queryPostsRepository.getPostsById(req.params.id);
     if (foundPosts) {
         res
             .status(statuses_1.HTTP_STATUSES.OK200)
@@ -40,7 +41,7 @@ exports.postsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
 }));
 exports.postsRouter.post('/', authorization_1.authorizationMiddleware, posts_validation_1.validationCreateUpdatePost, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, shortDescription, content, blogId } = req.body;
-    const blog = yield blogs_service_1.blogsService.getBlogsById(blogId);
+    const blog = yield queryBlogs_repository_1.queryBlogsRepository.getBlogsById(blogId);
     if (!blog) {
         return res.sendStatus(statuses_1.HTTP_STATUSES.BAD_REQUEST_400);
     }
@@ -51,13 +52,13 @@ exports.postsRouter.post('/', authorization_1.authorizationMiddleware, posts_val
 }));
 exports.postsRouter.put('/:id', authorization_1.authorizationMiddleware, posts_validation_1.validationCreateUpdatePost, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, shortDescription, content, blogId } = req.body;
-    const blog = yield blogs_service_1.blogsService.getBlogsById(blogId);
+    const blog = yield queryBlogs_repository_1.queryBlogsRepository.getBlogsById(blogId);
     if (!blog) {
         return res.sendStatus(statuses_1.HTTP_STATUSES.BAD_REQUEST_400);
     }
     const isUpdated = yield posts_service_1.postsService.updatePost(req.params.id, title, shortDescription, content, blogId, blog.name);
     if (isUpdated) {
-        const post = yield posts_service_1.postsService.getPostsById(blogId);
+        const post = yield queryPosts_repository_1.queryPostsRepository.getPostsById(blogId);
         res
             .status(statuses_1.HTTP_STATUSES.NO_CONTENT_204)
             .send(post);

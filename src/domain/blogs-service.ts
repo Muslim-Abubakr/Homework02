@@ -3,23 +3,10 @@ import { BlogDbType, BlogModelOutType, PostDbType, PostModelOutType, SortDataTyp
 import { blogsRepository } from '../repositories/blogs/blogs-repository'
 import { ObjectId } from 'mongodb'
 import { blogMapping } from '../helpers/BlogMappingViews'
-import { QueryPostByBlogIdInputModel } from '../models/blogs/input/query.blog.input.model'
 import { postsRepository } from '../repositories/posts/posts-repository'
 import { postMapping } from '../helpers/PostMappingViews'
 
 export const blogsService = {
-    async getAllBlogs(sortData: SortDataType) {
-        return blogsRepository.getAllBlogs(sortData)
-    },
-
-    async getBlogsById(id: string | null | undefined): Promise<BlogModelOutType | null> {
-        return await blogsRepository.getBlogsById(id)
-    },
-
-    async getPostsByBlogId(id: string, sortData: QueryPostByBlogIdInputModel): Promise<PostModelOutType | null> {
-        return await blogsRepository.getPostsByBlogId(id, sortData)
-    },
-
     async createBlog(name: string, description: string, websiteUrl: string): Promise<BlogModelOutType | void> {
         const newBlog: BlogDbType = {
             _id: new ObjectId(),
