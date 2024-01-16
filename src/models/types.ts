@@ -79,6 +79,15 @@ export type SortDataType = {
     pageSize?: number
 }   
 
+export type SortUsersDataType = {
+    sortBy?: 'asc' | 'desc'
+    sortDirection?: 'asc' | 'desc'
+    pageNumber?: number
+    pageSize?: number
+    searchLoginTerm?: string | undefined
+    searchEmailTerm?: string | undefined
+}
+
 export type ParamsType = {
     id: string
 }

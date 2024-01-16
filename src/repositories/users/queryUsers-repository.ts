@@ -3,7 +3,7 @@ import { postsCollection } from '../../db/database'
 import { postMapping } from '../../helpers/PostMappingViews'
 
 export const queryPostsRepository = {
-    async getAllPosts(sortData: SortDataType) {
+    async getAllUsers(sortData: SortDataType) {
         const sortDirection: 'asc' | 'desc' = sortData.sortDirection ?? 'desc'
         const sortBy: string = sortData.sortBy ?? 'createdAt'
         const searchNameTerm: string | null = sortData.searchNameTerm ?? null
@@ -39,5 +39,5 @@ export const queryPostsRepository = {
             totalCount: +totalCount,
             items: posts.map(postMapping)
         }
-    },
+    }
 }
