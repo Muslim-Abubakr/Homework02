@@ -1,7 +1,7 @@
 import { BlogType, PostType } from "../models/types"
 import { MongoClient } from "mongodb"
 import dotenv from 'dotenv'
-import { CreatePostBlogModel } from "../models/posts/PostCreateModel"
+import { UsersGetModel } from "../models/users/UsersGetModel"
 
 dotenv.config()
 
@@ -18,6 +18,7 @@ console.log(process.env.MONGO_URL)
 export const db = client.db('blogPlatform')
 export const blogsCollection = db.collection<BlogType>('blogs')    
 export const postsCollection = db.collection<PostType>('posts')
+export const usersCollection = db.collection<UsersGetModel>('users')
 
 export async function runDb() {
   try {
