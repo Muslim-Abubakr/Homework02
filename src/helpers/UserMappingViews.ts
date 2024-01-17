@@ -1,6 +1,6 @@
-import { UserDbModel } from "../models/users/UserDbModel";
+import { UserDbType } from "../models/users/UserDbModel";
 
-export function userMapping(user: UserDbModel) {
+export function userMapping(user: UserDbType) {
     return {
         id: user._id.toString(),
         login: user.login,
