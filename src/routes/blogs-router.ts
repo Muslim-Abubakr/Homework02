@@ -7,7 +7,6 @@ import { BlogType, ParamsType, RequestWithParamsAndBody, RequestWithParamsAndQue
 import { HTTP_STATUSES } from '../statuses/statuses'
 import { blogsService } from '../domain/blogs-service'
 import { CreatePostBlogModel } from '../models/posts/PostCreateModel'
-import { blogsRepository } from '../repositories/blogs/blogs-repository'
 import { postsService } from '../domain/posts-service'
 import { QueryPostByBlogIdInputModel } from '../models/blogs/input/query.blog.input.model'
 import { validationCreateUpdatePostToBlog } from '../middlewares/post-to-blog-validation'

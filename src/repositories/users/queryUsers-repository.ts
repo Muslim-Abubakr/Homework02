@@ -1,6 +1,5 @@
 import { SortUsersDataType } from '../../models/types'
 import { usersCollection } from '../../db/database'
-import { postMapping } from '../../helpers/PostMappingViews'
 import { userMapping } from '../../helpers/UserMappingViews'
 
 export const queryPostsRepository = {
