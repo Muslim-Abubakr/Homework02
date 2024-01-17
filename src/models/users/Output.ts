@@ -1,5 +1,5 @@
 export type UserModelOutType = {
-    _id: any,
+    _id?: any,
     id: string
     login: string
     email: string
