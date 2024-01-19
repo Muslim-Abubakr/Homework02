@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express'
 import { HTTP_STATUSES } from '../statuses/statuses'
+import { usersService } from '../domain/users-service'
 
 
 export const usersRouter = Router({})

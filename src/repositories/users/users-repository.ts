@@ -5,7 +5,7 @@ import { UserDbType } from "../../models/users/UserDbModel"
 export const usersRepository = {
 
     async createUser(user: UserDbType): Promise<UserDbType> {
-        const result = await usersCollection.insertOne(user)
+        await usersCollection.insertOne(user)
         return user
     },
 
@@ -14,6 +14,6 @@ export const usersRepository = {
     },
 
     async deleteUser() {
-        
+
     }
 }

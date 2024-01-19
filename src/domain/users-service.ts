@@ -2,6 +2,8 @@ import { ObjectId } from "mongodb";
 import { UserDbType } from "../models/users/UserDbModel";
 import bcrypt from 'bcrypt'
 import { uid } from "uid";
+import { usersRepository } from "../repositories/users/users-repository";
+import { queryUsersRepository } from "../repositories/users/queryUsers-repository";
 
 export const usersService = {
     async createUser(login: string, email: string, password: string): Promise<UserDbType> {
@@ -22,12 +24,18 @@ export const usersService = {
         return usersRepository.createUser(newUser)
     },
 
-    async findUserById() {
+    async checkCredentials(loginOrEmail: string, password: string) {
+        const user = await queryUsersRepository.findByLoginOrEmail(loginOrEmail)
 
-    },
+        if (!user) return false
 
-    async checkCredentials() {
+        const passwordHash = await this._generateHash(password, user.passwordSalt)
 
+        if (user.passwordHash !== passwordHash) {
+            return false
+        }
+
+        return true
     },
 
     async _generateHash(password: string, salt: string) {
