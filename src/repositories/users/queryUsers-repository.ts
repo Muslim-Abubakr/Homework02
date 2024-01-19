@@ -2,7 +2,7 @@ import { SortUsersDataType } from '../../models/types'
 import { usersCollection } from '../../db/database'
 import { userMapping } from '../../helpers/UserMappingViews'
 
-export const queryPostsRepository = {
+export const queryUsersRepository = {
     async getAllUsers   (sortData: SortUsersDataType) {
         const sortDirection: 'asc' | 'desc' = sortData.sortDirection ?? 'desc'
         const sortBy: string = sortData.sortBy ?? 'createdAt'
