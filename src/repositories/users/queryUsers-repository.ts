@@ -3,7 +3,7 @@ import { usersCollection } from '../../db/database'
 import { userMapping } from '../../helpers/UserMappingViews'
 
 export const queryUsersRepository = {
-    async getAllUsers   (sortData: SortUsersDataType) {
+    async getAllUsers (sortData: SortUsersDataType) {
         const sortDirection: 'asc' | 'desc' = sortData.sortDirection ?? 'desc'
         const sortBy: string = sortData.sortBy ?? 'createdAt'
         const searchLoginTerm: string | null = sortData.searchLoginTerm ?? null

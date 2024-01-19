@@ -1,3 +1,7 @@
 
 
-export const queryPostsRepository = {}
+export const usersRepository = {
+    async createUser () {
+
+    }
+}

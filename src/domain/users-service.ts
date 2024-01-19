@@ -2,6 +2,7 @@ import { ObjectId } from "mongodb";
 import { UserDbType } from "../models/users/UserDbModel";
 import bcrypt from 'bcrypt'
 import { uid } from "uid";
+
 export const usersService = {
     async createUser(login: string, email: string, password: string): Promise<UserDbType> {
 
