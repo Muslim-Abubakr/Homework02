@@ -47,5 +47,9 @@ export const queryUsersRepository = {
             totalCount: +totalCount,
             items: users.map(userMapping)
         }
+    },
+
+    async findByLoginOrEmail(loginOrEmail: string) {
+
     }
 }

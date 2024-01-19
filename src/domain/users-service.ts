@@ -21,6 +21,15 @@ export const usersService = {
 
         return usersRepository.createUser(newUser)
     },
+
+    async findUserById() {
+
+    },
+
+    async checkCredentials() {
+
+    },
+
     async _generateHash(password: string, salt: string) {
         const hash = await bcrypt.hash(password, salt)
         return hash;
