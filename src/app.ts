@@ -3,6 +3,7 @@ import { blogsRouter } from './routes/blogs-router'
 import { postsRouter } from './routes/posts-router'
 import { testsRouter } from './routes/testing-router'
 import { usersRouter } from './routes/users-router'
+import { authRouter } from './routes/auth-router'
     
 export const app = express()
 
@@ -13,7 +14,8 @@ const RouterPaths = {
     testing: '/testing',
     blogs: '/blogs',
     posts: '/posts',
-    users: '/users'
+    users: '/users',
+    login: '/login'
 }
 
 app.get('/', (req: Request, res: Response) => {
@@ -27,6 +29,8 @@ app.use(RouterPaths.blogs, blogsRouter)
 app.use(RouterPaths.posts, postsRouter)
 
 app.use(RouterPaths.users, usersRouter)
+
+app.use(RouterPaths.login, authRouter)
 
 
 
