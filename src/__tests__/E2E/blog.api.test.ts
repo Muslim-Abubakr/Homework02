@@ -17,7 +17,7 @@ describe('/blogs', () => {
 
     it('should return 404 for not existing blog', async () => {
         await request(app)
-            .get('/blogs/111')
+            .get('/blogs/11111')
             .expect(HTTP_STATUSES.NOT_FOUND_404)
     })
 
