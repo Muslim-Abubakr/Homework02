@@ -107,7 +107,7 @@ export type BlogOutputType = {
     }[];
 }
 
-export type BlogPutType = {
+export type BlogUpdateType = {
     name: string
     description: string
     websiteUrl: string
