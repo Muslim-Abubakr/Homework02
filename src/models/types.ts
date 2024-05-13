@@ -92,6 +92,22 @@ export type ParamsType = {
     id: string
 }
 
+export type BlogOutputType = {
+    pagesCount: number;
+    page: number;
+    pageSize: number;
+    totalCount: number;
+    items: {
+        id: string;
+        name: string;
+        description: string;
+        websiteUrl: string;
+        createdAt: string;
+        isMembership: boolean;
+    }[];
+}
+
+
 export type RequestWithBody<T> = Request<{},{}, T>
 export type RequestWithQuery<T> = Request<{},{},{}, T>
 export type RequestWithUriParams<T> = Request<T>

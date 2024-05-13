@@ -3,7 +3,7 @@ import { validationCreateUpdateBlog } from '../middlewares/blogs-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
 import { UriBlogsModel } from '../models/blogs/UriBlogsModel'
 import { ViewBlogModel } from '../models/blogs/ViewBlogModel'
-import { BlogType, ParamsType, RequestWithParamsAndBody, RequestWithParamsAndQuery, RequestWithQuery, RequestWithUriParams, SortDataType } from '../models/types'
+import { BlogOutputType, BlogType, ParamsType, RequestWithParamsAndBody, RequestWithParamsAndQuery, RequestWithQuery, RequestWithUriParams, SortDataType } from '../models/types'
 import { HTTP_STATUSES } from '../statuses/statuses'
 import { blogsService } from '../domain/blogs-service'
 import { CreatePostBlogModel } from '../models/posts/PostCreateModel'
@@ -15,7 +15,7 @@ import { queryBlogsRepository } from '../repositories/blogs/queryBlogs-repositor
 
 export const blogsRouter = Router({})
 
-blogsRouter.get('/', async (req: RequestWithQuery<SortDataType>, res: Response) => {
+blogsRouter.get('/', async (req: RequestWithQuery<SortDataType>, res: Response<BlogOutputType>) => {
     const sortData: {searchNameTerm: any, sortBy: any, sortDirection: any, pageNumber: any, pageSize: any} = {
         searchNameTerm: req.query.searchNameTerm,
         sortBy: req.query.sortBy,
@@ -29,7 +29,7 @@ blogsRouter.get('/', async (req: RequestWithQuery<SortDataType>, res: Response) 
 })
 
 blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>, 
-    res: Response<ViewBlogModel | Number>): Promise<void> => {
+                               res: Response<ViewBlogModel | Number>): Promise<void> => {
     const foundBlogs: BlogType | null = await queryBlogsRepository.getBlogsById(req.params.id)
 
     if (foundBlogs) {
@@ -42,7 +42,7 @@ blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>,
 }),
 
 blogsRouter.get('/:id/posts', async (req: RequestWithParamsAndQuery<ParamsType, QueryPostByBlogIdInputModel>, 
-    res: Response): Promise<void> => {
+                                     res: Response): Promise<void> => {
     const id = req.params.id    
 
     const sortData: {sortBy: any, sortDirection: any, pageNumber: any, pageSize: any} = {
@@ -84,7 +84,8 @@ blogsRouter.post('/',
 blogsRouter.post('/:id/posts', 
     authorizationMiddleware,
     validationCreateUpdatePostToBlog,
-    async (req: RequestWithParamsAndBody<{id: string}, CreatePostBlogModel>, res: Response) => {
+    async (req: RequestWithParamsAndBody<{id: string}, CreatePostBlogModel>, 
+           res: Response) => {
         const title = req.body.title
         const shortDescription = req.body.shortDescription
         const content = req.body.content
