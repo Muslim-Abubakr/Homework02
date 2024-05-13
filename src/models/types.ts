@@ -107,6 +107,11 @@ export type BlogOutputType = {
     }[];
 }
 
+export type BlogPutType = {
+    name: string
+    description: string
+    websiteUrl: string
+}
 
 export type RequestWithBody<T> = Request<{},{}, T>
 export type RequestWithQuery<T> = Request<{},{},{}, T>

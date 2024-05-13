@@ -3,7 +3,7 @@ import { validationCreateUpdateBlog } from '../middlewares/blogs-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
 import { UriBlogsModel } from '../models/blogs/UriBlogsModel'
 import { ViewBlogModel } from '../models/blogs/ViewBlogModel'
-import { BlogOutputType, BlogType, ParamsType, RequestWithParamsAndBody, RequestWithParamsAndQuery, RequestWithQuery, RequestWithUriParams, SortDataType } from '../models/types'
+import { BlogOutputType, BlogParams, BlogPutType, BlogType, ParamsType, PostModelOutType, PostType, RequestWithBody, RequestWithParamsAndBody, RequestWithParamsAndQuery, RequestWithQuery, RequestWithUriParams, SortDataType } from '../models/types'
 import { HTTP_STATUSES } from '../statuses/statuses'
 import { blogsService } from '../domain/blogs-service'
 import { CreatePostBlogModel } from '../models/posts/PostCreateModel'
@@ -15,7 +15,8 @@ import { queryBlogsRepository } from '../repositories/blogs/queryBlogs-repositor
 
 export const blogsRouter = Router({})
 
-blogsRouter.get('/', async (req: RequestWithQuery<SortDataType>, res: Response<BlogOutputType>) => {
+blogsRouter.get('/', async (req: RequestWithQuery<SortDataType>,
+                            res: Response<BlogOutputType>) => {
     const sortData: {searchNameTerm: any, sortBy: any, sortDirection: any, pageNumber: any, pageSize: any} = {
         searchNameTerm: req.query.searchNameTerm,
         sortBy: req.query.sortBy,
@@ -42,7 +43,7 @@ blogsRouter.get('/:id', async (req: RequestWithUriParams<UriBlogsModel>,
 }),
 
 blogsRouter.get('/:id/posts', async (req: RequestWithParamsAndQuery<ParamsType, QueryPostByBlogIdInputModel>, 
-                                     res: Response): Promise<void> => {
+                                     res: Response<PostType>): Promise<void> => {
     const id = req.params.id    
 
     const sortData: {sortBy: any, sortDirection: any, pageNumber: any, pageSize: any} = {
@@ -73,7 +74,8 @@ blogsRouter.get('/:id/posts', async (req: RequestWithParamsAndQuery<ParamsType, 
 blogsRouter.post('/', 
     authorizationMiddleware,
     validationCreateUpdateBlog,
-    async (req: Request, res: Response<ViewBlogModel | void>) => {
+    async (req: RequestWithBody<BlogType>, 
+           res: Response<ViewBlogModel | void>) => {
         const { name, description, websiteUrl } = req.body
         const newBlog = await blogsService.createBlog(name, description, websiteUrl)
         res
@@ -84,8 +86,8 @@ blogsRouter.post('/',
 blogsRouter.post('/:id/posts', 
     authorizationMiddleware,
     validationCreateUpdatePostToBlog,
-    async (req: RequestWithParamsAndBody<{id: string}, CreatePostBlogModel>, 
-           res: Response) => {
+    async (req: RequestWithParamsAndBody<BlogParams, CreatePostBlogModel>, 
+           res: Response<PostModelOutType>) => {
         const title = req.body.title
         const shortDescription = req.body.shortDescription
         const content = req.body.content
@@ -114,7 +116,8 @@ blogsRouter.post('/:id/posts',
 blogsRouter.put('/:id',
     authorizationMiddleware, 
     validationCreateUpdateBlog,
-    async (req: Request, res: Response<ViewBlogModel | null | Number>) => {
+    async (req: RequestWithParamsAndBody<BlogParams, BlogPutType>, 
+           res: Response<ViewBlogModel | null | Number>) => {
         const { name, description, websiteUrl} = req.body
         const isUpdated = await blogsService.updateBlog(req.params.id, name, description, websiteUrl)
 
@@ -131,7 +134,8 @@ blogsRouter.put('/:id',
 
 blogsRouter.delete('/:id',
     authorizationMiddleware,
-    async (req: Request, res: Response) => {
+    async (req: Request,
+           res: Response) => {
         const filteredBlog = await blogsService.deleteBlog(req.params.id)
         
         if (filteredBlog) {
