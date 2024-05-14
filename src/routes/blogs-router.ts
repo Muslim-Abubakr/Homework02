@@ -3,7 +3,7 @@ import { validationCreateUpdateBlog } from '../middlewares/blogs-validation'
 import { authorizationMiddleware } from '../middlewares/authorization'
 import { UriBlogsModel } from '../models/blogs/UriBlogsModel'
 import { ViewBlogModel } from '../models/blogs/ViewBlogModel'
-import { BlogOutputType, BlogParams, BlogPutType, BlogType, ParamsType, PostModelOutType, PostType, RequestWithBody, RequestWithParamsAndBody, RequestWithParamsAndQuery, RequestWithQuery, RequestWithUriParams, SortDataType } from '../models/types'
+import { BlogOutputType, BlogParams, BlogUpdateType, BlogType, ParamsType, PostModelOutType, PostType, RequestWithBody, RequestWithParamsAndBody, RequestWithParamsAndQuery, RequestWithQuery, RequestWithUriParams, SortDataType } from '../models/types'
 import { HTTP_STATUSES } from '../statuses/statuses'
 import { blogsService } from '../domain/blogs-service'
 import { CreatePostBlogModel } from '../models/posts/PostCreateModel'
@@ -116,7 +116,7 @@ blogsRouter.post('/:id/posts',
 blogsRouter.put('/:id',
     authorizationMiddleware, 
     validationCreateUpdateBlog,
-    async (req: RequestWithParamsAndBody<BlogParams, BlogPutType>, 
+    async (req: RequestWithParamsAndBody<BlogParams, BlogUpdateType>, 
            res: Response<ViewBlogModel | null | Number>) => {
         const { name, description, websiteUrl} = req.body
         const isUpdated = await blogsService.updateBlog(req.params.id, name, description, websiteUrl)
